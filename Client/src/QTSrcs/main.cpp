@@ -1,5 +1,5 @@
-#include "mainwindow.h"
-#include "receivecalldiag.h"
+#include "./include/QTHeaders/mainwindow.h"
+#include "./include/QTHeaders/receivecalldiag.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

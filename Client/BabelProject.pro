@@ -24,14 +24,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-        receivecalldiag.cpp
+        ./src/QTSrcs/main.cpp \
+        ./src/QTSrcs/mainwindow.cpp \
+        ./src/QTSrcs/receivecalldiag.cpp
 
 HEADERS += \
-        mainwindow.h \
-        receivecalldiag.h
+        ./include/QTHeaders/mainwindow.h \
+        ./include/QTHeaders/receivecalldiag.h
 
 FORMS += \
-        mainwindow.ui \
-        receivecalldiag.ui
+        ./src/QTSrcs/mainwindow.ui \
+        ./src/QTSrcs/receivecalldiag.ui
