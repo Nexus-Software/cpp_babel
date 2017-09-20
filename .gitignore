@@ -8,3 +8,7 @@ bin/*
 # Ignore Mac and VS specific files
 .DS_Store
 .vs
+
+#Ignore CLion data and CMake-build
+.idea
+cmake-build-debug
