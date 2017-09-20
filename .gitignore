@@ -9,3 +9,7 @@ bin/*
 .DS_Store
 .vs
 *.user
+
+#Ignore CLion data and CMake-build
+.idea
+cmake-build-debug
