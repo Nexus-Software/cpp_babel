@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LoginDiag</class>
+ <widget class="QDialog" name="LoginDiag">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>320</width>
+    <height>141</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Login</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="10,4">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>16</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,6">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <item alignment="Qt::AlignVCenter">
+            <widget class="QLabel" name="label">
+             <property name="font">
+              <font>
+               <family>Tahoma</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Nickname :</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item alignment="Qt::AlignVCenter">
+            <widget class="QLineEdit" name="lineEdit">
+             <property name="minimumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Tahoma</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="placeholderText">
+              <string>Enter nickname..</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="3,6">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <item alignment="Qt::AlignVCenter">
+            <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <family>Tahoma</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Password :</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_9">
+           <item alignment="Qt::AlignVCenter">
+            <widget class="QLineEdit" name="lineEdit_2">
+             <property name="minimumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Tahoma</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="echoMode">
+              <enum>QLineEdit::Password</enum>
+             </property>
+             <property name="placeholderText">
+              <string>Enter password</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="minimumSize">
+            <size>
+             <width>105</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>105</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Sign up</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="minimumSize">
+            <size>
+             <width>105</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>105</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Connect</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
