@@ -1,6 +1,6 @@
 #include "./include/QTHeaders/mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ui_dialogreceivecall.h"
+#include "ui_receivecalldiag.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
