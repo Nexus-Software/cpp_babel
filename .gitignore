@@ -8,3 +8,4 @@ bin/*
 # Ignore Mac and VS specific files
 .DS_Store
 .vs
+*.user
