@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LoginDiag</class>
- <widget class="QDialog" name="LoginDiag">
+ <class>SignupDiag</class>
+ <widget class="QDialog" name="SignupDiag">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>287</width>
-    <height>130</height>
+    <width>282</width>
+    <height>162</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Login</string>
+   <string>Signup</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="10,4">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
      <property name="spacing">
       <number>16</number>
      </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
        <property name="spacing">
-        <number>2</number>
+        <number>0</number>
        </property>
        <property name="topMargin">
         <number>0</number>
@@ -32,8 +32,11 @@
        </property>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="3,6">
+         <property name="spacing">
+          <number>6</number>
+         </property>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <layout class="QVBoxLayout" name="verticalLayout_5">
            <property name="leftMargin">
             <number>6</number>
            </property>
@@ -46,7 +49,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Nickname : </string>
+              <string>Nickname :</string>
              </property>
             </widget>
            </item>
@@ -94,8 +97,11 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="3,6">
+         <property name="spacing">
+          <number>6</number>
+         </property>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
            <property name="leftMargin">
             <number>6</number>
            </property>
@@ -108,7 +114,10 @@
               </font>
              </property>
              <property name="text">
-              <string>Password : </string>
+              <string>Password :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -151,6 +160,77 @@
          </item>
         </layout>
        </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="3,6">
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+            <widget class="QLabel" name="label_3">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="baseSize">
+              <size>
+               <width>0</width>
+               <height>-1</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Tahoma</family>
+               <pointsize>11</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>Confirm : </string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <widget class="QLineEdit" name="lineEdit_3">
+             <property name="minimumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>170</width>
+               <height>25</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Tahoma</family>
+               <pointsize>10</pointsize>
+              </font>
+             </property>
+             <property name="echoMode">
+              <enum>QLineEdit::Password</enum>
+             </property>
+             <property name="placeholderText">
+              <string>Confirm password..</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
       </layout>
      </item>
      <item>
@@ -172,7 +252,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Sign up</string>
+            <string>Login</string>
            </property>
           </widget>
          </item>
@@ -195,7 +275,7 @@
             </size>
            </property>
            <property name="text">
-            <string>Connect</string>
+            <string>Register</string>
            </property>
           </widget>
          </item>
