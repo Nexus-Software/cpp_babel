@@ -9,5 +9,3 @@ bin/*
 .DS_Store
 .vs
 *.user
-*.user
-Client/BabelProject.pro.user
