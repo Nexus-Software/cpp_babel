@@ -1,1 +1,10 @@
-*~
+# Ignore the build and lib dirs
+# build
+#lib/*
+
+# Ignore any executables
+# bin/*
+
+# Ignore Mac and VS specific files
+.DS_Store
+.vs
