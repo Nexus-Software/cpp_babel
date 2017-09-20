@@ -8,3 +8,6 @@ bin/*
 # Ignore Mac and VS specific files
 .DS_Store
 .vs
+*.user
+*.user
+Client/BabelProject.pro.user

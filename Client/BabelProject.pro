@@ -27,14 +27,17 @@ SOURCES += \
         ./src/QTSrcs/main.cpp \
         ./src/QTSrcs/mainwindow.cpp \
         ./src/QTSrcs/receivecalldiag.cpp \
-        ./src/QTSrcs/logindiag.cpp
+        ./src/QTSrcs/logindiag.cpp \
+        ./src/QtSrcs/signupdiag.cpp
 
 HEADERS += \
         ./include/QTHeaders/mainwindow.h \
         ./include/QTHeaders/receivecalldiag.h \
-        ./include/QTHeaders/logindiag.h
+        ./include/QTHeaders/logindiag.h \
+        ./include/QTHeaders/signupdiag.h
 
 FORMS += \
         ./src/QTSrcs/mainwindow.ui \
         ./src/QTSrcs/receivecalldiag.ui \
-        ./src/QtSrcs/logindiag.ui
+        ./src/QtSrcs/logindiag.ui \
+        ./src/QtSrcs/signupdiag.ui
