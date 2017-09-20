@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Babel</string>
   </property>
   <property name="iconSize">
    <size>
@@ -348,7 +348,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>385</width>
+                 <width>404</width>
                  <height>392</height>
                 </rect>
                </property>
