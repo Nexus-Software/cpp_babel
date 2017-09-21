@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>287</width>
-    <height>130</height>
+    <height>132</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -61,7 +61,7 @@
             <number>0</number>
            </property>
            <item alignment="Qt::AlignVCenter">
-            <widget class="QLineEdit" name="lineEdit">
+            <widget class="QLineEdit" name="NicknameField">
              <property name="minimumSize">
               <size>
                <width>170</width>
@@ -117,7 +117,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_9">
            <item alignment="Qt::AlignVCenter">
-            <widget class="QLineEdit" name="lineEdit_2">
+            <widget class="QLineEdit" name="PasswordField">
              <property name="minimumSize">
               <size>
                <width>170</width>
@@ -158,7 +158,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QPushButton" name="pushButton">
+          <widget class="QPushButton" name="SignupButton">
            <property name="minimumSize">
             <size>
              <width>105</width>
@@ -181,7 +181,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="ConnectField">
            <property name="minimumSize">
             <size>
              <width>105</width>
