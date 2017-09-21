@@ -9,9 +9,17 @@
 */
 
 #include <iostream>
+#include "Server.hpp"
 
-int	main(int , char**)
+int		main(int, char **av)
 {
-  std::cout << "Server start" << std::endl;
+  unsigned int 	port = 4242;
+
+  if (av && av[0] && av[1]) {
+      port = static_cast<unsigned int>(std::abs(std::atoi(av[1])));
+    }
+  babel::Server	server(port);
+
+  server.run();
   return (EXIT_SUCCESS);
 }
