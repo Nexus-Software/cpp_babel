@@ -54,7 +54,7 @@
           <number>5</number>
          </property>
          <item alignment="Qt::AlignTop">
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QLineEdit" name="FilterNameField">
            <property name="font">
             <font>
              <family>Tahoma</family>
@@ -90,14 +90,14 @@
           <number>5</number>
          </property>
          <item>
-          <widget class="QListWidget" name="listWidget"/>
+          <widget class="QListWidget" name="NamesList"/>
          </item>
         </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item alignment="Qt::AlignTop">
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="AddContactButton">
            <property name="minimumSize">
             <size>
              <width>150</width>
@@ -122,7 +122,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="CloseButton">
          <property name="minimumSize">
           <size>
            <width>110</width>
@@ -142,7 +142,7 @@
           </font>
          </property>
          <property name="text">
-          <string>OK</string>
+          <string>Close</string>
          </property>
         </widget>
        </item>
