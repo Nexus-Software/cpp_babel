@@ -2,10 +2,40 @@
 cmake_minimum_required(VERSION 3.6)
 project(babel)
 
+set(APP_DIR ./)
+
+include_directories(
+	# MANAGERS
+	# ---> COMMUNICATION
+	${APP_DIR}/src/managers/Communication/interface/ICommunication/
+	${APP_DIR}/src/managers/Communication/class/AudioCommunication/
+	${APP_DIR}/src/managers/Communication/class/TextCommunication/
+	${APP_DIR}/src/managers/Communication/class/VideoCommunication/
+	# ---> CONTACT
+	${APP_DIR}/src/managers/Contact/class/ContactManager/
+	# ---> CORE
+	${APP_DIR}/src/managers/Core/class/BabelClientManager/
+	# ---> MEDIA
+	${APP_DIR}/src/managers/GlobalMediaManager/class/GlobalMediaManager/
+	${APP_DIR}/src/managers/media/class/AudioManager/
+	${APP_DIR}/src/managers/media/class/TextManager/
+	${APP_DIR}/src/managers/media/class/VideoManager/
+	${APP_DIR}/src/managers/media/interface/IMediaManager/
+	# ---> NETWORK
+	${APP_DIR}/src/managers/Network/class/NetworkManager/
+	# ---> UI
+	${APP_DIR}/src/managers/UI/class/UIManager/
+	# STANDALONE
+	# ---> CALL
+	${APP_DIR}/src/standalone/class/Call
+	# ---> CONTACT
+	${APP_DIR}/src/standalone/class/Contact
+        # ---> STATUS
+	${APP_DIR}/src/standalone/class/Status
+)
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(APP_DIR ./)
 
 # Running moc/uic/rcc automatically
 set(CMAKE_AUTOMOC ON)
@@ -15,7 +45,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # APP TARGET
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/win32)
-# set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake_modules)
 
 # AUDIO COMPONENTS
 # find_package(PortAudio)
