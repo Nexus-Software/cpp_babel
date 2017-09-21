@@ -54,7 +54,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QSplitter" name="splitter">
+       <widget class="QSplitter" name="WindowSplitter">
         <property name="baseSize">
          <size>
           <width>0</width>
@@ -99,7 +99,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="label">
+             <widget class="QLabel" name="GeneralInformations">
               <property name="minimumSize">
                <size>
                 <width>100</width>
@@ -153,7 +153,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_6">
               <item>
-               <widget class="QLineEdit" name="lineEdit">
+               <widget class="QLineEdit" name="FilterFriendField">
                 <property name="placeholderText">
                  <string>Filter..</string>
                 </property>
@@ -164,7 +164,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
-               <widget class="QPushButton" name="pushButton">
+               <widget class="QPushButton" name="AddContactButton">
                 <property name="maximumSize">
                  <size>
                   <width>88</width>
@@ -212,7 +212,7 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
-               <widget class="QListWidget" name="listWidget_2">
+               <widget class="QListWidget" name="FriendsList">
                 <property name="dragEnabled">
                  <bool>true</bool>
                 </property>
@@ -313,7 +313,7 @@
              <number>12</number>
             </property>
             <item>
-             <widget class="QLabel" name="label_4">
+             <widget class="QLabel" name="SelectedContactInformations">
               <property name="font">
                <font>
                 <family>Tahoma</family>
@@ -354,7 +354,7 @@
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_14">
                 <item>
-                 <widget class="QLabel" name="label_3">
+                 <widget class="QLabel" name="SelectedContactChat">
                   <property name="font">
                    <font>
                     <family>Tahoma</family>
@@ -399,7 +399,7 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_13">
                 <item>
-                 <widget class="QLineEdit" name="lineEdit_2">
+                 <widget class="QLineEdit" name="MessageSendField">
                   <property name="placeholderText">
                    <string>Send something!</string>
                   </property>
@@ -410,7 +410,7 @@
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_11">
                 <item>
-                 <widget class="QPushButton" name="pushButton_2">
+                 <widget class="QPushButton" name="MessageSendButton">
                   <property name="font">
                    <font>
                     <family>Tahoma</family>
