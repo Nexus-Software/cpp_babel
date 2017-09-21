@@ -45,6 +45,7 @@ qt5_wrap_ui(UIS_HDRS
     src/ui/receivecalldiag.ui
     src/ui/signupdiag.ui
     src/ui/addcontactdiag.ui
+    src/ui/customnotificationdiag.ui
 )
 
 # EXECUTABLE

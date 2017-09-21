@@ -3,6 +3,7 @@
 #include "./include/QTHeaders/logindiag.h"
 #include "./include/QTHeaders/signupdiag.h"
 #include "./include/QTHeaders/addcontactdiag.h"
+#include "./include/QTHeaders/customnotificationdiag.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -13,12 +14,14 @@ int main(int argc, char *argv[])
     LoginDiag loginDiag;
     SignupDiag signupDiag;
     AddContactDiag addContactDiag;
+    CustomNotificationDiag notificationDiag;
 
     win.show();
     rCallDiag.show();
     loginDiag.show();
     signupDiag.show();
     addContactDiag.show();
+    notificationDiag.show();
 
     return a.exec();
 }
