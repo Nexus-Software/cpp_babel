@@ -6,6 +6,7 @@ SignupDiag::SignupDiag(QWidget *parent) :
     ui(new Ui::SignupDiag)
 {
     ui->setupUi(this);
+    this->setFixedSize(this->size());
 }
 
 SignupDiag::~SignupDiag()
