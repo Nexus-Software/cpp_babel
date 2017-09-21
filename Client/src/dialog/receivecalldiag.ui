@@ -19,7 +19,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <widget class="QLabel" name="nameCallingText">
+        <widget class="QLabel" name="NameCallingText">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:500;&quot;&gt;Jean-Sébastien&lt;/span&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt; is calling you...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
@@ -38,7 +38,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-          <widget class="QPushButton" name="declineButton">
+          <widget class="QPushButton" name="DeclineButton">
            <property name="minimumSize">
             <size>
              <width>110</width>
@@ -61,7 +61,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-          <widget class="QPushButton" name="acceptButton">
+          <widget class="QPushButton" name="AcceptButton">
            <property name="minimumSize">
             <size>
              <width>110</width>
