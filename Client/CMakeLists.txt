@@ -33,6 +33,7 @@ include_directories(${APP_DIR}/src)
 
 # APP SRCS
 file(GLOB_RECURSE SOURCE_CLIENT_FILES		${APP_DIR}/src/*.cpp)
+file(GLOB_RECURSE SOURCE_CLIENT_FILES_HPP	${APP_DIR}/src/*.hpp)
 
 # APP HEADERS
 file(GLOB_RECURSE HEADER_CLIENT_FILES_H		${APP_DIR}/include/*.h)
@@ -40,16 +41,16 @@ file(GLOB_RECURSE HEADER_CLIENT_FILES_HPP	${APP_DIR}/include/*.hpp)
 
 # APP FORMS UI
 qt5_wrap_ui(UIS_HDRS
-    src/ui/logindiag.ui
-    src/ui/mainwindow.ui
-    src/ui/receivecalldiag.ui
-    src/ui/signupdiag.ui
-    src/ui/addcontactdiag.ui
-    src/ui/customnotificationdiag.ui
+    src/dialog/logindiag.ui
+    src/dialog/mainwindow.ui
+    src/dialog/receivecalldiag.ui
+    src/dialog/signupdiag.ui
+	src/dialog/addcontactdiag.ui
+    src/dialog/customnotificationdiag.ui
 )
 
 # EXECUTABLE
-add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${UIS_HDRS})
+add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
 # LIBRARIES
 target_link_libraries(babel_client Qt5::Network Qt5::Widgets)
 
