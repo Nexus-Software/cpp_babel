@@ -13,3 +13,7 @@ bin
 #Ignore CLion data and CMake-build
 .idea
 cmake-build-debug
+*.sln
+*.vcxproj
+*.filters
+*.user
