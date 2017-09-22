@@ -3,11 +3,12 @@ build
 lib/*
 
 # Ignore any executables
-bin/*
+bin
 
 # Ignore Mac and VS specific files
 .DS_Store
 .vs
+*.user
 
 #Ignore CLion data and CMake-build
 .idea

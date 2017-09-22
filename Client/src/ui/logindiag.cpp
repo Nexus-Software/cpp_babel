@@ -6,6 +6,7 @@ LoginDiag::LoginDiag(QWidget *parent) :
     ui(new Ui::LoginDiag)
 {
     ui->setupUi(this);
+    this->setFixedSize(this->size());
 }
 
 LoginDiag::~LoginDiag()
