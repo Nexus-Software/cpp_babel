@@ -15,14 +15,14 @@
 #include <unordered_map>
 #include <memory>
 #include "BabelNetwork.hpp"
-#include "Network/Interfaces/INetworkTcpServer.hpp"
+#include "Network/Boost/NetworkTcpServerBoost.hpp"
 #include "Log/LogInTerm.hpp"
 
 namespace babel {
   class Server {
    protected:
     unsigned int								_port;
-    std::shared_ptr<INetworkTcpServer>						_tcpServer;
+    std::shared_ptr<NetworkTcpServerBoost>					_tcpServer;
     std::unordered_map<std::string, std::shared_ptr<INetworkTcpServerTunnel>>	_tcpTunnel;
     LogInTerm									_logInTerm;
    public:
@@ -30,6 +30,8 @@ namespace babel {
     ~Server();
 
     void run();
+
+    const LogInTerm getLogInTerm() const;
   };
 }
 

@@ -29,7 +29,7 @@ namespace babel {
     LogInTerm();
     ~LogInTerm();
 
-    void print(const std::string & msg, const LevelLog level = LevelLog::DEFAULT);
+    void print(const std::string & msg, const LevelLog level = LevelLog::DEFAULT) const;
   };
 }
 

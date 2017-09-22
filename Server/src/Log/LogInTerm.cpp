@@ -18,7 +18,7 @@ babel::LogInTerm::~LogInTerm()
 {
 }
 
-void babel::LogInTerm::print(const std::string & msg, const LevelLog level)
+void babel::LogInTerm::print(const std::string & msg, const LevelLog level) const
 {
   if (level == LevelLog::INFO)
     std::cout << "[INFO]: ";

@@ -17,7 +17,6 @@ namespace babel {
   class INetworkTcpServer {
    public:
     virtual void waitClient() = 0;
-    virtual void addClient(INetworkTcpServerTunnel serverTunnel) = 0;
   };
 }
 

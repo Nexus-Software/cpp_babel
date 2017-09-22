@@ -24,5 +24,13 @@ babel::Server::~Server()
 void babel::Server::run()
 {
   this->_logInTerm.print("Server run", LogInTerm::LevelLog::SUCCESS);
+  NetworkTcpServerBoost tcpServer(*this, this->_port);
+  tcpServer.waitClient();
+  while (1);
   return ;
+}
+
+const babel::LogInTerm babel::Server::getLogInTerm() const
+{
+  return babel::LogInTerm();
 }

@@ -14,7 +14,8 @@
 #include "BabelNetwork.hpp"
 
 namespace babel {
-  class INetworkTcpServerTunnel {
+  class INetworkTcpServerTunnel
+  {
    public:
     virtual void read(const unsigned int size) = 0;
     virtual void write(const unsigned int size, const char buffer[B_NETWORK_BUFFER_SIZE]) = 0;
