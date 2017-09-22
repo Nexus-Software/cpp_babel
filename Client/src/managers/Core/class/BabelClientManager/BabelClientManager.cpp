@@ -1,7 +1,10 @@
 #include <iostream>
 #include "BabelClientManager.hpp"
 
-babel::BabelClientManager::BabelClientManager() {
+babel::BabelClientManager::BabelClientManager()
+:
+	_ui(*this)
+{
 	std::cout << "BabelClientManager created" << std::endl;
 }
 
