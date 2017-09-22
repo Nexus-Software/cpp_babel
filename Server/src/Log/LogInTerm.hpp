@@ -12,6 +12,7 @@
 #define SERVER_LOGINTERM_HPP
 
 #include <iostream>
+#include <unordered_map>
 
 namespace babel {
   class LogInTerm
@@ -25,6 +26,8 @@ namespace babel {
       ERROR,
       FATAL_ERROR
     };
+   private:
+    std::unordered_map<LevelLog, std::function<void(const std::string)>> _printTypeFunc;
    public:
     LogInTerm();
     ~LogInTerm();

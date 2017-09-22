@@ -15,7 +15,6 @@
  #define BOOST_ASIO_HAS_MOVE
 #endif
 
-
 #include <boost/thread.hpp>
 #include <boost/bind.hpp>
 #include <boost/asio.hpp>
@@ -24,6 +23,7 @@
 #include "../Interfaces/INetworkTcpServer.hpp"
 #include "../Interfaces/INetworkTcpServerTunnel.hpp"
 #include "NetworkTcpServerTunnelBoost.hpp"
+#include "NetworkException.hpp"
 
 namespace babel {
   class Server;

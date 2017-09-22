@@ -21,7 +21,7 @@ babel::NetworkTcpServerBoost::NetworkTcpServerBoost(Server &server, unsigned int
       this->_threadIoService = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&boost::asio::io_service::run, &this->_ioService)));
       this->_server.getLogInTerm().print("TCP Server (Boost): Initisalisation ...", LogInTerm::LevelLog::INFO);
     }
-  catch (std::exception& e)
+  catch (NetworkException & e)
     {
       std::cerr << "TCP SERVER ERROR: " << e.what() << std::endl;
     }

@@ -11,7 +11,7 @@
 #ifndef SERVER_INETWORKTCPSERVERTUNNEL_HPP
 #define SERVER_INETWORKTCPSERVERTUNNEL_HPP
 
-#include "BabelNetwork.hpp"
+#include "BabelNetworkMacro.hpp"
 
 namespace babel {
   class INetworkTcpServerTunnel

@@ -14,7 +14,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <memory>
-#include "BabelNetwork.hpp"
+#include "BabelNetworkMacro.hpp"
 #include "Network/Boost/NetworkTcpServerBoost.hpp"
 #include "Log/LogInTerm.hpp"
 
