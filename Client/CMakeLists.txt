@@ -37,8 +37,10 @@ include_directories(
 	${APP_DIR}/src/standalone/class/Call
 	# ---> CONTACT
 	${APP_DIR}/src/standalone/class/Contact
-        # ---> STATUS
+    # ---> STATUS
 	${APP_DIR}/src/standalone/class/Status
+	# --> ERROR
+	${APP_DIR}/src/standalone/class/Error
 )
 
 set(CMAKE_CXX_STANDARD 14)

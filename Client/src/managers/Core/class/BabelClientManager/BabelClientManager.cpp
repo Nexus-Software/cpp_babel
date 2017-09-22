@@ -5,6 +5,7 @@ babel::BabelClientManager::BabelClientManager(int argc, char **argv)
 :
     _app(argc, argv),
     _ui(*this),
+	_contact(*this),
     _argc(argc),
     _argv(argv)
 {
