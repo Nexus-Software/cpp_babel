@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-class SignupDiag;
+    class SignupDiag;
 }
 
 class SignupDiag : public QDialog
@@ -16,7 +16,7 @@ public:
     ~SignupDiag();
 
 private:
-    Ui::SignupDiag *ui;
+    Ui::SignupDiag *_ui;
 };
 
 #endif // SIGNUPDIAG_H

@@ -1,9 +1,12 @@
 #include <iostream>
 #include "BabelClientManager.hpp"
 
-babel::BabelClientManager::BabelClientManager()
+babel::BabelClientManager::BabelClientManager(int argc, char **argv)
 :
-	_ui(*this)
+    _app(argc, argv),
+    _ui(*this),
+    _argc(argc),
+    _argv(argv)
 {
 	std::cout << "BabelClientManager created" << std::endl;
 }
@@ -14,30 +17,75 @@ babel::BabelClientManager::~BabelClientManager() {
 
 const babel::GlobalMediaManager & babel::BabelClientManager::getMedia(void) const
 {
-	return this->_media;
+    return this->_media;
 }
 
 const babel::UIManager & babel::BabelClientManager::getUI(void) const
 {
-	return this->_ui;
+    return this->_ui;
 }
 
 const babel::NetworkManager & babel::BabelClientManager::getNetwork(void) const
 {
-	return this->_network;
+    return this->_network;
 }
 
 const babel::ContactManager & babel::BabelClientManager::getContact(void) const
 {
-	return this->_contact;
+    return this->_contact;
 }
 
 const babel::Call & babel::BabelClientManager::getCurrentCall(void) const
 {
-	return this->_currentCall;
+    return this->_currentCall;
 }
 
-const babel::Status babel::BabelClientManager::run(void)
+babel::GlobalMediaManager & babel::BabelClientManager::getMedia(void)
 {
-	return babel::Status(0, "Everything is right!");
+    return this->_media;
+}
+
+babel::UIManager & babel::BabelClientManager::getUI(void)
+{
+    return this->_ui;
+}
+
+babel::NetworkManager & babel::BabelClientManager::getNetwork(void)
+{
+    return this->_network;
+}
+
+babel::ContactManager & babel::BabelClientManager::getContact(void)
+{
+    return this->_contact;
+}
+
+babel::Call &babel::BabelClientManager::getCurrentCall(void)
+{
+    return this->_currentCall;
+}
+const int   babel::BabelClientManager::getArgc(void) const
+{
+    return (this->_argc);
+}
+
+char        **babel::BabelClientManager::getArgv(void) const
+{
+    return (this->_argv);
+}
+
+QApplication    &babel::BabelClientManager::getApp(void)
+{
+    return (this->_app);
+}
+
+const QApplication    &babel::BabelClientManager::getApp(void) const
+{
+    return (this->_app);
+}
+
+const int babel::BabelClientManager::run(void)
+{
+    this->getUI().start("LoginDiag");
+    return (this->_app.exec());
 }

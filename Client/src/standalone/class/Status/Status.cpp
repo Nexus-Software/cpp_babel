@@ -4,29 +4,55 @@
 babel::Status::Status(const int code, const std::string& note)
 :
 	_code(code),
-	_anotation(note)
+    _annotation(note)
 {
 	std::cout << "Status created with code " << code << std::endl;
+}
+
+babel::Status::Status(babel::Status const& status) :
+    _code(status.getCode()),
+    _annotation(status.getAnnotation())
+{
+
 }
 
 babel::Status::~Status() {
 	std::cout << "Status destructed" << std::endl;
 }
 
-const int& babel::Status::getCode(void) const {
-	return this->_code;
+const int           &babel::Status::getCode(void) const {
+    return this->_code;
 }
 
-const std::string& babel::Status::getAnotation(void) const {
-	return this->_anotation;
+const std::string   &babel::Status::getAnnotation(void) const {
+    return this->_annotation;
 }
 
-void babel::Status::anote(const std::string& note) {
-	this->_anotation = note;
+int                 &babel::Status::getCode(void) {
+    return this->_code;
+}
+
+std::string         &babel::Status::getAnnotation(void) {
+    return this->_annotation;
+}
+
+void                babel::Status::setCode(const int code) {
+    this->_code = code;
+}
+
+void                babel::Status::setAnnotation(std::string const& note) {
+    this->_annotation = note;
 }
 
 std::ostream& operator<<(std::ostream& os, const babel::Status& st)
 {
-	os << "[" << __DATE__ << " - " << __TIME__ << "]: Code " << st.getCode() << " catched (" << st.getAnotation() << ")";
+    os << "[" << __DATE__ << " - " << __TIME__ << "]: Code " << st.getCode() << " catched (" << st.getAnnotation() << ")";
 	return os;
+}
+
+babel::Status &babel::Status::operator=(babel::Status const& status)
+{
+    this->setCode(status.getCode());
+    this->setAnnotation(status.getAnnotation());
+    return (*this);
 }

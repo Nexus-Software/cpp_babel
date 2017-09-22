@@ -1,4 +1,4 @@
-#include "./include/QTHeaders/customnotificationdiag.h"
+#include "customnotificationdiag.h"
 #include "ui_customnotificationdiag.h"
 
 CustomNotificationDiag::CustomNotificationDiag(QWidget *parent) :

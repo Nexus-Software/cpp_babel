@@ -1,9 +1,8 @@
 #include "BabelClientManager.hpp"
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-	babel::BabelClientManager babel;
-	
-	std::cout << babel.run() << std::endl;
-	return 0;
+    babel::BabelClientManager babel(argc, argv);
+
+    return babel.run();
 }

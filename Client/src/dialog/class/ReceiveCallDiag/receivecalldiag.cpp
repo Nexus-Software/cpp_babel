@@ -1,4 +1,4 @@
-#include "./include/QTHeaders/receivecalldiag.h"
+#include "receivecalldiag.h"
 #include "ui_receivecalldiag.h"
 
 ReceiveCallDiag::ReceiveCallDiag(QWidget *parent) :

@@ -1,4 +1,4 @@
-#include "./include/QTHeaders/addcontactdiag.h"
+#include "addcontactdiag.h"
 #include "ui_addcontactdiag.h"
 
 AddContactDiag::AddContactDiag(QWidget *parent) :

@@ -5,9 +5,13 @@ project(babel)
 set(APP_DIR ./)
 
 include_directories(
-	# DIALOG
-	${APP_DIR}/src/dialog/interface/IDialog/
-	${APP_DIR}/src/dialog/abstract/ADialog/
+        # DIALOG
+        ${APP_DIR}/src/dialog/class/AddContactDiag/
+        ${APP_DIR}/src/dialog/class/CustomNotificationDiag/
+        ${APP_DIR}/src/dialog/class/LoginDiag/
+        ${APP_DIR}/src/dialog/class/MainWindow/
+        ${APP_DIR}/src/dialog/class/ReceiveCallDiag/
+        ${APP_DIR}/src/dialog/class/SignupDiag/
 	# MANAGERS
 	# ---> COMMUNICATION
 	${APP_DIR}/src/managers/Communication/interface/ICommunication/
@@ -65,6 +69,7 @@ include_directories(${APP_DIR}/src)
 
 # APP SRCS
 file(GLOB_RECURSE SOURCE_CLIENT_FILES		${APP_DIR}/src/*.cpp)
+file(GLOB_RECURSE SOURCE_CLIENT_FILES_H         ${APP_DIR}/src/*.h)
 file(GLOB_RECURSE SOURCE_CLIENT_FILES_HPP	${APP_DIR}/src/*.hpp)
 
 # APP HEADERS
@@ -73,16 +78,16 @@ file(GLOB_RECURSE HEADER_CLIENT_FILES_HPP	${APP_DIR}/include/*.hpp)
 
 # APP FORMS UI
 qt5_wrap_ui(UIS_HDRS
-    src/dialog/logindiag.ui
-    src/dialog/mainwindow.ui
-    src/dialog/receivecalldiag.ui
-    src/dialog/signupdiag.ui
-	src/dialog/addcontactdiag.ui
-    src/dialog/customnotificationdiag.ui
+    src/dialog/class/LoginDiag/logindiag.ui
+    src/dialog/class/MainWindow/mainwindow.ui
+    src/dialog/class/ReceiveCallDiag/receivecalldiag.ui
+    src/dialog/class/SignupDiag/signupdiag.ui
+    src/dialog/class/AddContactDiag/addcontactdiag.ui
+    src/dialog/class/CustomNotificationDiag/customnotificationdiag.ui
 )
 
 # EXECUTABLE
-add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
+add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
 # LIBRARIES
 target_link_libraries(babel_client Qt5::Network Qt5::Widgets)
 
