@@ -3,7 +3,8 @@
 
 babel::BabelClientManager::BabelClientManager()
 :
-	_ui(*this)
+	_ui(*this),
+	_contact(*this)
 {
 	std::cout << "BabelClientManager created" << std::endl;
 }
