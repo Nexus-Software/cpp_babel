@@ -15,7 +15,7 @@ file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 find_package(Boost 1.57.0 COMPONENTS system filesystem thread REQUIRED)
 
 if(NOT Boost_FOUND)
-    message("Boost >= 1.57.0 is need for build")
+    message("Boost >= 1.57.0 is needed for build")
     return()
 endif()
 
