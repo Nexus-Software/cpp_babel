@@ -1,7 +1,10 @@
 #include <iostream>
 #include "UIManager.hpp"
 
-babel::UIManager::UIManager() {
+babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
+:
+	_root(ancestor)
+{
 	std::cout << "UIManager created" << std::endl;
 }
 
