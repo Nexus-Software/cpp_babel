@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QList<int> sizes;
     sizes << 30 << 350;
-    ui->splitter->setSizes(sizes);
+    ui->WindowSplitter->setSizes(sizes);
 }
 
 MainWindow::~MainWindow()
