@@ -1,4 +1,4 @@
-#include "./include/QTHeaders/logindiag.h"
+#include "logindiag.h"
 #include "ui_logindiag.h"
 
 LoginDiag::LoginDiag(QWidget *parent) :

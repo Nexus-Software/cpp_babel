@@ -7,25 +7,28 @@
 namespace babel {
 	class Status
 	{
-		public:
-			Status(int code, const std::string& note = "No anotation assigned");
+        public:
+            Status(int code, const std::string& note = "No annotation assigned");
+            Status(Status const& status);
 			~Status();
 
 		private:
-			const int		_code;
-			std::string		_anotation;
+            int             _code;
+            std::string		_annotation;
 
 
-		public:
-			const int& getCode(void) const;
-			const std::string& getAnotation(void) const;
+        public:
+            const int           &getCode(void) const;
+            const std::string   &getAnnotation(void) const;
+            int                 &getCode(void);
+            std::string         &getAnnotation(void);
 
-			void anote(const std::string& note);
+            void                setCode(const int code);
+            void                setAnnotation(const std::string& note);
 
-
+            Status              &operator=(Status const& status);
 	};
 }
 
-std::ostream& operator<<(std::ostream& os, const babel::Status& st);
-
+std::ostream    &operator<<(std::ostream& os, const babel::Status& st);
 #endif // !BABEL_STATUS_HPP_

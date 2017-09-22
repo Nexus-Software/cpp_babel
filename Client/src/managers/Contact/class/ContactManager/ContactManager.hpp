@@ -41,8 +41,8 @@ namespace babel {
 
 			void updateContactList(const std::vector<babel::Contact>&);
 
-			const babel::Status& addContactByLogin(const std::string&);
-			const babel::Status& removeContactByLogin(const std::string&);
+			const babel::Status addContactByLogin(const std::string&);
+			const babel::Status removeContactByLogin(const std::string&);
 	};
 }
 

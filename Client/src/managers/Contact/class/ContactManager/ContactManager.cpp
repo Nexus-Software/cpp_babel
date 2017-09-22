@@ -77,13 +77,13 @@ void babel::ContactManager::updateContactList(const std::vector<babel::Contact>&
 	this->_contactList = list;
 }
 
-const babel::Status & babel::ContactManager::addContactByLogin(const std::string &)
+const babel::Status babel::ContactManager::addContactByLogin(const std::string &)
 {
 	// TODO : ADDING NETWORK CALL HERE
 	return babel::Status(0, "Contact added");
 }
 
-const babel::Status & babel::ContactManager::removeContactByLogin(const std::string &)
+const babel::Status babel::ContactManager::removeContactByLogin(const std::string &)
 {
 	// TODO : Call network implementation of removeContact here
 	return babel::Status(0, "Contact removed successfully");
