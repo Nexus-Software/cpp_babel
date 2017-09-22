@@ -5,6 +5,9 @@ project(babel)
 set(APP_DIR ./)
 
 include_directories(
+	# DIALOG
+	${APP_DIR}/src/dialog/interface/IDialog/
+	${APP_DIR}/src/dialog/abstract/ADialog/
 	# MANAGERS
 	# ---> COMMUNICATION
 	${APP_DIR}/src/managers/Communication/interface/ICommunication/
