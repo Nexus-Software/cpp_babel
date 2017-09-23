@@ -5,7 +5,7 @@
 #include "UIManager.hpp"
 #include "NetworkManager.hpp"
 #include "ContactManager.hpp"
-#include "Call.hpp"
+#include "CallManager.hpp"
 #include "Status.hpp"
 
 namespace babel {
@@ -21,7 +21,7 @@ namespace babel {
 			babel::UIManager			_ui;
 			babel::NetworkManager		_network;
 			babel::ContactManager		_contact;
-            babel::Call					_currentCall;
+            babel::CallManager			_call;
             const int                   _argc;
             char                        **_argv;
 
@@ -30,13 +30,13 @@ namespace babel {
             const babel::UIManager&				getUI(void)				const;
             const babel::NetworkManager&		getNetwork(void)		const;
             const babel::ContactManager&		getContact(void)		const;
-            const babel::Call&					getCurrentCall(void)	const;
+            const babel::CallManager&			getCall(void)			const;
 
             babel::GlobalMediaManager&          getMedia(void);
             babel::UIManager&                   getUI(void);
             babel::NetworkManager&              getNetwork(void);
             babel::ContactManager&              getContact(void);
-            babel::Call&                        getCurrentCall(void);
+            babel::CallManager&                 getCall(void);
             const int                           getArgc(void) const;
             char                                **getArgv(void) const;
             QApplication                        &getApp(void);

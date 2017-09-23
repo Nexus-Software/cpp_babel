@@ -2,10 +2,11 @@
 #include "BabelClientManager.hpp"
 
 babel::BabelClientManager::BabelClientManager(int argc, char **argv)
-:
-    _app(argc, argv),
-    _ui(*this),
+	:
+	_app(argc, argv),
+	_ui(*this),
 	_contact(*this),
+	_call(*this),
     _argc(argc),
     _argv(argv)
 {
@@ -36,9 +37,9 @@ const babel::ContactManager & babel::BabelClientManager::getContact(void) const
     return this->_contact;
 }
 
-const babel::Call & babel::BabelClientManager::getCurrentCall(void) const
+const babel::CallManager & babel::BabelClientManager::getCall(void) const
 {
-    return this->_currentCall;
+    return this->_call;
 }
 
 babel::GlobalMediaManager & babel::BabelClientManager::getMedia(void)
@@ -61,9 +62,9 @@ babel::ContactManager & babel::BabelClientManager::getContact(void)
     return this->_contact;
 }
 
-babel::Call &babel::BabelClientManager::getCurrentCall(void)
+babel::CallManager &babel::BabelClientManager::getCall(void)
 {
-    return this->_currentCall;
+    return this->_call;
 }
 const int   babel::BabelClientManager::getArgc(void) const
 {
