@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <iostream>
-#include <ctime>
 #include "Contact.hpp"
 #include "Status.hpp"
 
