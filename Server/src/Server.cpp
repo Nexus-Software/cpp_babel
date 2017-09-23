@@ -11,7 +11,8 @@
 #include "Server.hpp"
 
 babel::Server::Server(unsigned int port) :
-	_port(port)
+	_port(port),
+	_handleCmd(*this)
 {
   this->_logInTerm.print("Server initialisation ...", LogInTerm::LevelLog::INFO);
 }

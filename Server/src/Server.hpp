@@ -17,6 +17,7 @@
 #include "BabelNetworkMacro.hpp"
 #include "Network/Boost/NetworkTcpServerBoost.hpp"
 #include "Log/LogInTerm.hpp"
+#include "Cmd/HandleCmd.hpp"
 
 namespace babel {
   class Server {
@@ -25,6 +26,7 @@ namespace babel {
     std::shared_ptr<NetworkTcpServerBoost>					_tcpServer;
     std::unordered_map<std::string, std::shared_ptr<INetworkTcpServerTunnel>>	_tcpTunnel;
     LogInTerm									_logInTerm;
+    HandleCmd									_handleCmd;
    public:
     Server(unsigned int port = 4242);
     ~Server();
