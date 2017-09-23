@@ -17,16 +17,26 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
-#include "../Interfaces/INetworkTcpServerTunnel.hpp"
+#include "BabelNetworkMacro.hpp"
 
 namespace babel {
   class Server;
 
-  class NetworkTcpServerTunnelBoost : public INetworkTcpServerTunnel, public boost::enable_shared_from_this<NetworkTcpServerTunnelBoost>
+  class NetworkTcpServerTunnelBoost : public boost::enable_shared_from_this<NetworkTcpServerTunnelBoost>
   {
    protected:
-    Server				&_server;
-    boost::asio::ip::tcp::socket	 _socket;
+    struct Header
+    {
+      std::uint32_t	_actionCode;
+      std::uint32_t	_dataSize;
+    };
+
+   protected:
+    Server					&_server;
+    boost::asio::ip::tcp::socket	 	_socket;
+
+    Header					_headerRead;
+    boost::array<char, B_NETWORK_BUFFER_SIZE>	_dataRead;
    public:
     typedef boost::shared_ptr<NetworkTcpServerTunnelBoost> pointer;
 
@@ -44,11 +54,18 @@ namespace babel {
    public:
     NetworkTcpServerTunnelBoost(Server &server, boost::asio::io_service& io_service);
 
-    virtual void read(const unsigned int size);
-
-    virtual void write(const unsigned int size, const char buffer[B_NETWORK_BUFFER_SIZE]);
+    template <typename T> void write(const unsigned int size, T data);
 
     virtual const bool close() const;
+
+   private:
+    void readHeader();
+    void readData();
+
+    void handleHeaderRead(const boost::system::error_code& error);
+    void handleDataRead(const boost::system::error_code& error);
+
+    void handleWrite(const boost::system::error_code &error);
   };
 }
 
