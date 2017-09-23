@@ -1,0 +1,3 @@
+/Users/enguerrandallamel/rendu/cpp_babel/Server/test/FakeClient/CMakeFiles/rebuild_cache.dir
+/Users/enguerrandallamel/rendu/cpp_babel/Server/test/FakeClient/CMakeFiles/edit_cache.dir
+/Users/enguerrandallamel/rendu/cpp_babel/Server/test/FakeClient/CMakeFiles/Client.dir
