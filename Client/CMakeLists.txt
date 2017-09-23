@@ -5,14 +5,16 @@ project(babel)
 set(APP_DIR ./)
 
 include_directories(
-        # DIALOG
-        ${APP_DIR}/src/dialog/class/AddContactDiag/
-        ${APP_DIR}/src/dialog/class/CustomNotificationDiag/
-        ${APP_DIR}/src/dialog/class/LoginDiag/
-        ${APP_DIR}/src/dialog/class/MainWindow/
-        ${APP_DIR}/src/dialog/class/ReceiveCallDiag/
-        ${APP_DIR}/src/dialog/class/SignupDiag/
+    # DIALOG
+    ${APP_DIR}/src/dialog/class/AddContactDiag/
+    ${APP_DIR}/src/dialog/class/CustomNotificationDiag/
+    ${APP_DIR}/src/dialog/class/LoginDiag/
+    ${APP_DIR}/src/dialog/class/MainWindow/
+    ${APP_DIR}/src/dialog/class/ReceiveCallDiag/
+    ${APP_DIR}/src/dialog/class/SignupDiag/
 	# MANAGERS
+	# ---> CALL
+	${APP_DIR}/src/managers/Call/class/CallManager/
 	# ---> COMMUNICATION
 	${APP_DIR}/src/managers/Communication/interface/ICommunication/
 	${APP_DIR}/src/managers/Communication/class/AudioCommunication/
@@ -71,7 +73,7 @@ include_directories(${APP_DIR}/src)
 
 # APP SRCS
 file(GLOB_RECURSE SOURCE_CLIENT_FILES		${APP_DIR}/src/*.cpp)
-file(GLOB_RECURSE SOURCE_CLIENT_FILES_H         ${APP_DIR}/src/*.h)
+file(GLOB_RECURSE SOURCE_CLIENT_FILES_H		${APP_DIR}/src/*.h)
 file(GLOB_RECURSE SOURCE_CLIENT_FILES_HPP	${APP_DIR}/src/*.hpp)
 
 # APP HEADERS
