@@ -27,8 +27,8 @@ namespace babel {
    protected:
     struct Header
     {
-      unsigned int	_actionCode;
-      unsigned int	_dataSize;
+      std::uint32_t	_actionCode;
+      std::uint32_t	_dataSize;
     };
 
    protected:
@@ -54,7 +54,7 @@ namespace babel {
    public:
     NetworkTcpServerTunnelBoost(Server &server, boost::asio::io_service& io_service);
 
-    virtual void write(const unsigned int size, const char buffer[B_NETWORK_BUFFER_SIZE]);
+    template <typename T> void write(const unsigned int size, T data);
 
     virtual const bool close() const;
 
@@ -65,6 +65,7 @@ namespace babel {
     void handleHeaderRead(const boost::system::error_code& error);
     void handleDataRead(const boost::system::error_code& error);
 
+    void handleWrite(const boost::system::error_code &error);
   };
 }
 

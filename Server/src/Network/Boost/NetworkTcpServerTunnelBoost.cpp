@@ -32,10 +32,17 @@ void babel::NetworkTcpServerTunnelBoost::readData()
   );
 }
 
-void babel::NetworkTcpServerTunnelBoost::write(const unsigned int size,
-					       const char buffer[B_NETWORK_BUFFER_SIZE])
+template <typename T>
+void babel::NetworkTcpServerTunnelBoost::write(const unsigned int size, T data)
 {
+  boost::asio::async_write(this->_socket,
+			   boost::asio::buffer(&data, size),
+			   boost::bind(&NetworkTcpServerTunnelBoost::handleWrite, shared_from_this(), boost::asio::placeholders::error));
 
+}
+
+void babel::NetworkTcpServerTunnelBoost::handleWrite(const boost::system::error_code &error)
+{
 }
 
 const bool babel::NetworkTcpServerTunnelBoost::close() const
@@ -68,6 +75,10 @@ void babel::NetworkTcpServerTunnelBoost::handleDataRead(const boost::system::err
       std::cout << "Data: " << std::string(reinterpret_cast<const char *>(this->_dataRead.data()), this->_dataRead.size())
 		<< std::endl;
       // Exec cmd
+      // Fake write for test
+      this->write<std::uint32_t >(sizeof(std::uint32_t ), 12);
+      this->write<std::uint32_t >(sizeof(std::uint32_t ), 4563);
+      //
       this->_headerRead._dataSize = 0;
       this->_headerRead._actionCode = 0;
       this->readHeader();
