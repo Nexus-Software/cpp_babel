@@ -31,6 +31,5 @@ int main()
   std::cout << "Received code: " << i << std::endl;
   socket.read_some(boost::asio::buffer(&i, 4));
   std::cout << "Received size: " << i << std::endl;
-  while (1);
   return 0;
 }

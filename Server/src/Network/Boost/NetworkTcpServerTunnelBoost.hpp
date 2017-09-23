@@ -32,10 +32,11 @@ namespace babel {
     };
 
    protected:
-    Server				&_server;
-    boost::asio::ip::tcp::socket	 _socket;
+    Server					&_server;
+    boost::asio::ip::tcp::socket	 	_socket;
 
-    Header				_headerRead;
+    Header					_headerRead;
+    boost::array<char, B_NETWORK_BUFFER_SIZE>	_dataRead;
    public:
     typedef boost::shared_ptr<NetworkTcpServerTunnelBoost> pointer;
 
@@ -59,10 +60,11 @@ namespace babel {
 
    private:
     void readHeader();
+    void readData();
 
-    void read(NetworkTcpServerTunnelBoost::Header header);
+    void handleHeaderRead(const boost::system::error_code& error);
+    void handleDataRead(const boost::system::error_code& error);
 
-    void handleRead(const boost::system::error_code& error);
   };
 }
 

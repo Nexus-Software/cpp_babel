@@ -23,8 +23,13 @@ void babel::NetworkTcpServerTunnelBoost::start()
   this->readHeader();
 }
 
-void babel::NetworkTcpServerTunnelBoost::read(NetworkTcpServerTunnelBoost::Header header)
+void babel::NetworkTcpServerTunnelBoost::readData()
 {
+  boost::asio::async_read(this->_socket,
+			  boost::asio::buffer(&this->_dataRead, this->_headerRead._dataSize),
+			  boost::asio::transfer_at_least(this->_headerRead._dataSize),
+			  boost::bind(&NetworkTcpServerTunnelBoost::handleDataRead, shared_from_this(), boost::asio::placeholders::error)
+  );
 }
 
 void babel::NetworkTcpServerTunnelBoost::write(const unsigned int size,
@@ -43,12 +48,28 @@ void babel::NetworkTcpServerTunnelBoost::readHeader()
   boost::asio::async_read(this->_socket,
 			  boost::asio::buffer(&this->_headerRead, sizeof(NetworkTcpServerTunnelBoost::Header)),
 			  boost::asio::transfer_at_least(sizeof(NetworkTcpServerTunnelBoost::Header)),
-			  boost::bind(&NetworkTcpServerTunnelBoost::handleRead, shared_from_this(), boost::asio::placeholders::error)
+			  boost::bind(&NetworkTcpServerTunnelBoost::handleHeaderRead, shared_from_this(), boost::asio::placeholders::error)
   );
 }
 
-void babel::NetworkTcpServerTunnelBoost::handleRead(const boost::system::error_code &error)
+void babel::NetworkTcpServerTunnelBoost::handleHeaderRead(const boost::system::error_code &error)
 {
-  std::cout << "Header: " << this->_headerRead._actionCode << " - " << this->_headerRead._dataSize << std::endl;
-  this->read(this->_headerRead);
+  if (!error)
+    {
+      std::cout << "Header: " << this->_headerRead._actionCode << " - " << this->_headerRead._dataSize << std::endl;
+      this->readData();
+    }
+}
+
+void babel::NetworkTcpServerTunnelBoost::handleDataRead(const boost::system::error_code &error)
+{
+  if (!error)
+    {
+      std::cout << "Data: " << std::string(reinterpret_cast<const char *>(this->_dataRead.data()), this->_dataRead.size())
+		<< std::endl;
+      // Exec cmd
+      this->_headerRead._dataSize = 0;
+      this->_headerRead._actionCode = 0;
+      this->readHeader();
+    }
 }
