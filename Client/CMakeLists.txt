@@ -19,7 +19,8 @@ include_directories(
 	${APP_DIR}/src/managers/Communication/interface/ICommunication/
 	${APP_DIR}/src/managers/Communication/class/AudioCommunication/
 	${APP_DIR}/src/managers/Communication/class/TextCommunication/
-	${APP_DIR}/src/managers/Communication/class/VideoCommunication/
+	${APP_DIR}/src/managers/Communication/class/VideoCommunica
+	tion/
 	# ---> CONTACT
 	${APP_DIR}/src/managers/Contact/class/ContactManager/
 	# ---> CORE
