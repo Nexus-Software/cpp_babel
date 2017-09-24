@@ -19,7 +19,6 @@ babel::NetworkTcpServerTunnelBoost::NetworkTcpServerTunnelBoost(Server &server, 
 
 void babel::NetworkTcpServerTunnelBoost::start()
 {
-  this->_server.getLogInTerm().print("TCP Server (Boost): New tunnel", LogInTerm::LevelLog::INFO);
   this->readHeader();
 }
 
@@ -32,22 +31,26 @@ void babel::NetworkTcpServerTunnelBoost::readData()
   );
 }
 
-template <typename T>
-void babel::NetworkTcpServerTunnelBoost::write(const unsigned int size, T data)
+
+void babel::NetworkTcpServerTunnelBoost::write(dataToWrite data)
 {
   boost::asio::async_write(this->_socket,
-			   boost::asio::buffer(&data, size),
+			   boost::asio::buffer(data.data, data.size),
 			   boost::bind(&NetworkTcpServerTunnelBoost::handleWrite, shared_from_this(), boost::asio::placeholders::error));
 
 }
 
-void babel::NetworkTcpServerTunnelBoost::handleWrite(const boost::system::error_code &error)
+void babel::NetworkTcpServerTunnelBoost::close()
 {
+  this->_socket.close();
 }
 
-const bool babel::NetworkTcpServerTunnelBoost::close() const
+void babel::NetworkTcpServerTunnelBoost::handleWrite(const boost::system::error_code &error)
 {
-  return 0;
+  // Todo: Not implement yet (check error)
+  if (error)
+    {
+    }
 }
 
 void babel::NetworkTcpServerTunnelBoost::readHeader()
@@ -66,6 +69,10 @@ void babel::NetworkTcpServerTunnelBoost::handleHeaderRead(const boost::system::e
       std::cout << "Header: " << this->_headerRead._actionCode << " - " << this->_headerRead._dataSize << std::endl;
       this->readData();
     }
+  else
+    {
+
+    }
 }
 
 void babel::NetworkTcpServerTunnelBoost::handleDataRead(const boost::system::error_code &error)
@@ -76,11 +83,23 @@ void babel::NetworkTcpServerTunnelBoost::handleDataRead(const boost::system::err
 		<< std::endl;
       // Exec cmd
       // Fake write for test
-      this->write<std::uint32_t >(sizeof(std::uint32_t ), 12);
-      this->write<std::uint32_t >(sizeof(std::uint32_t ), 4563);
+      dataToWrite data;
+      std::uint32_t nb = 32;
+      data.size = sizeof(std::uint32_t);
+      data.data = &nb;
+      this->write(data);
+      nb = 342;
+      data.size = sizeof(std::uint32_t);
+      data.data = &nb;
+      this->write(data);
+
       //
       this->_headerRead._dataSize = 0;
       this->_headerRead._actionCode = 0;
       this->readHeader();
+    }
+  else
+    {
+
     }
 }

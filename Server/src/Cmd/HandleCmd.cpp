@@ -25,7 +25,7 @@ babel::HandleCmd::~HandleCmd()
 
 }
 
-bool babel::HandleCmd::execCmd(std::uint32_t code, std::vector<char> data)
+bool babel::HandleCmd::execCmd(size_t tunnelId, std::uint32_t code, std::vector<char> data)
 {
   // Todo: Not implement yet
   return false;

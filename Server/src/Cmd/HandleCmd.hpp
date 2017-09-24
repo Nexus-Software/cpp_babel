@@ -28,7 +28,7 @@ namespace babel
     HandleCmd(Server &server);
     ~HandleCmd();
 
-    bool execCmd(std::uint32_t code, std::vector<char> data);
+    bool execCmd(size_t tunnelId, std::uint32_t code, std::vector<char> data);
   };
 }
 

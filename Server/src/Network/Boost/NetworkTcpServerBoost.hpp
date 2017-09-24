@@ -20,30 +20,31 @@
 #include <boost/asio.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
-#include "../Interfaces/INetworkTcpServer.hpp"
-#include "../Interfaces/INetworkTcpServerTunnel.hpp"
 #include "NetworkTcpServerTunnelBoost.hpp"
 #include "NetworkException.hpp"
 
 namespace babel {
   class Server;
+  class NetworkManagerBoost;
 
-  class NetworkTcpServerBoost : public INetworkTcpServer
+  class NetworkTcpServerBoost
   {
    protected:
     Server				&_server;
+    NetworkManagerBoost			&_networkManager;
+
     unsigned int			_port;
     boost::asio::io_service 		_ioService;
     boost::shared_ptr<boost::thread>	_threadIoService;
     boost::asio::ip::tcp::acceptor 	_acceptor;
    public:
-    NetworkTcpServerBoost(Server &server, unsigned int port);
-    virtual ~NetworkTcpServerBoost();
+    NetworkTcpServerBoost(Server &server, NetworkManagerBoost &networkManager, unsigned int port);
+    ~NetworkTcpServerBoost();
 
-    virtual void waitClient();
+    void waitClient();
 
    private:
-    void handle_accept(NetworkTcpServerTunnelBoost::pointer new_connection, const boost::system::error_code& error);
+    void handle_accept(boost::shared_ptr<NetworkTcpServerTunnelBoost> new_connection, const boost::system::error_code& error);
   };
 }
 

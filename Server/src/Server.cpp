@@ -9,6 +9,8 @@
 */
 
 #include "Server.hpp"
+#include "Network/Boost/NetworkManagerBoost.hpp"
+
 
 babel::Server::Server(unsigned int port) :
 	_port(port),
@@ -25,13 +27,14 @@ babel::Server::~Server()
 void babel::Server::run()
 {
   this->_logInTerm.print("Server run", LogInTerm::LevelLog::SUCCESS);
-  NetworkTcpServerBoost tcpServer(*this, this->_port);
-  tcpServer.waitClient();
+
+  this->_networkManager = std::make_shared<NetworkManagerBoost>(*this, this->_port);
+  this->_networkManager.get()->acceptClient();
   while (1);
   return ;
 }
 
-const babel::LogInTerm babel::Server::getLogInTerm() const
+const babel::LogInTerm & babel::Server::getLogInTerm() const
 {
-  return babel::LogInTerm();
+  return this->_logInTerm;
 }

@@ -17,6 +17,7 @@
 #include <boost/enable_shared_from_this.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
+#include "../Interfaces/INetworkManager.hpp"
 #include "BabelNetworkMacro.hpp"
 
 namespace babel {
@@ -38,11 +39,9 @@ namespace babel {
     Header					_headerRead;
     boost::array<char, B_NETWORK_BUFFER_SIZE>	_dataRead;
    public:
-    typedef boost::shared_ptr<NetworkTcpServerTunnelBoost> pointer;
-
-    static pointer create(Server &server, boost::asio::io_service& io_service)
+    static  boost::shared_ptr<NetworkTcpServerTunnelBoost> create(Server &server, boost::asio::io_service& io_service)
     {
-      return pointer(new NetworkTcpServerTunnelBoost(server, io_service));
+      return  boost::shared_ptr<NetworkTcpServerTunnelBoost>(new NetworkTcpServerTunnelBoost(server, io_service));
     }
 
     boost::asio::ip::tcp::socket& socket()
@@ -54,10 +53,9 @@ namespace babel {
    public:
     NetworkTcpServerTunnelBoost(Server &server, boost::asio::io_service& io_service);
 
-    template <typename T> void write(const unsigned int size, T data);
+    void write(dataToWrite data);
 
-    virtual const bool close() const;
-
+    void close();
    private:
     void readHeader();
     void readData();
