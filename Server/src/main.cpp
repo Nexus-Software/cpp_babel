@@ -14,7 +14,7 @@
 
 int		main(int, char **av)
 {
-  unsigned int 	port = 4242;
+  unsigned int 	port = 4546;
 
   if (av && av[0] && av[1]) {
       port = static_cast<unsigned int>(std::abs(std::atoi(av[1])));

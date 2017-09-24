@@ -15,23 +15,27 @@
 #include <unordered_map>
 #include <memory>
 #include "BabelNetworkMacro.hpp"
-#include "Network/Boost/NetworkTcpServerBoost.hpp"
+#include "Network/Interfaces/INetworkManager.hpp"
 #include "Log/LogInTerm.hpp"
+#include "Cmd/HandleCmd.hpp"
 
 namespace babel {
   class Server {
    protected:
     unsigned int								_port;
-    std::shared_ptr<NetworkTcpServerBoost>					_tcpServer;
-    std::unordered_map<std::string, std::shared_ptr<INetworkTcpServerTunnel>>	_tcpTunnel;
+    std::shared_ptr<INetworkManager>						_networkManager;
     LogInTerm									_logInTerm;
+    HandleCmd									_handleCmd;
    public:
     Server(unsigned int port = 4242);
     ~Server();
 
     void run();
 
-    const LogInTerm getLogInTerm() const;
+    const LogInTerm & getLogInTerm() const;
+
+    HandleCmd & getHandleCmd();
+    std::shared_ptr<babel::INetworkManager> getNetworkManager();
   };
 }
 
