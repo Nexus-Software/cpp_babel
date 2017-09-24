@@ -30,11 +30,12 @@ namespace babel {
   class NetworkTcpServerBoost
   {
    protected:
+    boost::asio::io_service 		_ioService;
+
     Server				&_server;
     NetworkManagerBoost			&_networkManager;
 
     unsigned int			_port;
-    boost::asio::io_service 		_ioService;
     boost::shared_ptr<boost::thread>	_threadIoService;
     boost::asio::ip::tcp::acceptor 	_acceptor;
    public:
@@ -43,8 +44,10 @@ namespace babel {
 
     void waitClient();
 
+    void runIoServer();
+
    private:
-    void handle_accept(boost::shared_ptr<NetworkTcpServerTunnelBoost> new_connection, const boost::system::error_code& error);
+    void handle_accept(NetworkTcpServerTunnelBoost::pointer new_connection, const boost::system::error_code& error);
   };
 }
 

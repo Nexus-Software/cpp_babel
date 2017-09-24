@@ -13,7 +13,8 @@
 
 babel::NetworkTcpServerTunnelBoost::NetworkTcpServerTunnelBoost(Server &server, boost::asio::io_service& io_service):
 	_server(server),
-	_socket(io_service)
+	_socket(io_service),
+	_tunnelId(0)
 {
 }
 
@@ -71,7 +72,7 @@ void babel::NetworkTcpServerTunnelBoost::handleHeaderRead(const boost::system::e
     }
   else
     {
-
+      this->readHeader();
     }
 }
 
@@ -79,27 +80,24 @@ void babel::NetworkTcpServerTunnelBoost::handleDataRead(const boost::system::err
 {
   if (!error)
     {
-      std::cout << "Data: " << std::string(reinterpret_cast<const char *>(this->_dataRead.data()), this->_dataRead.size())
+      std::cout << "Data: " << std::string(reinterpret_cast<const char *>(this->_dataRead), this->_headerRead._dataSize)
 		<< std::endl;
-      // Exec cmd
-      // Fake write for test
-      dataToWrite data;
-      std::uint32_t nb = 32;
-      data.size = sizeof(std::uint32_t);
-      data.data = &nb;
-      this->write(data);
-      nb = 342;
-      data.size = sizeof(std::uint32_t);
-      data.data = &nb;
-      this->write(data);
-
-      //
-      this->_headerRead._dataSize = 0;
-      this->_headerRead._actionCode = 0;
-      this->readHeader();
+      this->_server.getHandleCmd().execCmd(this->_tunnelId, this->_headerRead._actionCode, this->_dataRead);
     }
   else
     {
-
     }
+  this->_headerRead._dataSize = 0;
+  this->_headerRead._actionCode = 0;
+  this->readHeader();
+}
+
+const size_t &babel::NetworkTcpServerTunnelBoost::getTunnelId() const
+{
+  return this->_tunnelId;
+}
+
+void babel::NetworkTcpServerTunnelBoost::setTunnelId(size_t tunnelId)
+{
+  this->_tunnelId = tunnelId;
 }

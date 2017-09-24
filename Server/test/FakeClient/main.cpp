@@ -17,8 +17,9 @@ using boost::asio::ip::tcp;
 int main()
 {
   boost::asio::io_service ios;
-  tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 4242);
+  tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 4546);
   tcp::socket socket(ios);
+
   socket.connect(endpoint);
 
   std::uint32_t i = 2;

@@ -16,7 +16,6 @@ babel::NetworkManagerBoost::NetworkManagerBoost(babel::Server &server, unsigned 
 	_server(server),
 	_tcpServer(this->_server, *this, this->_port)
 {
-  this->_tunnelList.clear();
 }
 
 babel::NetworkManagerBoost::~NetworkManagerBoost()
@@ -56,7 +55,7 @@ void babel::NetworkManagerBoost::addTunnel(boost::shared_ptr<NetworkTcpServerTun
   size_t newId = 0;
 
   for (; this->_tunnelList.find(newId) != this->_tunnelList.end() ; newId += 1);
-  this->_tunnelList.insert(std::pair<size_t, boost::shared_ptr<NetworkTcpServerTunnelBoost>>(newId, tunnel));
+  this->_tunnelList.insert(std::pair<size_t, NetworkTcpServerTunnelBoost::pointer>(newId, tunnel));
 
   TunnelInfo tunnelInfo;
 
@@ -66,10 +65,12 @@ void babel::NetworkManagerBoost::addTunnel(boost::shared_ptr<NetworkTcpServerTun
 
   this->_tunnelInfo.insert(std::pair<size_t, TunnelInfo>(newId, tunnelInfo));
 
+  tunnel.get()->setTunnelId(newId);
+
   this->_server.getLogInTerm().print("NetworkManager (Boost): Add in list new tunnel (" + std::to_string(newId) + ")", LogInTerm::LevelLog::INFO);
 }
 
-void babel::NetworkManagerBoost::removeTunnel(boost::shared_ptr<NetworkTcpServerTunnelBoost> tunnel)
+void babel::NetworkManagerBoost::removeTunnel(NetworkTcpServerTunnelBoost::pointer tunnel)
 {
   size_t keyFound;
 
@@ -84,5 +85,28 @@ void babel::NetworkManagerBoost::removeTunnel(boost::shared_ptr<NetworkTcpServer
 	  break ;
 	}
     }
+}
+
+babel::TunnelInfo babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size_t tunnelId) const
+{
+  std::unordered_map<size_t, TunnelInfo>::const_iterator it;
+
+  if ((it = this->_tunnelInfo.find(tunnelId)) != this->_tunnelInfo.end())
+    return (*it).second;
+  // Todo: Run error
+  return TunnelInfo();
+}
+
+void babel::NetworkManagerBoost::setTunnelInfoByTunnelId(const size_t tunnelId, const TunnelInfo tunnelInfo)
+{
+  std::unordered_map<size_t, TunnelInfo>::iterator it;
+
+  if ((it = this->_tunnelInfo.find(tunnelId)) != this->_tunnelInfo.end())
+    {
+      (*it).second.id = tunnelInfo.id;
+      (*it).second.login = tunnelInfo.login;
+      (*it).second.isAuth = tunnelInfo.isAuth;
+    }
+  // Todo: Run error
 }
 

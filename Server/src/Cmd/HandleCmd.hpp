@@ -14,6 +14,7 @@
 #include <unordered_map>
 #include "Interfaces/ICmd.hpp"
 #include "Cmd/CmdLogIn.hpp"
+#include "BabelNetworkMacro.hpp"
 
 namespace babel
 {
@@ -28,7 +29,7 @@ namespace babel
     HandleCmd(Server &server);
     ~HandleCmd();
 
-    bool execCmd(size_t tunnelId, std::uint32_t code, std::vector<char> data);
+    bool execCmd(size_t tunnelId, std::uint32_t code, char data[B_NETWORK_BUFFER_SIZE]);
   };
 }
 

@@ -33,7 +33,9 @@ namespace babel {
     void run();
 
     const LogInTerm & getLogInTerm() const;
-    //INetworkManager & getNetworkManager();
+
+    HandleCmd & getHandleCmd();
+    std::shared_ptr<babel::INetworkManager> getNetworkManager();
   };
 }
 

@@ -25,8 +25,17 @@ babel::HandleCmd::~HandleCmd()
 
 }
 
-bool babel::HandleCmd::execCmd(size_t tunnelId, std::uint32_t code, std::vector<char> data)
+bool babel::HandleCmd::execCmd(size_t tunnelId, std::uint32_t code, char data[B_NETWORK_BUFFER_SIZE])
 {
+  dataToWrite data1;
+  std::uint32_t nb = 32;
+  data1.size = sizeof(std::uint32_t);
+  data1.data = &nb;
+  this->_server.getNetworkManager().get()->write(tunnelId, data1);
+  nb = 342;
+  data1.size = sizeof(std::uint32_t);
+  data1.data = &nb;
+  this->_server.getNetworkManager().get()->write(tunnelId, data1);
   // Todo: Not implement yet
-  return false;
+  return true;
 }

@@ -27,7 +27,7 @@ namespace babel
 
     NetworkTcpServerBoost								_tcpServer;
     std::unordered_map<size_t, TunnelInfo>						_tunnelInfo;
-    std::unordered_map<size_t, boost::shared_ptr<NetworkTcpServerTunnelBoost>>		_tunnelList;
+    std::unordered_map<size_t, NetworkTcpServerTunnelBoost::pointer>			_tunnelList;
    public:
     NetworkManagerBoost(Server &server, unsigned int port);
     ~NetworkManagerBoost();
@@ -40,10 +40,11 @@ namespace babel
 
     virtual bool writeForAll(dataToWrite data);
 
-
+    virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId) const;
+    virtual void setTunnelInfoByTunnelId(const size_t tunnelId, const TunnelInfo tunnelInfo);
    public:
-    void addTunnel(boost::shared_ptr<NetworkTcpServerTunnelBoost> tunnel);
-    void removeTunnel(boost::shared_ptr<NetworkTcpServerTunnelBoost> tunnel);
+    void addTunnel(NetworkTcpServerTunnelBoost::pointer tunnel);
+    void removeTunnel(NetworkTcpServerTunnelBoost::pointer tunnel);
   };
 }
 

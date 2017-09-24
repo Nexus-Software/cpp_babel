@@ -38,3 +38,13 @@ const babel::LogInTerm & babel::Server::getLogInTerm() const
 {
   return this->_logInTerm;
 }
+
+babel::HandleCmd &babel::Server::getHandleCmd()
+{
+  return this->_handleCmd;
+}
+
+std::shared_ptr<babel::INetworkManager> babel::Server::getNetworkManager()
+{
+  return this->_networkManager;
+}

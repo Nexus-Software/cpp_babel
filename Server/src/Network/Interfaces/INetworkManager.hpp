@@ -32,12 +32,14 @@ namespace babel
   {
    public:
     virtual void acceptClient() = 0;
-    //template <typename N> virtual void addTunnel(N tunnelObj) = 0;
 
     virtual bool write(size_t tunnelId, dataToWrite data) = 0;
     virtual bool write(std::string login, dataToWrite data) = 0;
 
     virtual bool writeForAll(dataToWrite data) = 0;
+
+    virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId) const = 0;
+    virtual void setTunnelInfoByTunnelId(const size_t tunnelId, const TunnelInfo tunnelInfo) = 0;
   };
 }
 
