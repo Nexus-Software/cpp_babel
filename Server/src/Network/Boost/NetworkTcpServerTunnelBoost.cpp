@@ -51,6 +51,7 @@ void babel::NetworkTcpServerTunnelBoost::handleWrite(const boost::system::error_
   // Todo: Not implement yet (check error)
   if (error)
     {
+      // Todo: Check error for close socket
     }
 }
 
@@ -72,6 +73,7 @@ void babel::NetworkTcpServerTunnelBoost::handleHeaderRead(const boost::system::e
     }
   else
     {
+      // Todo: Check error for close socket
       this->readHeader();
     }
 }
@@ -86,6 +88,7 @@ void babel::NetworkTcpServerTunnelBoost::handleDataRead(const boost::system::err
     }
   else
     {
+      // Todo: Check error for close socket
     }
   this->_headerRead._dataSize = 0;
   this->_headerRead._actionCode = 0;

@@ -54,7 +54,8 @@ void babel::NetworkManagerBoost::addTunnel(boost::shared_ptr<NetworkTcpServerTun
 {
   size_t newId = 0;
 
-  for (; this->_tunnelList.find(newId) != this->_tunnelList.end() ; newId += 1);
+  while (this->_tunnelList.find(newId) != this->_tunnelList.end())
+    newId += 1;
   this->_tunnelList.insert(std::pair<size_t, NetworkTcpServerTunnelBoost::pointer>(newId, tunnel));
 
   TunnelInfo tunnelInfo;
@@ -74,12 +75,12 @@ void babel::NetworkManagerBoost::removeTunnel(NetworkTcpServerTunnelBoost::point
 {
   size_t keyFound;
 
-  for (auto it = this->_tunnelList.begin() ; it != this->_tunnelList.end() ; it++)
+  for (auto it : this->_tunnelList)
     {
-      if ((*it).second == tunnel)
+      if (it.second == tunnel)
 	{
-	  keyFound = (*it).first;
-	  this->_tunnelList.erase(it);
+	  keyFound = it.first;
+	  this->_tunnelList.erase(keyFound);
 	  this->_tunnelInfo.erase(keyFound);
 	  this->_server.getLogInTerm().print("NetworkManager (Boost): Delete in list tunnel (" + std::to_string(keyFound) + ")", LogInTerm::LevelLog::INFO);
 	  break ;

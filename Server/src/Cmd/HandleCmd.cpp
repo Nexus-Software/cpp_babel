@@ -12,12 +12,11 @@
 #include "Server.hpp"
 
 babel::HandleCmd::HandleCmd(babel::Server &server):
-	_server(server)
+	_server(server),
+	_cmdList({
+			 {2, std::make_shared<CmdLogIn>()}
+		})
 {
-  this->_cmdList =
-	  {
-		  {2, std::make_shared<CmdLogIn>()}
-	  };
 }
 
 babel::HandleCmd::~HandleCmd()

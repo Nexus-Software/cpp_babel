@@ -30,7 +30,7 @@ babel::NetworkTcpServerBoost::NetworkTcpServerBoost(Server &server, NetworkManag
 
 babel::NetworkTcpServerBoost::~NetworkTcpServerBoost()
 {
-  this->_server.getLogInTerm().print("TCP Server (Boost): Stop in few secondes", LogInTerm::LevelLog::INFO);
+  this->_server.getLogInTerm().print("TCP Server (Boost): Stop in few seconds", LogInTerm::LevelLog::INFO);
   this->_ioService.stop();
   this->_threadIoService.get()->join();
   this->_server.getLogInTerm().print("TCP Server (Boost): Stop", LogInTerm::LevelLog::INFO);
