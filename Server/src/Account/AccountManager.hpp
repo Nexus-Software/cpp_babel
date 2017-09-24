@@ -33,6 +33,7 @@ namespace babel
     bool remove(std::string login);
 
     Account getAccountByLogin(const std::string login);
+    const Account getAccountByLogin(const std::string login) const;
 
     const std::unordered_map<std::string, Account> &getAccountList() const;
   };
