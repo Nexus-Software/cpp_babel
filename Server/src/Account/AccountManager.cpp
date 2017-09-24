@@ -9,3 +9,47 @@
 */
 
 #include "AccountManager.hpp"
+#include "Server.hpp"
+
+babel::AccountManager::AccountManager(babel::Server &server):
+	_server(server)
+{
+
+}
+
+babel::AccountManager::~AccountManager()
+{
+}
+
+bool babel::AccountManager::add(std::string login, std::string password)
+{
+  Account newAccount(login, password);
+
+  this->_accountList.insert(std::pair<std::string, Account>(login, newAccount));
+  //Todo: Throw error if fail insert
+  return true;
+}
+
+bool babel::AccountManager::remove(std::string login)
+{
+  this->_accountList.erase(login);
+  //Todo: Throw error if fail erase
+  return true;
+}
+
+babel::Account babel::AccountManager::getAccountByLogin(const std::string login)
+{
+  std::unordered_map<std::string, Account>::const_iterator it;
+
+  if ((it = this->_accountList.find(login)) != this->_accountList.end())
+    return (*it).second;
+  //Todo: Throw error (is not good yet)
+  return babel::Account("", "");
+}
+
+const std::unordered_map<std::string, babel::Account> &babel::AccountManager::getAccountList() const
+{
+  return this->_accountList;
+}
+
+
