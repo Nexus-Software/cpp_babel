@@ -36,6 +36,9 @@ namespace babel
     const Account getAccountByLogin(const std::string login) const;
 
     const std::unordered_map<std::string, Account> &getAccountList() const;
+
+    bool addContact(const std::string & login_req, const std::string & login);
+    bool removeContact(const std::string & login_req, const std::string & login);
   };
 }
 

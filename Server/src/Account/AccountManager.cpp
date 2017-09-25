@@ -25,7 +25,7 @@ bool babel::AccountManager::add(std::string login, std::string password)
 {
   if (this->_accountList.find(login) != this->_accountList.end())
     return false;
-  this->_accountList.insert(std::pair<std::string, Account>(login, Account(this->_server, login, password)));
+  this->_accountList.insert(std::pair<std::string, Account>(login, Account(login, password)));
   return true;
 }
 
@@ -63,3 +63,20 @@ const std::unordered_map<std::string, babel::Account> &babel::AccountManager::ge
 }
 
 
+bool babel::AccountManager::addContact(const std::string &login_req, const std::string &login)
+{
+  try
+    {
+      this->_server.getAccountManager().getAccountByLogin(login);
+    }
+  catch (babel::AccountManagerException & e)
+    {
+      return false;
+    }
+  return this->_server.getAccountManager().getAccountByLogin(login_req).addContact(login);
+}
+
+bool babel::AccountManager::removeContact(const std::string &login_req, const std::string &login)
+{
+  return this->_server.getAccountManager().getAccountByLogin(login_req).removeContact(login);
+}

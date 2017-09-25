@@ -17,17 +17,15 @@
 
 namespace babel
 {
-  class Server;
   class Account
   {
    protected:
-    Server			&_server;
     std::string			_login;
     std::string			_password;
     bool 			_isOnline;
     std::vector<std::string>	_contactList;
    public:
-    Account(Server &server, std::string login, std::string password);
+    Account(std::string login, std::string password);
     virtual ~Account();
 
     const std::string 			&getLogin() const;

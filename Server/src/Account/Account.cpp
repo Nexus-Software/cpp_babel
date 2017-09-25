@@ -11,8 +11,7 @@
 #include "Account.hpp"
 #include "Server.hpp"
 
-babel::Account::Account(Server &server, std::string login, std::string password):
-	_server(server),
+babel::Account::Account(std::string login, std::string password):
 	_login(login),
 	_password(password),
 	_isOnline(false)
@@ -56,14 +55,6 @@ void babel::Account::setIsOnline(bool isOnline)
 
 bool babel::Account::addContact(const std::string &login)
 {
-  try
-    {
-      this->_server.getAccountManager().getAccountByLogin(login);
-    }
-  catch (babel::AccountManagerException & e)
-    {
-      return false;
-    }
   this->_contactList.push_back(login);
   return false;
 }
