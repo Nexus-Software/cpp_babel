@@ -27,8 +27,7 @@ babel::HandleCmd::~HandleCmd()
 
 bool babel::HandleCmd::execCmd(size_t tunnelId, std::uint32_t code, char data[B_NETWORK_BUFFER_SIZE])
 {
-  /*
-  dataToWrite data1;
+  /* dataToWrite data1;
   std::uint32_t nb = 32;
   data1.size = sizeof(std::uint32_t);
   data1.data = &nb;
@@ -36,8 +35,7 @@ bool babel::HandleCmd::execCmd(size_t tunnelId, std::uint32_t code, char data[B_
   nb = 342;
   data1.size = sizeof(std::uint32_t);
   data1.data = &nb;
-  this->_server.getNetworkManager().get()->write(tunnelId, data1);
-  */
+  this->_server.getNetworkManager().get()->write(tunnelId, data1); */
 
   //Todo: Resend to Cmd code reponse
 
