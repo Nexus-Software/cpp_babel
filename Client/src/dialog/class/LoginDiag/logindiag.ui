@@ -200,6 +200,12 @@
            <property name="text">
             <string>Connect</string>
            </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+           <property name="default">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
