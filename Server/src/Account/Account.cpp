@@ -9,7 +9,6 @@
 */
 
 #include "Account.hpp"
-#include "Server.hpp"
 
 babel::Account::Account(std::string login, std::string password):
 	_login(login),
