@@ -12,34 +12,28 @@
 #define SERVER_ACCOUNT_HPP
 
 #include <string>
-#include <algorithm>
-#include <vector>
+#include <unordered_map>
 
 namespace babel
 {
-  class Server;
   class Account
   {
    protected:
-    Server			&_server;
-    std::string			_login;
-    std::string			_password;
-    bool 			_isOnline;
-    std::vector<std::string>	_contactList;
+    std::string					_login;
+    std::string					_password;
+    bool 					_isOnline;
+    std::unordered_map<std::string, Account>	_contactList;
    public:
-    Account(Server &server, std::string login, std::string password);
+    Account(std::string login, std::string password);
     virtual ~Account();
 
-    const std::string 			&getLogin() const;
-    const std::string 			&getPassword() const;
-    bool 				getIsOnline() const;
-    const std::vector<std::string> 	&getContactList() const;
+    const std::string 					&getLogin() const;
+    const std::string 					&getPassword() const;
+    bool 						getIsOnline() const;
+    const std::unordered_map<std::string, Account> 	&getContactList() const;
 
     void setPassword(const std::string &password);
     void setIsOnline(bool isOnline);
-
-    bool addContact(const std::string & login);
-    bool removeContact(const std::string & login);
   };
 }
 
