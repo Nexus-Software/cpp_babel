@@ -4,13 +4,13 @@
 babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
 :
     _root(ancestor),
-    _widgetList({
-        {"AddContactDiag", std::make_shared<AddContactDiag>()},
-        {"CustomNotificationDiag", std::make_shared<CustomNotificationDiag>()},
-        {"LoginDiag", std::make_shared<LoginDiag>()},
-        {"MainWindow", std::make_shared<MainWindow>()},
-        {"ReceiveCallDiag", std::make_shared<ReceiveCallDiag>()},
-        {"SignupDiag", std::make_shared<SignupDiag>()}
+    _windowList({
+        {"AddContactDiag", std::make_shared<AddContactDiag>(nullptr, this)},
+        {"CustomNotificationDiag", std::make_shared<CustomNotificationDiag>(nullptr, this)},
+        {"LoginDiag", std::make_shared<LoginDiag>(nullptr, this)},
+        {"MainWindow", std::make_shared<MainWindow>(nullptr, this)},
+        {"ReceiveCallDiag", std::make_shared<ReceiveCallDiag>(nullptr, this)},
+        {"SignupDiag", std::make_shared<SignupDiag>(nullptr, this)}
     })
 {
 	std::cout << "UIManager created" << std::endl;
@@ -20,10 +20,25 @@ babel::UIManager::~UIManager() {
 	std::cout << "UIManager destructed" << std::endl;
 }
 
-babel::Status const                                                 babel::UIManager::start(std::string const &)
+babel::Status const                                                 babel::UIManager::showWindow(std::string const& windowName)
 {
-    for (auto it : this->_widgetList)
-        this->_widgetList[it.first]->show();
+    if (!this->_windowList[windowName])
+        return (babel::Status(1, "Window couldn't be showed"));
+    this->_windowList[windowName]->show();
+    return (babel::Status(0, "Window '" + windowName + "' is now showed"));
+}
+
+babel::Status const                                                 babel::UIManager::hideWindow(std::string const& windowName)
+{
+    if (!this->_windowList[windowName])
+        return (babel::Status(1, "Window couldn't be hidden"));
+    this->_windowList[windowName]->hide();
+    return (babel::Status(0, "Window '" + windowName + "' is now hidden"));
+}
+
+babel::Status const                                                 babel::UIManager::start()
+{
+    this->showWindow("LoginDiag");
     return (babel::Status(0, "UIManager 'start()' worked without error"));
 }
 
@@ -37,7 +52,7 @@ babel::BabelClientManager const                                     &babel::UIMa
     return (this->_root);
 }
 
-std::unordered_map<std::string, std::shared_ptr<QWidget>>           &babel::UIManager::getWidgetList()
+std::unordered_map<std::string, std::shared_ptr<QWidget>>           &babel::UIManager::getWindowList()
 {
-    return (this->_widgetList);
+    return (this->_windowList);
 }

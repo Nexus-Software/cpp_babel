@@ -181,7 +181,7 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QPushButton" name="ConnectField">
+          <widget class="QPushButton" name="ConnectButton">
            <property name="minimumSize">
             <size>
              <width>105</width>

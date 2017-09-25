@@ -1,15 +1,16 @@
 #include "addcontactdiag.h"
 #include "ui_addcontactdiag.h"
 
-AddContactDiag::AddContactDiag(QWidget *parent) :
+AddContactDiag::AddContactDiag(QWidget *parent, babel::UIManager *uiManager) :
     QDialog(parent),
-    ui(new Ui::AddContactDiag)
+    _ui(new Ui::AddContactDiag),
+    _uiManager(uiManager)
 {
-    ui->setupUi(this);
+    this->_ui->setupUi(this);
     this->setFixedSize(this->size());
 }
 
 AddContactDiag::~AddContactDiag()
 {
-    delete ui;
+    delete (this->_ui);
 }

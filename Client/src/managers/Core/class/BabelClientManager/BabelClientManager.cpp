@@ -88,6 +88,6 @@ const QApplication    &babel::BabelClientManager::getApp(void) const
 
 const int babel::BabelClientManager::run(void)
 {
-    this->getUI().start("LoginDiag");
+    this->getUI().start();
     return (this->_app.exec());
 }

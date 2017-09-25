@@ -1,18 +1,19 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent, babel::UIManager *uiManager) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    _ui(new Ui::MainWindow),
+    _uiManager(uiManager)
 {
-    ui->setupUi(this);
+    this->_ui->setupUi(this);
 
     QList<int> sizes;
     sizes << 30 << 350;
-    ui->WindowSplitter->setSizes(sizes);
+    this->_ui->WindowSplitter->setSizes(sizes);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    delete (this->_ui);
 }
