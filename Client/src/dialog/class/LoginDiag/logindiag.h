@@ -21,7 +21,7 @@ public:
     explicit LoginDiag(QWidget *parent = 0, babel::UIManager *uiManager = 0);
     ~LoginDiag();
 
-    void                disableAllObjects(bool const areDisabled);
+    void                enableAllObjects(bool const areDisabled);
 
     QLineEdit           *getNicknameField();
     QLineEdit           *getPasswordField();

@@ -15,7 +15,7 @@ LoginDiag::LoginDiag(QWidget *parent, babel::UIManager *uiManager) :
     QObject::connect(this, SIGNAL(ConnectionDenied()), this, SLOT(ShowErrorDialog()));
 }
 
-void                LoginDiag::disableAllObjects(bool const areDisabled)
+void                LoginDiag::enableAllObjects(bool const areDisabled)
 {
     this->_ui->NicknameField->setEnabled(areDisabled);
     this->_ui->PasswordField->setEnabled(areDisabled);
@@ -52,12 +52,14 @@ void LoginDiag::SwitchToSignupWindow() {
 }
 
 void LoginDiag::WaitingForResponse() {
-    this->disableAllObjects(false);
+    this->enableAllObjects(false);
+    // Request to the server if credentials are correct
+    // Here are temporary connection
     if (this->_ui->NicknameField->text() == "Cauvin" && this->_ui->PasswordField->text() == "1235")
         emit ConnectionAllowed();
     else
         emit ConnectionDenied();
-    this->disableAllObjects(true);
+    this->enableAllObjects(true);
 }
 
 void LoginDiag::SwitchToMainWindow() {

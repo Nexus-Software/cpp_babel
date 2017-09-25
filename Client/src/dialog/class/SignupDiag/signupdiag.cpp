@@ -10,6 +10,23 @@ SignupDiag::SignupDiag(QWidget *parent, babel::UIManager *uiManager) :
     this->setFixedSize(this->size());
 
     QObject::connect(this->_ui->LoginButton, SIGNAL(clicked()), this, SLOT(SwitchToLoginWindow()));
+    QObject::connect(this->_ui->RegisterButton, SIGNAL(clicked()), this, SLOT(WaitingForResponse()));
+    QObject::connect(this, SIGNAL(ConnectionAllowed()), this, SLOT(SwitchToMainWindow()));
+    QObject::connect(this, SIGNAL(ConnectionDenied()), this, SLOT(ShowErrorDialog()));
+}
+
+SignupDiag::~SignupDiag()
+{
+    delete (this->_ui);
+}
+
+void                SignupDiag::enableAllObjects(bool const areDisabled)
+{
+    this->_ui->NicknameField->setEnabled(areDisabled);
+    this->_ui->PasswordField->setEnabled(areDisabled);
+    this->_ui->ConfirmField->setEnabled(areDisabled);
+    this->_ui->LoginButton->setEnabled(areDisabled);
+    this->_ui->RegisterButton->setEnabled(areDisabled);
 }
 
 QLineEdit           *SignupDiag::getNicknameField()
@@ -45,7 +62,22 @@ void SignupDiag::SwitchToLoginWindow() {
     this->_uiManager->showWindow("LoginDiag");
 }
 
-SignupDiag::~SignupDiag()
-{
-    delete (this->_ui);
+void SignupDiag::WaitingForResponse() {
+    this->enableAllObjects(false);
+    // v This + if that nickname isn't not already registered v
+    if (this->_ui->PasswordField->text() == this->_ui->ConfirmField->text())
+        emit ConnectionAllowed();
+    else
+        emit ConnectionDenied();
+    this->enableAllObjects(true);
+}
+
+void SignupDiag::SwitchToMainWindow() {
+    this->_uiManager->hideWindow("SignupDiag");
+    this->_uiManager->showWindow("MainWindow");
+}
+
+void SignupDiag::ShowErrorDialog() {
+    dynamic_cast<CustomNotificationDiag *>(this->_uiManager->getWindowList()["CustomNotificationDiag"].get())->setDataText("An internal error occured.");
+    this->_uiManager->showWindow("CustomNotificationDiag");
 }
