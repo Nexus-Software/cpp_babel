@@ -21,17 +21,20 @@ namespace babel {
 	{
 		public:
 			UIManager(babel::BabelClientManager&);
-			~UIManager();
+            ~UIManager();
 
-            babel::Status const                                                 start(std::string const & winName);
+            babel::Status const                                                 showWindow(std::string const& windowName);
+            babel::Status const                                                 hideWindow(std::string const& windowName);
+
+            babel::Status const                                                 start();
 
             babel::BabelClientManager                                           &getRoot();
             babel::BabelClientManager const                                     &getRoot() const;
-            std::unordered_map<std::string, std::shared_ptr<QWidget>>           &getWidgetList();
+            std::unordered_map<std::string, std::shared_ptr<QWidget>>           &getWindowList();
 
 		private:
 			babel::BabelClientManager&											_root;
-            std::unordered_map<std::string, std::shared_ptr<QWidget>>           _widgetList;
+            std::unordered_map<std::string, std::shared_ptr<QWidget>>           _windowList;
 
 	};
 }

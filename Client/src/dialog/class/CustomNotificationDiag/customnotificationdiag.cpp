@@ -1,15 +1,16 @@
 #include "customnotificationdiag.h"
 #include "ui_customnotificationdiag.h"
 
-CustomNotificationDiag::CustomNotificationDiag(QWidget *parent) :
+CustomNotificationDiag::CustomNotificationDiag(QWidget *parent, babel::UIManager *uiManager) :
     QDialog(parent),
-    ui(new Ui::CustomNotificationDiag)
+    _ui(new Ui::CustomNotificationDiag),
+    _uiManager(uiManager)
 {
-    ui->setupUi(this);
+    this->_ui->setupUi(this);
     this->setFixedSize(this->size());
 }
 
 CustomNotificationDiag::~CustomNotificationDiag()
 {
-    delete ui;
+    delete (this->_ui);
 }

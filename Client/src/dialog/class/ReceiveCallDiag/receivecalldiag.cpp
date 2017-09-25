@@ -1,15 +1,16 @@
 #include "receivecalldiag.h"
 #include "ui_receivecalldiag.h"
 
-ReceiveCallDiag::ReceiveCallDiag(QWidget *parent) :
+ReceiveCallDiag::ReceiveCallDiag(QWidget *parent, babel::UIManager *uiManager) :
     QDialog(parent),
-    ui(new Ui::ReceiveCallDiag)
+    _ui(new Ui::ReceiveCallDiag),
+    _uiManager(uiManager)
 {
-    ui->setupUi(this);
+    this->_ui->setupUi(this);
     this->setFixedSize(this->size());
 }
 
 ReceiveCallDiag::~ReceiveCallDiag()
 {
-    delete ui;
+    delete (this->_ui);
 }
