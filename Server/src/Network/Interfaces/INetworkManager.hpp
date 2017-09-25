@@ -20,6 +20,10 @@ namespace babel
     size_t 	id;
     std::string	login;
     bool 	isAuth;
+
+    void setId(size_t id) { this->id = id; };
+    void setLogin(std::string login) { this->login = login; };
+    void setIsAuth(bool isAuth) { this->isAuth = isAuth; };
   };
 
   struct dataToWrite
@@ -41,8 +45,7 @@ namespace babel
 
     virtual bool writeForAll(dataToWrite data) = 0;
 
-    virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId) const = 0;
-    virtual void setTunnelInfoByTunnelId(const size_t tunnelId, const TunnelInfo tunnelInfo) = 0;
+    virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId) = 0;
   };
 }
 
