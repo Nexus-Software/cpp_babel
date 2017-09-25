@@ -50,6 +50,11 @@ babel::AccountManager &babel::Server::getAccountManager()
   return this->_accountManager;
 }
 
+const babel::AccountManager &babel::Server::getAccountManager() const
+{
+  return this->_accountManager;
+}
+
 std::shared_ptr<babel::INetworkManager> babel::Server::getNetworkManager()
 {
   return this->_networkManager;

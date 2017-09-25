@@ -39,6 +39,8 @@ namespace babel {
     HandleCmd & getHandleCmd();
     AccountManager & getAccountManager();
 
+    const AccountManager & getAccountManager() const;
+
     std::shared_ptr<babel::INetworkManager> getNetworkManager();
   };
 }
