@@ -22,7 +22,7 @@ int main()
 
   socket.connect(endpoint);
 
-  std::uint32_t i = 1;
+  std::uint32_t i = 2;
   socket.write_some(boost::asio::buffer(&i, 4));
   i = 64;
   socket.write_some(boost::asio::buffer(&i, 4));

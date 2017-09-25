@@ -88,26 +88,13 @@ void babel::NetworkManagerBoost::removeTunnel(NetworkTcpServerTunnelBoost::point
     }
 }
 
-babel::TunnelInfo babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size_t tunnelId) const
+babel::TunnelInfo babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size_t tunnelId)
 {
-  std::unordered_map<size_t, TunnelInfo>::const_iterator it;
+  std::unordered_map<size_t, TunnelInfo>::iterator it;
 
   if ((it = this->_tunnelInfo.find(tunnelId)) != this->_tunnelInfo.end())
     return (*it).second;
   // Todo: Run error
   return TunnelInfo();
-}
-
-void babel::NetworkManagerBoost::setTunnelInfoByTunnelId(const size_t tunnelId, const TunnelInfo tunnelInfo)
-{
-  std::unordered_map<size_t, TunnelInfo>::iterator it;
-
-  if ((it = this->_tunnelInfo.find(tunnelId)) != this->_tunnelInfo.end())
-    {
-      (*it).second.id = tunnelInfo.id;
-      (*it).second.login = tunnelInfo.login;
-      (*it).second.isAuth = tunnelInfo.isAuth;
-    }
-  // Todo: Run error
 }
 

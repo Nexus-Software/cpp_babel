@@ -15,6 +15,7 @@
 #include <string>
 #include "Interfaces/ICmd.hpp"
 #include "Cmd/CmdSignUp.hpp"
+#include "Cmd/CmdLogIn.hpp"
 #include "BabelNetworkMacro.hpp"
 
 namespace babel

@@ -10,7 +10,6 @@
 
 #include "CmdSignUp.hpp"
 #include "Server.hpp"
-#include <iostream>
 
 babel::CmdSignUp::CmdSignUp(babel::Server &server) :
 	_server(server)
@@ -32,6 +31,11 @@ bool babel::CmdSignUp::run(size_t tunnelId, char data[B_NETWORK_BUFFER_SIZE])
 
   // Todo: Check login used if error is throw
   this->_server.getAccountManager().add(login, password);
+
+  this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setLogin(login);
+  this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setIsAuth(true);
+  this->_server.getAccountManager().getAccountByLogin(login).setIsOnline(true);
+
   this->_server.getNetworkManager().get()->write(tunnelId, dataToWrite(42, 0, NULL));
   return true;
 }
