@@ -14,6 +14,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <memory>
+#include "Account/AccountManager.hpp"
 #include "BabelNetworkMacro.hpp"
 #include "Network/Interfaces/INetworkManager.hpp"
 #include "Log/LogInTerm.hpp"
@@ -26,6 +27,7 @@ namespace babel {
     std::shared_ptr<INetworkManager>						_networkManager;
     LogInTerm									_logInTerm;
     HandleCmd									_handleCmd;
+    AccountManager								_accountManager;
    public:
     Server(unsigned int port = 4242);
     ~Server();
@@ -35,6 +37,10 @@ namespace babel {
     const LogInTerm & getLogInTerm() const;
 
     HandleCmd & getHandleCmd();
+    AccountManager & getAccountManager();
+
+    const AccountManager & getAccountManager() const;
+
     std::shared_ptr<babel::INetworkManager> getNetworkManager();
   };
 }

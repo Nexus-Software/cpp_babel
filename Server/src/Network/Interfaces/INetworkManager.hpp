@@ -24,7 +24,10 @@ namespace babel
 
   struct dataToWrite
   {
-    unsigned int 		size;
+    dataToWrite() {};
+    dataToWrite(std::uint32_t code, std::uint32_t size, void *data): code(code), size(size), data(data) {};
+    std::uint32_t 		code;
+    std::uint32_t 		size;
     void 			*data;
   };
 

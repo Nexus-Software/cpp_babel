@@ -36,6 +36,12 @@ void babel::NetworkTcpServerTunnelBoost::readData()
 void babel::NetworkTcpServerTunnelBoost::write(dataToWrite data)
 {
   boost::asio::async_write(this->_socket,
+			   boost::asio::buffer(&data.code, sizeof(std::uint32_t)),
+			   boost::bind(&NetworkTcpServerTunnelBoost::handleWrite, shared_from_this(), boost::asio::placeholders::error));
+  boost::asio::async_write(this->_socket,
+			   boost::asio::buffer(&data.size, sizeof(std::uint32_t)),
+			   boost::bind(&NetworkTcpServerTunnelBoost::handleWrite, shared_from_this(), boost::asio::placeholders::error));
+  boost::asio::async_write(this->_socket,
 			   boost::asio::buffer(data.data, data.size),
 			   boost::bind(&NetworkTcpServerTunnelBoost::handleWrite, shared_from_this(), boost::asio::placeholders::error));
 

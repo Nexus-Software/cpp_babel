@@ -12,8 +12,9 @@
 #define SERVER_HANDLECMD_HPP
 
 #include <unordered_map>
+#include <string>
 #include "Interfaces/ICmd.hpp"
-#include "Cmd/CmdLogIn.hpp"
+#include "Cmd/CmdSignUp.hpp"
 #include "BabelNetworkMacro.hpp"
 
 namespace babel
