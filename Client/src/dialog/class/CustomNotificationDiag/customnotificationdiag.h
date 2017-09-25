@@ -19,6 +19,9 @@ public:
     explicit CustomNotificationDiag(QWidget *parent = 0, babel::UIManager *uiManager = 0);
     ~CustomNotificationDiag();
 
+    void                setDataText(QString const& dataText);
+    QString const       getDataText() const;
+
 private:
     Ui::CustomNotificationDiag *_ui;
     babel::UIManager *_uiManager;

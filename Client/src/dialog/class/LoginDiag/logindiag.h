@@ -21,6 +21,8 @@ public:
     explicit LoginDiag(QWidget *parent = 0, babel::UIManager *uiManager = 0);
     ~LoginDiag();
 
+    void                disableAllObjects(bool const areDisabled);
+
     QLineEdit           *getNicknameField();
     QLineEdit           *getPasswordField();
     QPushButton         *getSignupButton();
@@ -28,6 +30,13 @@ public:
 
 public slots:
     void SwitchToSignupWindow();
+    void WaitingForResponse();
+    void SwitchToMainWindow();
+    void ShowErrorDialog();
+
+signals:
+    void ConnectionAllowed();
+    void ConnectionDenied();
 
 private:
     Ui::LoginDiag *_ui;

@@ -23,7 +23,7 @@ babel::UIManager::~UIManager() {
 babel::Status const                                                 babel::UIManager::showWindow(std::string const& windowName)
 {
     if (!this->_windowList[windowName])
-        return (babel::Status(1, "Window couldn't be showed"));
+        return (babel::Status(1, "Window '" + windowName + "' couldn't be showed"));
     this->_windowList[windowName]->show();
     return (babel::Status(0, "Window '" + windowName + "' is now showed"));
 }
@@ -31,7 +31,7 @@ babel::Status const                                                 babel::UIMan
 babel::Status const                                                 babel::UIManager::hideWindow(std::string const& windowName)
 {
     if (!this->_windowList[windowName])
-        return (babel::Status(1, "Window couldn't be hidden"));
+        return (babel::Status(1, "Window '" + windowName + "' couldn't be showed"));
     this->_windowList[windowName]->hide();
     return (babel::Status(0, "Window '" + windowName + "' is now hidden"));
 }

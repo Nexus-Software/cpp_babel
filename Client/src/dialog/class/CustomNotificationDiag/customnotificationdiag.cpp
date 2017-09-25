@@ -14,3 +14,13 @@ CustomNotificationDiag::~CustomNotificationDiag()
 {
     delete (this->_ui);
 }
+
+void    CustomNotificationDiag::setDataText(QString const& dataText)
+{
+    this->_ui->DataText->setText(dataText);
+}
+
+QString const CustomNotificationDiag::getDataText() const
+{
+    return (this->_ui->DataText->text());
+}
