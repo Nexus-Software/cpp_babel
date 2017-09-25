@@ -23,6 +23,8 @@ babel::AccountManager::~AccountManager()
 
 bool babel::AccountManager::add(std::string login, std::string password)
 {
+  if (this->_accountList.find(login) != this->_accountList.end())
+    return false;
   this->_accountList.insert(std::pair<std::string, Account>(login, Account(login, password)));
   return true;
 }

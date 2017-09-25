@@ -31,8 +31,6 @@ bool babel::CmdLogIn::run(size_t tunnelId, char *data)
 
   std::cout << "Login: " << login << " - Password: " << password << std::endl;
 
-  // Todo: Check login not register + pass not valid if error is throw
-
   if (this->_server.getAccountManager().getAccountByLogin(login).getPassword() == password)
     {
       this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setLogin(login);

@@ -29,8 +29,11 @@ bool babel::CmdSignUp::run(size_t tunnelId, char data[B_NETWORK_BUFFER_SIZE])
 
   std::cout << "Login: " << login << " - Password: " << password << std::endl;
 
-  // Todo: Check login used if error is throw
-  this->_server.getAccountManager().add(login, password);
+  if (!this->_server.getAccountManager().add(login, password))
+    {
+      this->_server.getNetworkManager().get()->write(tunnelId, dataToWrite(502, 0, NULL));
+      return false;
+    }
 
   this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setLogin(login);
   this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setIsAuth(true);
