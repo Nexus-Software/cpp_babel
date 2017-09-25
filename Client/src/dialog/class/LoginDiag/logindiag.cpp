@@ -10,6 +10,17 @@ LoginDiag::LoginDiag(QWidget *parent, babel::UIManager *uiManager) :
     this->setFixedSize(this->size());
 
     QObject::connect(this->_ui->SignupButton, SIGNAL(clicked()), this, SLOT(SwitchToSignupWindow()));
+    QObject::connect(this->_ui->ConnectButton, SIGNAL(clicked()), this, SLOT(WaitingForResponse()));
+    QObject::connect(this, SIGNAL(ConnectionAllowed()), this, SLOT(SwitchToMainWindow()));
+    QObject::connect(this, SIGNAL(ConnectionDenied()), this, SLOT(ShowErrorDialog()));
+}
+
+void                LoginDiag::disableAllObjects(bool const areDisabled)
+{
+    this->_ui->NicknameField->setEnabled(areDisabled);
+    this->_ui->PasswordField->setEnabled(areDisabled);
+    this->_ui->SignupButton->setEnabled(areDisabled);
+    this->_ui->ConnectButton->setEnabled(areDisabled);
 }
 
 QLineEdit           *LoginDiag::getNicknameField()
@@ -38,6 +49,25 @@ void LoginDiag::SwitchToSignupWindow() {
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
     this->_uiManager->showWindow("SignupDiag");
+}
+
+void LoginDiag::WaitingForResponse() {
+    this->disableAllObjects(false);
+    if (this->_ui->NicknameField->text() == "Cauvin" && this->_ui->PasswordField->text() == "1235")
+        emit ConnectionAllowed();
+    else
+        emit ConnectionDenied();
+    this->disableAllObjects(true);
+}
+
+void LoginDiag::SwitchToMainWindow() {
+    this->_uiManager->hideWindow("LoginDiag");
+    this->_uiManager->showWindow("MainWindow");
+}
+
+void LoginDiag::ShowErrorDialog() {
+    dynamic_cast<CustomNotificationDiag *>(this->_uiManager->getWindowList()["CustomNotificationDiag"].get())->setDataText("An internal error occured.");
+    this->_uiManager->showWindow("CustomNotificationDiag");
 }
 
 LoginDiag::~LoginDiag()
