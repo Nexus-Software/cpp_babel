@@ -37,7 +37,7 @@ bool babel::Account::getIsOnline() const
   return this->_isOnline;
 }
 
-const std::unordered_map<std::string, babel::Account> &babel::Account::getContactList() const
+const std::vector<std::string> &babel::Account::getContactList() const
 {
   return this->_contactList;
 }
@@ -50,4 +50,19 @@ void babel::Account::setPassword(const std::string &password)
 void babel::Account::setIsOnline(bool isOnline)
 {
   this->_isOnline = isOnline;
+}
+
+bool babel::Account::addContact(const std::string &login)
+{
+  this->_contactList.push_back(login);
+  return false;
+}
+
+bool babel::Account::removeContact(const std::string &login)
+{
+  if (std::find(this->_contactList.begin(), this->_contactList.end(), login) == this->_contactList.end())
+    return false;
+  auto it = std::find(this->_contactList.begin(), this->_contactList.end(), login);
+  this->_contactList.erase(it);
+  return false;
 }
