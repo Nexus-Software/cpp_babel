@@ -12,13 +12,14 @@
 #define SERVER_ICMD_HPP
 
 #include <vector>
+#include "BabelNetworkMacro.hpp"
 
 namespace babel
 {
   class ICmd
   {
    public:
-    virtual bool run(std::vector<char> data) = 0;
+    virtual bool run(size_t tunnelId, char data[B_NETWORK_BUFFER_SIZE]) = 0;
   };
 }
 

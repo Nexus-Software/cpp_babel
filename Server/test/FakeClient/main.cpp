@@ -22,12 +22,12 @@ int main()
 
   socket.connect(endpoint);
 
-  std::uint32_t i = 2;
+  std::uint32_t i = 1;
   socket.write_some(boost::asio::buffer(&i, 4));
   i = 64;
   socket.write_some(boost::asio::buffer(&i, 4));
   socket.write_some(boost::asio::buffer("Admin\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32));
-  socket.write_some(boost::asio::buffer("Admin\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32));
+  socket.write_some(boost::asio::buffer("Passs\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32));
   socket.read_some(boost::asio::buffer(&i, 4));
   std::cout << "Received code: " << i << std::endl;
   socket.read_some(boost::asio::buffer(&i, 4));
