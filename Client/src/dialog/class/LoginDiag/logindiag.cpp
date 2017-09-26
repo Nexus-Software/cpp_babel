@@ -64,6 +64,8 @@ void LoginDiag::WaitingForResponse() {
 
 void LoginDiag::SwitchToMainWindow() {
     this->_uiManager.hideWindow("LoginDiag");
+    this->_ui->NicknameField->setText("");
+    this->_ui->PasswordField->setText("");
     this->_uiManager.showWindow("MainWindow");
 }
 
