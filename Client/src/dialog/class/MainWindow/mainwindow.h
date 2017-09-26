@@ -24,8 +24,9 @@ public:
     QListWidget *getFriendsList();
 
 public slots:
-    void OpenAddContactWindow();
     void FilterFriendsList(QString const& filterText);
+    void RedirectToLoginDiag();
+    void OpenAddContactWindow();
 
 private:
     Ui::MainWindow *_ui;
