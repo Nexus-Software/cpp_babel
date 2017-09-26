@@ -22,7 +22,6 @@ public:
     ~AddContactDiag();
 
 public slots:
-    //void FilterNamesList(QString const&);
     void AddSelectedContact();
     void CloseContactWindow();
 
