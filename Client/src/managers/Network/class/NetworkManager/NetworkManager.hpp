@@ -5,7 +5,7 @@
 #include "Status.hpp"
 #include "QNetworkTcpClient.hpp"
 
-# define IP_VPS "149.202.42.41"
+# define IP_MAIN_SERVER "149.202.42.41"
 
 namespace babel {
 	class BabelClientManager;
