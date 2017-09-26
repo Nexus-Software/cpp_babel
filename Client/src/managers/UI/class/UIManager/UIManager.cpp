@@ -11,7 +11,9 @@ babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
         {"MainWindow", std::make_shared<MainWindow>(nullptr, *this)},
         {"ReceiveCallDiag", std::make_shared<ReceiveCallDiag>(nullptr, *this)},
         {"SignupDiag", std::make_shared<SignupDiag>(nullptr, *this)}
-    })
+    }),
+    _nickname("Anonymous"),
+    _friendsOnline(0)
 {
 	std::cout << "UIManager created" << std::endl;
 }
@@ -60,6 +62,16 @@ babel::Status const                                                 babel::UIMan
     return (babel::Status(0, "UIManager 'saveNicknameFromLoginToSignupDiag()' worked without error"));
 }
 
+babel::Status const                                                 babel::UIManager::refreshGeneralInformations()
+{
+    dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getGeneralInformations()->setText("<html><head/><body><p><span style=\" font-size:10pt;\">Welcome\
+                                                                                                          </span><span style=\" font-size:10pt; font-weight:600;\">" + this->_nickname + "</span><span style=\"\
+                                                                                                          font-size:10pt;\"> !</span></p><p><span style=\" font-size:10pt;\">There are </span><span style=\"\
+                                                                                                          font-size:10pt; font-weight:600;\">" + QString::number(this->_friendsOnline) + "</span><span style=\" font-size:10pt;\">\
+                                                                                                          friends connected.</span></p></body></html>");
+    return (babel::Status(0, "UIManager 'changeNicknameGeneralInformations()' worked without error"));
+}
+
 babel::Status const                                                 babel::UIManager::saveNicknameFromSignupToLoginDiag(QString const& nickname)
 {
     dynamic_cast<LoginDiag *>(this->_windowList["LoginDiag"].get())->getNicknameField()->setText(nickname);
@@ -71,6 +83,16 @@ babel::Status const                                                 babel::UIMan
     dynamic_cast<CustomNotificationDiag *>(this->_windowList["CustomNotificationDiag"].get())->setDataText(dataText);
     this->showWindow("CustomNotificationDiag");
     return (babel::Status(0, "UIManager 'showErrorDialog()' worked without error"));
+}
+
+void                                                                babel::UIManager::setNickname(QString const& nickname)
+{
+    this->_nickname = nickname;
+}
+
+void                                                                babel::UIManager::setFriendsOnline(quint32 const& friendsOnline)
+{
+    this->_friendsOnline = friendsOnline;
 }
 
 babel::BabelClientManager                                           &babel::UIManager::getRoot()

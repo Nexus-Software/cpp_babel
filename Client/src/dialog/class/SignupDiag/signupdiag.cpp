@@ -67,7 +67,10 @@ void SignupDiag::WaitingForResponse() {
     this->enableAllObjects(false);
     // v This + if that nickname isn't not already registered v
     if (this->_ui->PasswordField->text() == this->_ui->ConfirmField->text())
+    {
+        this->_uiManager.setNickname(this->_ui->NicknameField->text());
         emit ConnectionAllowed();
+    }
     else
         emit ConnectionDenied();
     this->enableAllObjects(true);
@@ -78,6 +81,7 @@ void SignupDiag::SwitchToMainWindow() {
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
     this->_ui->ConfirmField->setText("");
+    this->_uiManager.refreshGeneralInformations();
     this->_uiManager.showWindow("MainWindow");
 }
 

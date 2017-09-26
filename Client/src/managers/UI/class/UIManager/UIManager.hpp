@@ -34,11 +34,17 @@ namespace babel {
             //LoginDiag methods
             babel::Status const                                         saveNicknameFromLoginToSignupDiag(QString const& nickname);
 
+            //MainWindow methods
+            babel::Status const                                         refreshGeneralInformations();
+
             //SignupDiag methods
             babel::Status const                                         saveNicknameFromSignupToLoginDiag(QString const& nickname);
 
             //Miscellanous methods
             babel::Status const                                         showErrorDialog(QString const& dataText);
+
+            void                                                        setNickname(QString const& nickname);
+            void                                                        setFriendsOnline(quint32 const& friendsOnline);
 
             babel::BabelClientManager                                   &getRoot();
             babel::BabelClientManager const                             &getRoot() const;
@@ -46,7 +52,8 @@ namespace babel {
 		private:
             babel::BabelClientManager                                   &_root;
             std::unordered_map<std::string, std::shared_ptr<QWidget>>   _windowList;
-
+            QString                                                     _nickname;
+            quint32                                                     _friendsOnline;
 	};
 }
 
