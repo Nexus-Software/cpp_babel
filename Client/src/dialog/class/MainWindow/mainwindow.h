@@ -25,6 +25,7 @@ public:
 
 public slots:
     void OpenAddContactWindow();
+    void FilterFriendsList(QString const& filterText);
 
 private:
     Ui::MainWindow *_ui;
