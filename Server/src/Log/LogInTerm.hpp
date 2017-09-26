@@ -24,17 +24,17 @@ namespace babel {
       return static_cast<std::size_t>(t);
     }
   };
-  
+
   class LogInTerm
   {
    public:
     enum class LevelLog {
-      DEFAULT = 0,
-      INFO = 1,
-      SUCCESS = 2,
-      WARNING = 3,
-      ERROR = 4,
-      FATAL_ERROR = 5
+      DEFAULT 	= 0,
+      INFO 	= 1,
+      SUCCESS,
+      WARNING,
+      ERROR,
+      FATAL_ERROR
     };
 
    private:
