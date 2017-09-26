@@ -25,7 +25,7 @@ namespace babel
     CmdSignUp(Server &server);
     virtual ~CmdSignUp();
 
-    virtual bool run(size_t tunnelId, char data[B_NETWORK_BUFFER_SIZE]);
+    virtual bool run(size_t tunnelId, NetworkData data);
   };
 }
 
