@@ -23,8 +23,8 @@ public:
     QString const       getDataText() const;
 
 private:
-    Ui::CustomNotificationDiag *_ui;
-    babel::UIManager &_uiManager;
+    Ui::CustomNotificationDiag  *_ui;
+    babel::UIManager            &_uiManager;
 };
 
 #endif // CUSTOMNOTIFICATIONDIAG_H

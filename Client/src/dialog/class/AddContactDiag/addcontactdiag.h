@@ -22,7 +22,7 @@ public:
     ~AddContactDiag();
 
 public slots:
-    void AddSelectedContact();
+    void AddContact();
     void CloseContactWindow();
 
 private:
