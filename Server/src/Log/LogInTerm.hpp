@@ -11,6 +11,7 @@
 #ifndef SERVER_LOGINTERM_HPP
 #define SERVER_LOGINTERM_HPP
 
+#include <memory>
 #include <iostream>
 #include <unordered_map>
 
