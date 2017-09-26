@@ -5,6 +5,9 @@ project(babel)
 set(APP_DIR ./)
 
 include_directories(
+	# NETWORK
+	${APP_DIR}/src/network/interface/
+	${APP_DIR}/src/network/class/QNetworkTcpClient/
     # DIALOG
     ${APP_DIR}/src/dialog/class/AddContactDiag/
     ${APP_DIR}/src/dialog/class/CustomNotificationDiag/
