@@ -39,12 +39,13 @@ bool babel::QNetworkTcpClient::write()
 {
 	if(this->_socket->state() == QAbstractSocket::ConnectedState)
 	{
+		// TODO : Finish write
 		// this->_socket->write(QByteArray);
-		return this->_socket->waitForBytesWritten();
+		// return this->_socket->waitForBytesWritten();
+		return true;
 	}
 	else
 		return false;
-	return true;
 }
 
 bool babel::QNetworkTcpClient::connected()
