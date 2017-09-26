@@ -56,7 +56,7 @@ QPushButton         *SignupDiag::getRegisterButton()
 
 void SignupDiag::SwitchToLoginWindow() {
     this->_uiManager.hideWindow("SignupDiag");
-    this->_uiManager.saveNicknameFromSignupToLoginDiag(this->_ui->NicknameField->text());
+    this->_uiManager.saveNicknameFromSignupToLoginDiag(this->_ui->NicknameField->text().toStdString());
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
     this->_ui->ConfirmField->setText("");
@@ -68,7 +68,7 @@ void SignupDiag::WaitingForResponse() {
     // v This + if that nickname isn't not already registered v
     if (this->_ui->PasswordField->text() == this->_ui->ConfirmField->text())
     {
-        this->_uiManager.setNickname(this->_ui->NicknameField->text());
+        this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
         emit ConnectionAllowed();
     }
     else
