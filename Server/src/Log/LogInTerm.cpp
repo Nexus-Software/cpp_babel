@@ -27,9 +27,8 @@ babel::LogInTerm::~LogInTerm()
 
 void babel::LogInTerm::print(const std::string &msg, const LevelLog level) const
 {
-  std::unordered_map<LevelLog, std::function<void(std::string)>>::const_iterator tmp;
-
-  if ((tmp = this->_printTypeFunc.find(level)) != this->_printTypeFunc.end())
+  auto tmp = this->_printTypeFunc.find(level);
+  if (tmp != this->_printTypeFunc.end())
     tmp->second(msg);
   std::cout << msg << std::endl;
 }
