@@ -12,6 +12,8 @@
 #define SERVER_INETWORKMANAGER_HPP
 
 #include <string>
+#include <array>
+#include "../Protocol/NetworkData.hpp"
 
 namespace babel
 {
@@ -26,24 +28,15 @@ namespace babel
     void setIsAuth(bool isAuth) { this->isAuth = isAuth; };
   };
 
-  struct dataToWrite
-  {
-    dataToWrite() {};
-    dataToWrite(std::uint32_t code, std::uint32_t size, void *data): code(code), size(size), data(data) {};
-    std::uint32_t 		code;
-    std::uint32_t 		size;
-    void 			*data;
-  };
-
   class INetworkManager
   {
    public:
     virtual void acceptClient() = 0;
 
-    virtual bool write(size_t tunnelId, dataToWrite data) = 0;
-    virtual bool write(std::string login, dataToWrite data) = 0;
+    virtual bool write(size_t tunnelId, NetworkData data) = 0;
+    virtual bool write(std::string login, NetworkData data) = 0;
 
-    virtual bool writeForAll(dataToWrite data) = 0;
+    virtual bool writeForAll(NetworkData data) = 0;
 
     virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId) = 0;
   };

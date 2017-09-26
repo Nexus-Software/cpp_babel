@@ -20,9 +20,9 @@ babel::CmdSignUp::~CmdSignUp()
 {
 }
 
-bool babel::CmdSignUp::run(size_t tunnelId, char data[B_NETWORK_BUFFER_SIZE])
+bool babel::CmdSignUp::run(size_t tunnelId,  NetworkData data)
 {
-  std::string dataToString(reinterpret_cast<const char *>(data), 64);
+  std::string dataToString(reinterpret_cast<const char *>(data.data.data()), 64);
 
   std::string login(dataToString.begin(), dataToString.begin() + 31);
   std::string password(dataToString.begin() + 32, dataToString.end());
@@ -31,7 +31,7 @@ bool babel::CmdSignUp::run(size_t tunnelId, char data[B_NETWORK_BUFFER_SIZE])
 
   if (!this->_server.getAccountManager().add(login, password))
     {
-      this->_server.getNetworkManager().get()->write(tunnelId, dataToWrite(502, 0, NULL));
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(502, 0, {}));
       return false;
     }
 
@@ -39,6 +39,6 @@ bool babel::CmdSignUp::run(size_t tunnelId, char data[B_NETWORK_BUFFER_SIZE])
   this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setIsAuth(true);
   this->_server.getAccountManager().getAccountByLogin(login).setIsOnline(true);
 
-  this->_server.getNetworkManager().get()->write(tunnelId, dataToWrite(42, 0, NULL));
+  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(42, 0, {}));
   return true;
 }
