@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>320</width>
-    <height>421</height>
+    <height>163</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,7 +54,7 @@
           <number>5</number>
          </property>
          <item alignment="Qt::AlignTop">
-          <widget class="QLineEdit" name="FilterNameField">
+          <widget class="QLineEdit" name="SearchNameField">
            <property name="font">
             <font>
              <family>Tahoma</family>
@@ -74,26 +74,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3" stretch="10,2">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <property name="leftMargin">
-          <number>5</number>
-         </property>
-         <property name="topMargin">
-          <number>5</number>
-         </property>
-         <property name="rightMargin">
-          <number>5</number>
-         </property>
-         <property name="bottomMargin">
-          <number>5</number>
-         </property>
-         <item>
-          <widget class="QListWidget" name="NamesList"/>
-         </item>
-        </layout>
-       </item>
+      <layout class="QVBoxLayout" name="verticalLayout_3" stretch="2">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item alignment="Qt::AlignTop">
@@ -143,6 +124,9 @@
          </property>
          <property name="text">
           <string>Close</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

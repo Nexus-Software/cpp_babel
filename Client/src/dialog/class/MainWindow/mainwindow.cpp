@@ -13,9 +13,20 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager *uiManager) :
     this->_ui->WindowSplitter->setSizes(sizes);
 
     QObject::connect(this->_ui->ActionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
+    QObject::connect(this->_ui->AddContactButton, SIGNAL(clicked()), this, SLOT(OpenAddContactWindow()));
 }
 
 MainWindow::~MainWindow()
 {
     delete (this->_ui);
+}
+
+QListWidget *MainWindow::getFriendsList()
+{
+    return (this->_ui->FriendsList);
+}
+
+void MainWindow::OpenAddContactWindow()
+{
+    this->_uiManager->showWindow("AddContactDiag");
 }
