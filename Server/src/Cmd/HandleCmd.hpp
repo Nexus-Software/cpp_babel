@@ -11,6 +11,7 @@
 #ifndef SERVER_HANDLECMD_HPP
 #define SERVER_HANDLECMD_HPP
 
+#include <memory>
 #include <unordered_map>
 #include <string>
 #include "Interfaces/ICmd.hpp"

@@ -23,18 +23,29 @@ namespace babel {
 			UIManager(babel::BabelClientManager&);
             ~UIManager();
 
-            babel::Status const                                                 showWindow(std::string const& windowName);
-            babel::Status const                                                 hideWindow(std::string const& windowName);
+            babel::Status const                                         showWindow(QString const& windowName);
+            babel::Status const                                         hideWindow(QString const& windowName);
 
-            babel::Status const                                                 start();
+            babel::Status const                                         start();
 
-            babel::BabelClientManager                                           &getRoot();
-            babel::BabelClientManager const                                     &getRoot() const;
-            std::unordered_map<std::string, std::shared_ptr<QWidget>>           &getWindowList();
+            //AddContactDiag methods
+            babel::Status const                                         addContactToFriendsList(QString const& contactName);
+
+            //LoginDiag methods
+            babel::Status const                                         saveNicknameFromLoginToSignupDiag(QString const& nickname);
+
+            //SignupDiag methods
+            babel::Status const                                         saveNicknameFromSignupToLoginDiag(QString const& nickname);
+
+            //Miscellanous methods
+            babel::Status const                                         showErrorDialog(QString const& dataText);
+
+            babel::BabelClientManager                                   &getRoot();
+            babel::BabelClientManager const                             &getRoot() const;
 
 		private:
-			babel::BabelClientManager&											_root;
-            std::unordered_map<std::string, std::shared_ptr<QWidget>>           _windowList;
+            babel::BabelClientManager                                   &_root;
+            std::unordered_map<std::string, std::shared_ptr<QWidget>>   _windowList;
 
 	};
 }

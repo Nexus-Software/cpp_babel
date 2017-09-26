@@ -11,23 +11,34 @@
 #ifndef SERVER_LOGINTERM_HPP
 #define SERVER_LOGINTERM_HPP
 
+#include <memory>
 #include <iostream>
 #include <unordered_map>
 
 namespace babel {
+  struct EnumClassHash
+  {
+    template <typename T>
+    std::size_t operator()(T t) const
+    {
+      return static_cast<std::size_t>(t);
+    }
+  };
+
   class LogInTerm
   {
    public:
     enum class LevelLog {
-      DEFAULT = 0,
-      INFO,
+      DEFAULT 	= 0,
+      INFO 	= 1,
       SUCCESS,
       WARNING,
       ERROR,
       FATAL_ERROR
     };
+
    private:
-    std::unordered_map<LevelLog, std::function<void(const std::string)>> _printTypeFunc;
+    std::unordered_map<LevelLog, std::function<void(const std::string)>, babel::EnumClassHash> _printTypeFunc;
    public:
     LogInTerm();
     ~LogInTerm();

@@ -1,7 +1,7 @@
 #include "signupdiag.h"
 #include "ui_signupdiag.h"
 
-SignupDiag::SignupDiag(QWidget *parent, babel::UIManager *uiManager) :
+SignupDiag::SignupDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
     _ui(new Ui::SignupDiag),
     _uiManager(uiManager)
@@ -55,11 +55,12 @@ QPushButton         *SignupDiag::getRegisterButton()
 }
 
 void SignupDiag::SwitchToLoginWindow() {
-    this->_uiManager->hideWindow("SignupDiag");
-    dynamic_cast<LoginDiag *>(this->_uiManager->getWindowList()["LoginDiag"].get())->getNicknameField()->setText(this->_ui->NicknameField->text());
+    this->_uiManager.hideWindow("SignupDiag");
+    this->_uiManager.saveNicknameFromSignupToLoginDiag(this->_ui->NicknameField->text());
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
-    this->_uiManager->showWindow("LoginDiag");
+    this->_ui->ConfirmField->setText("");
+    this->_uiManager.showWindow("LoginDiag");
 }
 
 void SignupDiag::WaitingForResponse() {
@@ -73,11 +74,13 @@ void SignupDiag::WaitingForResponse() {
 }
 
 void SignupDiag::SwitchToMainWindow() {
-    this->_uiManager->hideWindow("SignupDiag");
-    this->_uiManager->showWindow("MainWindow");
+    this->_uiManager.hideWindow("SignupDiag");
+    this->_ui->NicknameField->setText("");
+    this->_ui->PasswordField->setText("");
+    this->_ui->ConfirmField->setText("");
+    this->_uiManager.showWindow("MainWindow");
 }
 
 void SignupDiag::ShowErrorDialog() {
-    dynamic_cast<CustomNotificationDiag *>(this->_uiManager->getWindowList()["CustomNotificationDiag"].get())->setDataText("An internal error occured.");
-    this->_uiManager->showWindow("CustomNotificationDiag");
+    this->_uiManager.showErrorDialog("An internal error occured.");
 }
