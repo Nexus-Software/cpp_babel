@@ -59,6 +59,7 @@ void SignupDiag::SwitchToLoginWindow() {
     this->_uiManager.saveNicknameFromSignupToLoginDiag(this->_ui->NicknameField->text());
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
+    this->_ui->ConfirmField->setText("");
     this->_uiManager.showWindow("LoginDiag");
 }
 
@@ -74,6 +75,9 @@ void SignupDiag::WaitingForResponse() {
 
 void SignupDiag::SwitchToMainWindow() {
     this->_uiManager.hideWindow("SignupDiag");
+    this->_ui->NicknameField->setText("");
+    this->_ui->PasswordField->setText("");
+    this->_ui->ConfirmField->setText("");
     this->_uiManager.showWindow("MainWindow");
 }
 
