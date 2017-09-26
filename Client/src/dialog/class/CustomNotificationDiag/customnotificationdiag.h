@@ -16,7 +16,7 @@ class CustomNotificationDiag : public QDialog
     Q_OBJECT
 
 public:
-    explicit CustomNotificationDiag(QWidget *parent = 0, babel::UIManager *uiManager = 0);
+    explicit CustomNotificationDiag(QWidget *parent, babel::UIManager &uiManager);
     ~CustomNotificationDiag();
 
     void                setDataText(QString const& dataText);
@@ -24,7 +24,7 @@ public:
 
 private:
     Ui::CustomNotificationDiag *_ui;
-    babel::UIManager *_uiManager;
+    babel::UIManager &_uiManager;
 };
 
 #endif // CUSTOMNOTIFICATIONDIAG_H

@@ -18,7 +18,7 @@ class AddContactDiag : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddContactDiag(QWidget *parent = 0, babel::UIManager *uiManager = 0);
+    explicit AddContactDiag(QWidget *parent, babel::UIManager &uiManager);
     ~AddContactDiag();
 
 public slots:
@@ -27,7 +27,7 @@ public slots:
 
 private:
     Ui::AddContactDiag  *_ui;
-    babel::UIManager    *_uiManager;
+    babel::UIManager    &_uiManager;
 };
 
 #endif // ADDCONTACTDIAG_H

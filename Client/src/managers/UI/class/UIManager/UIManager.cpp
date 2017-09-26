@@ -5,12 +5,12 @@ babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
 :
     _root(ancestor),
     _windowList({
-        {"AddContactDiag", std::make_shared<AddContactDiag>(nullptr, this)},
-        {"CustomNotificationDiag", std::make_shared<CustomNotificationDiag>(nullptr, this)},
-        {"LoginDiag", std::make_shared<LoginDiag>(nullptr, this)},
-        {"MainWindow", std::make_shared<MainWindow>(nullptr, this)},
-        {"ReceiveCallDiag", std::make_shared<ReceiveCallDiag>(nullptr, this)},
-        {"SignupDiag", std::make_shared<SignupDiag>(nullptr, this)}
+        {"AddContactDiag", std::make_shared<AddContactDiag>(nullptr, *this)},
+        {"CustomNotificationDiag", std::make_shared<CustomNotificationDiag>(nullptr, *this)},
+        {"LoginDiag", std::make_shared<LoginDiag>(nullptr, *this)},
+        {"MainWindow", std::make_shared<MainWindow>(nullptr, *this)},
+        {"ReceiveCallDiag", std::make_shared<ReceiveCallDiag>(nullptr, *this)},
+        {"SignupDiag", std::make_shared<SignupDiag>(nullptr, *this)}
     })
 {
 	std::cout << "UIManager created" << std::endl;

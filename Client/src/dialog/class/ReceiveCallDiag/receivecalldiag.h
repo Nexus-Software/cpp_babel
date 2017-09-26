@@ -16,12 +16,12 @@ class ReceiveCallDiag : public QDialog
     Q_OBJECT
 
 public:
-    explicit ReceiveCallDiag(QWidget *parent = 0, babel::UIManager *uiManager = 0);
+    explicit ReceiveCallDiag(QWidget *parent, babel::UIManager &uiManager);
     ~ReceiveCallDiag();
 
 private:
     Ui::ReceiveCallDiag *_ui;
-    babel::UIManager *_uiManager;
+    babel::UIManager &_uiManager;
 };
 
 #endif // RECEIVECALLDIAG_H

@@ -18,7 +18,7 @@ class LoginDiag : public QDialog
     Q_OBJECT
 
 public:
-    explicit LoginDiag(QWidget *parent = 0, babel::UIManager *uiManager = 0);
+    explicit LoginDiag(QWidget *parent, babel::UIManager &uiManager);
     ~LoginDiag();
 
     void                enableAllObjects(bool const areDisabled);
@@ -40,7 +40,7 @@ signals:
 
 private:
     Ui::LoginDiag *_ui;
-    babel::UIManager *_uiManager;
+    babel::UIManager &_uiManager;
 };
 
 #endif // LOGINDIAG_H
