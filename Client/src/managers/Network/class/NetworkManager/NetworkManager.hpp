@@ -5,6 +5,8 @@
 #include "Status.hpp"
 #include "QNetworkTcpClient.hpp"
 
+# define IP_VPN "149.202.42.41"
+
 namespace babel {
 	class BabelClientManager;
 } // babel
