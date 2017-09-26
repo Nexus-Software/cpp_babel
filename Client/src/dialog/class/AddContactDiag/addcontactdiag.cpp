@@ -24,7 +24,8 @@ void AddContactDiag::AddSelectedContact()
 
     // Asks the server to check if the user does really exists
     // v Temporary not adding duplicated names v
-    if (friendsList && !friendsList->findItems(this->_ui->SearchNameField->text(), Qt::MatchExactly).count())
+    if (friendsList && this->_ui->SearchNameField->text().length() &&
+        !friendsList->findItems(this->_ui->SearchNameField->text(), Qt::MatchExactly).count())
         friendsList->addItem(this->_ui->SearchNameField->text());
 }
 
