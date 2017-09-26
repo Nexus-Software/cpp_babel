@@ -9,7 +9,7 @@ AddContactDiag::AddContactDiag(QWidget *parent, babel::UIManager &uiManager) :
     this->_ui->setupUi(this);
     this->setFixedSize(this->size());
 
-    QObject::connect(this->_ui->AddContactButton, SIGNAL(clicked()), this, SLOT(AddSelectedContact()));
+    QObject::connect(this->_ui->AddContactButton, SIGNAL(clicked()), this, SLOT(AddContact()));
     QObject::connect(this->_ui->CloseButton, SIGNAL(clicked()), this, SLOT(CloseContactWindow()));
 }
 
@@ -18,15 +18,9 @@ AddContactDiag::~AddContactDiag()
     delete (this->_ui);
 }
 
-void AddContactDiag::AddSelectedContact()
+void AddContactDiag::AddContact()
 {
-    QListWidget *friendsList = dynamic_cast<MainWindow *>(this->_uiManager.getWindowList()["MainWindow"].get())->getFriendsList();
-
-    // Asks the server to check if the user does really exists
-    // v Temporary not adding duplicated names v
-    if (friendsList && this->_ui->SearchNameField->text().length() &&
-        !friendsList->findItems(this->_ui->SearchNameField->text(), Qt::MatchExactly).count())
-        friendsList->addItem(this->_ui->SearchNameField->text());
+    this->_uiManager.addContactToFriendsList(this->_ui->SearchNameField->text());
 }
 
 void AddContactDiag::CloseContactWindow()

@@ -45,7 +45,7 @@ QPushButton         *LoginDiag::getConnectButton()
 
 void LoginDiag::SwitchToSignupWindow() {
     this->_uiManager.hideWindow("LoginDiag");
-    dynamic_cast<SignupDiag *>(this->_uiManager.getWindowList()["SignupDiag"].get())->getNicknameField()->setText(this->_ui->NicknameField->text());
+    this->_uiManager.saveNicknameFromLoginToSignupDiag(this->_ui->NicknameField->text());
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
     this->_uiManager.showWindow("SignupDiag");
@@ -68,8 +68,7 @@ void LoginDiag::SwitchToMainWindow() {
 }
 
 void LoginDiag::ShowErrorDialog() {
-    dynamic_cast<CustomNotificationDiag *>(this->_uiManager.getWindowList()["CustomNotificationDiag"].get())->setDataText("An internal error occured.");
-    this->_uiManager.showWindow("CustomNotificationDiag");
+    this->_uiManager.showErrorDialog("An internal error occured.");
 }
 
 LoginDiag::~LoginDiag()
