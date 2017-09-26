@@ -90,9 +90,8 @@ void babel::NetworkManagerBoost::removeTunnel(NetworkTcpServerTunnelBoost::point
 
 babel::TunnelInfo babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size_t tunnelId)
 {
-  std::unordered_map<size_t, TunnelInfo>::iterator it;
-
-  if ((it = this->_tunnelInfo.find(tunnelId)) != this->_tunnelInfo.end())
+  auto it = this->_tunnelInfo.find(tunnelId);
+  if (it != this->_tunnelInfo.end())
     return (*it).second;
   // Todo: Run error
   return TunnelInfo();

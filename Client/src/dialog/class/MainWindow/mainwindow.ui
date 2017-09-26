@@ -216,81 +216,6 @@
                 <property name="dragEnabled">
                  <bool>true</bool>
                 </property>
-                <item>
-                 <property name="text">
-                  <string>Contact 1</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 2</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 3</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 4</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 5</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 6</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 7</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 8</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 9</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 10</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 11</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 12</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 13</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 14</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Contact 15</string>
-                 </property>
-                </item>
                </widget>
               </item>
              </layout>
@@ -436,7 +361,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
+  <widget class="QMenuBar" name="MenuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -445,32 +370,32 @@
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFile">
+   <widget class="QMenu" name="MenuConnections">
     <property name="title">
      <string>Connections</string>
     </property>
-    <addaction name="actionConnect"/>
-    <addaction name="actionDisconnect"/>
+    <addaction name="ActionConnect"/>
+    <addaction name="ActionDisconnect"/>
     <addaction name="separator"/>
-    <addaction name="actionQuit"/>
+    <addaction name="ActionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuSettings">
+   <widget class="QMenu" name="MenuTools">
     <property name="title">
      <string>Tools</string>
     </property>
-    <addaction name="actionSettings_2"/>
+    <addaction name="ActionSettings"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
+   <widget class="QMenu" name="MenuHelp">
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionSettings"/>
+    <addaction name="ActionAboutUs"/>
    </widget>
-   <addaction name="menuFile"/>
-   <addaction name="menuSettings"/>
-   <addaction name="menuHelp"/>
+   <addaction name="MenuConnections"/>
+   <addaction name="MenuTools"/>
+   <addaction name="MenuHelp"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
+  <widget class="QToolBar" name="MainToolBar">
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -479,22 +404,22 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <action name="actionConnect">
+  <action name="ActionConnect">
    <property name="text">
     <string>Connect</string>
    </property>
   </action>
-  <action name="actionDisconnect">
+  <action name="ActionDisconnect">
    <property name="text">
     <string>Disconnect</string>
    </property>
   </action>
-  <action name="actionSettings">
+  <action name="ActionAboutUs">
    <property name="text">
     <string>About us</string>
    </property>
   </action>
-  <action name="actionSettings_2">
+  <action name="ActionSettings">
    <property name="text">
     <string>Settings</string>
    </property>
@@ -502,7 +427,7 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionQuit">
+  <action name="ActionQuit">
    <property name="text">
     <string>Quit</string>
    </property>
