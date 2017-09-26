@@ -37,7 +37,7 @@ void MainWindow::FilterFriendsList(QString const& filterText)
 {
     QList<QListWidgetItem *> filteredList = this->_ui->FriendsList->findItems(filterText, Qt::MatchContains);
 
-    if (filterText.length())
+    if (filterText.isEmpty())
     {
         for (int i = 0; i < this->_ui->FriendsList->count(); i++)
             this->_ui->FriendsList->item(i)->setHidden(true);
