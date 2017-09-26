@@ -30,7 +30,6 @@ bool babel::QNetworkTcpClient::connectToTcpHost(const std::string& ip, int port)
 bool babel::QNetworkTcpClient::disconnect()
 {
 	std::cout << "About to disconnect from the host" << std::endl;
-    // TODO: UDP close all
     this->_socket->disconnectFromHost();
 	return true;
 }
