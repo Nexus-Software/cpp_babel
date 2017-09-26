@@ -27,6 +27,7 @@ namespace babel {
 			virtual bool disconnect(void);
 
 		public slots:
+			bool connected(void);
 			bool readEvent(void);
 			bool displayError(QAbstractSocket::SocketError socketError);
 	};

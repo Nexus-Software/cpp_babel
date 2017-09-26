@@ -9,6 +9,7 @@ babel::QNetworkTcpClient::QNetworkTcpClient()
 	this->_in.setDevice(this->_socket);
     this->_in.setVersion(QDataStream::Qt_4_0);
 
+    QObject::connect(this->_socket, SIGNAL(connected()), this, SLOT(connected()));
     QObject::connect(this->_socket, SIGNAL(readyRead()), this, SLOT(readEvent()));
     QObject::connect(this->_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &QNetworkTcpClient::displayError);
     // connect(tcpSocket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error),
@@ -23,6 +24,7 @@ babel::QNetworkTcpClient::~QNetworkTcpClient()
 bool babel::QNetworkTcpClient::connectToTcpHost(const std::string& ip, int port)
 {
 	std::cout << "Connection to the host" << std::endl;
+	std::cout << "Connection to the host at " << ip << ":" << port << std::endl;
 	this->_socket->abort();
 	this->_socket->connectToHost(QString::fromStdString(ip), port);
 	return true;
@@ -32,6 +34,7 @@ bool babel::QNetworkTcpClient::disconnect()
 {
 	std::cout << "About to disconnect from the host" << std::endl;
 	// Disconnect from host and close all connections
+    this->_socket->disconnectFromHost();
 	return true;
 }
 
@@ -41,8 +44,15 @@ bool babel::QNetworkTcpClient::write()
 	return true;
 }
 
+bool babel::QNetworkTcpClient::connected()
+{
+    std::cout << "Connected !" << std::endl;
+    this->write();
+}
+
 bool babel::QNetworkTcpClient::readEvent()
 {
+    std::cout << "read event triggered" << std::endl;
 	this->_in.startTransaction();
 
 	std::cout << "New data available, reading it..." << std::endl;
