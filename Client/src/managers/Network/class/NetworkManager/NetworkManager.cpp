@@ -8,7 +8,7 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 	_networkTcp(std::make_shared<babel::QNetworkTcpClient>())
 {
 	std::cout << "NetworkManager created" << std::endl;
-	this->_networkTcp->connectToTcpHost(IP_VPN, 4546);
+	this->_networkTcp->connectToTcpHost(IP_VPS, 4546);
 }
 
 babel::NetworkManager::~NetworkManager() {
