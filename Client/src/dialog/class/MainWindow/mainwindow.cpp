@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
     QObject::connect(this->_ui->FilterFriendField, SIGNAL(textChanged(QString const&)), this, SLOT(FilterFriendsList(QString const&)));
     QObject::connect(this->_ui->ActionDisconnect, SIGNAL(triggered()), this, SLOT(RedirectToLoginDiag()));
     QObject::connect(this->_ui->ActionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
+    QObject::connect(this->_ui->FriendsList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(SelectedFriendClicked(QListWidgetItem *)));
     QObject::connect(this->_ui->AddContactButton, SIGNAL(clicked()), this, SLOT(OpenAddContactWindow()));
 }
 
@@ -61,6 +62,16 @@ void                    MainWindow::RedirectToLoginDiag()
 {
     this->_uiManager.hideWindow("MainWindow");
     this->_uiManager.showWindow("LoginDiag");
+}
+
+void                    MainWindow::SelectedFriendClicked(QListWidgetItem *selectedContact)
+{
+    this->_ui->SelectedContactInformations->setText("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
+                                                    selectedContact->data(0).toString() +
+                                                    "</span></p><p style=\"margin: 2px\"><span style=\" font-style:italic; color:#56b921;\">Online</span></p></body></html>");
+    this->_ui->SelectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+    this->_ui->MessageSendButton->setEnabled(true);
+    this->_ui->MessageSendField->setEnabled(true);
 }
 
 void                    MainWindow::OpenAddContactWindow()
