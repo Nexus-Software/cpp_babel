@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QListWidget>
+#include "UIManager.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +20,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0, babel::UIManager *uiManager = 0);
     ~MainWindow();
+
+    QListWidget *getFriendsList();
+
+public slots:
+    void OpenAddContactWindow();
 
 private:
     Ui::MainWindow *_ui;
