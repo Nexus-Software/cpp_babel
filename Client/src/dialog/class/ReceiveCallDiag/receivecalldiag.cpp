@@ -1,7 +1,7 @@
 #include "receivecalldiag.h"
 #include "ui_receivecalldiag.h"
 
-ReceiveCallDiag::ReceiveCallDiag(QWidget *parent, babel::UIManager *uiManager) :
+ReceiveCallDiag::ReceiveCallDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
     _ui(new Ui::ReceiveCallDiag),
     _uiManager(uiManager)

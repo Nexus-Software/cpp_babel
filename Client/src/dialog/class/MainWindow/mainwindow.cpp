@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent, babel::UIManager *uiManager) :
+MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
     QMainWindow(parent),
     _ui(new Ui::MainWindow),
     _uiManager(uiManager)
@@ -29,7 +29,7 @@ QListWidget *MainWindow::getFriendsList()
 
 void MainWindow::OpenAddContactWindow()
 {
-    this->_uiManager->showWindow("AddContactDiag");
+    this->_uiManager.showWindow("AddContactDiag");
     this->_ui->FilterFriendField->setText("");
 }
 

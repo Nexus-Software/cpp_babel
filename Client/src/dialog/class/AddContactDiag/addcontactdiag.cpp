@@ -1,7 +1,7 @@
 #include "addcontactdiag.h"
 #include "ui_addcontactdiag.h"
 
-AddContactDiag::AddContactDiag(QWidget *parent, babel::UIManager *uiManager) :
+AddContactDiag::AddContactDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
     _ui(new Ui::AddContactDiag),
     _uiManager(uiManager)
@@ -20,7 +20,7 @@ AddContactDiag::~AddContactDiag()
 
 void AddContactDiag::AddSelectedContact()
 {
-    QListWidget *friendsList = dynamic_cast<MainWindow *>(this->_uiManager->getWindowList()["MainWindow"].get())->getFriendsList();
+    QListWidget *friendsList = dynamic_cast<MainWindow *>(this->_uiManager.getWindowList()["MainWindow"].get())->getFriendsList();
 
     // Asks the server to check if the user does really exists
     // v Temporary not adding duplicated names v
@@ -31,5 +31,5 @@ void AddContactDiag::AddSelectedContact()
 
 void AddContactDiag::CloseContactWindow()
 {
-    this->_uiManager->hideWindow("AddContactDiag");
+    this->_uiManager.hideWindow("AddContactDiag");
 }

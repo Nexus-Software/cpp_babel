@@ -17,7 +17,7 @@ class SignupDiag : public QDialog
     Q_OBJECT
 
 public:
-    explicit SignupDiag(QWidget *parent = 0, babel::UIManager *uiManager = 0);
+    explicit SignupDiag(QWidget *parent, babel::UIManager &uiManager);
     ~SignupDiag();
 
     void                enableAllObjects(bool const areDisabled);
@@ -40,7 +40,7 @@ signals:
 
 private:
     Ui::SignupDiag *_ui;
-    babel::UIManager *_uiManager;
+    babel::UIManager &_uiManager;
 };
 
 #endif // SIGNUPDIAG_H
