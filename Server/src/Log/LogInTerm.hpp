@@ -16,6 +16,15 @@
 #include <unordered_map>
 
 namespace babel {
+  struct EnumClassHash
+  {
+    template <typename T>
+    std::size_t operator()(T t) const
+    {
+      return static_cast<std::size_t>(t);
+    }
+  };
+  
   class LogInTerm
   {
    public:
@@ -27,8 +36,9 @@ namespace babel {
       ERROR = 4,
       FATAL_ERROR = 5
     };
+
    private:
-    std::unordered_map<LevelLog, std::function<void(const std::string)>> _printTypeFunc;
+    std::unordered_map<LevelLog, std::function<void(const std::string)>, babel::EnumClassHash> _printTypeFunc;
    public:
     LogInTerm();
     ~LogInTerm();
