@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager *uiManager) :
     QList<int> sizes;
     sizes << 30 << 350;
     this->_ui->WindowSplitter->setSizes(sizes);
+
+    QObject::connect(this->_ui->ActionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()

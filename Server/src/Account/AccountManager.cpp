@@ -41,18 +41,16 @@ bool babel::AccountManager::remove(std::string login)
 
 babel::Account babel::AccountManager::getAccountByLogin(const std::string login)
 {
-  std::unordered_map<std::string, Account>::iterator it;
-
-  if ((it = this->_accountList.find(login)) != this->_accountList.end())
+  auto it = this->_accountList.find(login);
+  if (it != this->_accountList.end())
     return (*it).second;
   throw babel::AccountManagerException("Account not found for login: " + login);
 }
 
 babel::Account const babel::AccountManager::getAccountByLogin(const std::string login) const
 {
-  std::unordered_map<std::string, Account>::const_iterator it;
-
-  if ((it = this->_accountList.find(login)) != this->_accountList.end())
+  auto it = this->_accountList.find(login);
+  if (it != this->_accountList.end())
     return (*it).second;
   throw babel::AccountManagerException("Account not found for login: " + login);
 }
@@ -63,3 +61,20 @@ const std::unordered_map<std::string, babel::Account> &babel::AccountManager::ge
 }
 
 
+bool babel::AccountManager::addContact(const std::string &login_req, const std::string &login)
+{
+  try
+    {
+      this->getAccountByLogin(login);
+    }
+  catch (babel::AccountManagerException & e)
+    {
+      return false;
+    }
+  return this->_server.getAccountManager().getAccountByLogin(login_req).addContact(login);
+}
+
+bool babel::AccountManager::removeContact(const std::string &login_req, const std::string &login)
+{
+  return this->getAccountByLogin(login_req).removeContact(login);
+}
