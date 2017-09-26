@@ -21,11 +21,11 @@ namespace babel {
    public:
     enum class LevelLog {
       DEFAULT = 0,
-      INFO,
-      SUCCESS,
-      WARNING,
-      ERROR,
-      FATAL_ERROR
+      INFO = 1,
+      SUCCESS = 2,
+      WARNING = 3,
+      ERROR = 4,
+      FATAL_ERROR = 5
     };
    private:
     std::unordered_map<LevelLog, std::function<void(const std::string)>> _printTypeFunc;
