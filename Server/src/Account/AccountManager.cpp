@@ -41,18 +41,16 @@ bool babel::AccountManager::remove(std::string login)
 
 babel::Account babel::AccountManager::getAccountByLogin(const std::string login)
 {
-  std::unordered_map<std::string, Account>::iterator it;
-
-  if ((it = this->_accountList.find(login)) != this->_accountList.end())
+  auto it = this->_accountList.find(login);
+  if (it != this->_accountList.end())
     return (*it).second;
   throw babel::AccountManagerException("Account not found for login: " + login);
 }
 
 babel::Account const babel::AccountManager::getAccountByLogin(const std::string login) const
 {
-  std::unordered_map<std::string, Account>::const_iterator it;
-
-  if ((it = this->_accountList.find(login)) != this->_accountList.end())
+  auto it = this->_accountList.find(login);
+  if (it != this->_accountList.end())
     return (*it).second;
   throw babel::AccountManagerException("Account not found for login: " + login);
 }
