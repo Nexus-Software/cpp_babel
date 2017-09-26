@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
     this->_ui->WindowSplitter->setSizes(sizes);
 
     QObject::connect(this->_ui->FilterFriendField, SIGNAL(textChanged(QString const&)), this, SLOT(FilterFriendsList(QString const&)));
+    QObject::connect(this->_ui->ActionDisconnect, SIGNAL(triggered()), this, SLOT(RedirectToLoginDiag()));
     QObject::connect(this->_ui->ActionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(this->_ui->AddContactButton, SIGNAL(clicked()), this, SLOT(OpenAddContactWindow()));
 }
@@ -25,12 +26,6 @@ MainWindow::~MainWindow()
 QListWidget *MainWindow::getFriendsList()
 {
     return (this->_ui->FriendsList);
-}
-
-void MainWindow::OpenAddContactWindow()
-{
-    this->_uiManager.showWindow("AddContactDiag");
-    this->_ui->FilterFriendField->setText("");
 }
 
 void MainWindow::FilterFriendsList(QString const& filterText)
@@ -55,4 +50,16 @@ void MainWindow::FilterFriendsList(QString const& filterText)
         for (int i = 0; i < this->_ui->FriendsList->count(); i++)
             this->_ui->FriendsList->item(i)->setHidden(false);
     }
+}
+
+void MainWindow::RedirectToLoginDiag()
+{
+    this->_uiManager.hideWindow("MainWindow");
+    this->_uiManager.showWindow("LoginDiag");
+}
+
+void MainWindow::OpenAddContactWindow()
+{
+    this->_uiManager.showWindow("AddContactDiag");
+    this->_ui->FilterFriendField->setText("");
 }
