@@ -2,7 +2,6 @@
 # define BABEL_NETWORKMANAGER_HPP_
 
 #include <memory>
-#include <array>
 #include "Status.hpp"
 #include "QNetworkTcpClient.hpp"
 
