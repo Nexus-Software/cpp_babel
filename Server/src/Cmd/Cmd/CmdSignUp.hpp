@@ -11,7 +11,6 @@
 #ifndef SERVER_CMDSIGNUP_HPP
 #define SERVER_CMDSIGNUP_HPP
 
-
 #include "../HandleCmd.hpp"
 
 namespace babel
