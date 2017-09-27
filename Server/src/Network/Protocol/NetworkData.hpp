@@ -24,6 +24,24 @@ namespace babel
     std::uint32_t 		size;
     std::array<char, 2048> 	data;
   };
+
+  struct CLIENT_CONTACT_STRUCT
+  {
+    char		login[32];
+    std::uint8_t	isOnline;
+  };
+
+  struct CLIENT_CALL_STRUCT
+  {
+    char		login[32];
+    char 		ip[15];
+    std::uint32_t	port;
+  };
+
+  struct NetworkDataJoin
+  {
+    std::uint32_t 	idCall;
+  };
 #pragma pack(pop)
 }
 
