@@ -18,6 +18,7 @@
 #include "Interfaces/ICmd.hpp"
 #include "Cmd/CmdSignUp.hpp"
 #include "Cmd/CmdLogIn.hpp"
+#include "Cmd/CmdContactAdd.hpp"
 #include "Cmd/CmdContactDelete.hpp"
 #include "BabelNetworkMacro.hpp"
 
