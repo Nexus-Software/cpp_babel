@@ -18,14 +18,14 @@ babel::GlobalMediaManager& babel::AudioManager::getParent() const
 	return this->_parent;
 }
 
-bool babel::AudioManager::playSound(void)
+bool 	babel::AudioManager::playSound(B_SAMPLE sample, int size)
 {
-	return false;
+	return this->_audio.play(sample, size);
 }
 
-bool babel::AudioManager::getSound(void)
+B_SAMPLE babel::AudioManager::recordSound(void)
 {
-	return false;
+	return this->_audio.record();
 }
 
 bool babel::AudioManager::encodeSound(void)
@@ -36,4 +36,11 @@ bool babel::AudioManager::encodeSound(void)
 bool babel::AudioManager::decodeSound(void)
 {
 	return false;
+}
+bool babel::AudioManager::setStreamState(bool state)
+{
+	if (state)
+		this->_audio.startStream();
+	else
+		this->_audio.stopStream();
 }

@@ -23,10 +23,11 @@ namespace babel {
 
 		// Sound methods
 		public:
-			bool 	playSound(void);
-			bool 	getSound(void);
-			bool 	encodeSound(void);
-			bool 	decodeSound(void);
+			bool 		playSound(B_SAMPLE, int);
+			B_SAMPLE 	recordSound(void);
+			bool 		encodeSound(void);
+			bool 		decodeSound(void);
+			bool 		setAudioStreamState(bool);
 
 
 	};

@@ -5,17 +5,19 @@
 #ifndef AUDIO_HPP_
 # define AUDIO_HPP_
 
-#include <cstdio>
-#include <cstdlib>
 #include <iostream>
-#include <queue>
+#include <array>
 #include "portaudio.h"
 
 #define SAMPLE_RATE			(44100)
 #define FRAMES_PER_BUFFER	(512)
 #define NUM_SECONDS			(1)
+#define LATENCY_CONSTANT	(10)
 #define NUM_CHANNELS		(2)
-#define DITHER_FLAG			(0)
+
+#define RECORD_SIZE			(SAMPLE_RATE * NUM_CHANNELS)
+
+typedef std::array<float, RECORD_SIZE> B_SAMPLE;
 
 namespace babel
 {
@@ -26,8 +28,7 @@ namespace babel
 		PaError		_err;
 
 	private:
-		float*		_recordedData;
-		int			_sizeRecordedData;
+		B_SAMPLE	_recordedData;
 
 	private:
 		bool		_record;
@@ -44,11 +45,11 @@ namespace babel
 	public:
 		int			startStream(bool record = true, bool difuse = true);
 		int			stopStream(void);
-		bool 		play(float*, int);
-		float*		record(void);
+		bool 		play(B_SAMPLE, int);
+		B_SAMPLE	record(void);
 
 	public:
-		float		*getRecord(void) const;
+		B_SAMPLE	getRecord(void) const;
 		int			getRecordSize(void) const;
 
 	public:

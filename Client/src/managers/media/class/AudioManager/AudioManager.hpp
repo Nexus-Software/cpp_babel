@@ -20,10 +20,11 @@ namespace babel {
 
 		public:
 			babel::GlobalMediaManager&	getParent(void) const;
-			bool 						playSound(void);
-			bool 						getSound(void);
+			bool 						playSound(B_SAMPLE, int);
+			B_SAMPLE					recordSound(void);
 			bool 						encodeSound(void);
 			bool 						decodeSound(void);
+			bool 						setStreamState(bool);
 	};
 }
 

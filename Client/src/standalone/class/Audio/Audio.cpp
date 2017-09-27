@@ -4,17 +4,18 @@
 
 #include "Audio.hpp"
 
-
 /////////////////////////////////////////////
 //---------CONSTRUCTOR-DESTRUCTOR----------//
 /////////////////////////////////////////////
 
 babel::Audio::Audio(void)
 {
+	this->initialize();
 }
 
 babel::Audio::~Audio(void)
 {
+	this->terminate();
 }
 
 /////////////////////////////////////////////
@@ -43,9 +44,8 @@ int		babel::Audio::terminate(void)
 
 int		babel::Audio::startStream(bool record, bool difuse)
 {
-	PaStreamParameters  inputParameters;
-	PaStreamParameters  outputParameters;
-	float				*sample;
+	PaStreamParameters		inputParameters;
+	PaStreamParameters		outputParameters;
 
 	this->_record = this->_difuse = false;
 
@@ -58,7 +58,7 @@ int		babel::Audio::startStream(bool record, bool difuse)
 		}
 		inputParameters.channelCount = NUM_CHANNELS;
 		inputParameters.sampleFormat = paFloat32;
-		inputParameters.suggestedLatency = Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
+		inputParameters.suggestedLatency = LATENCY_CONSTANT * Pa_GetDeviceInfo(inputParameters.device)->defaultLowInputLatency;
 		inputParameters.hostApiSpecificStreamInfo = NULL;
 	}
 	
@@ -72,14 +72,8 @@ int		babel::Audio::startStream(bool record, bool difuse)
 
 		outputParameters.channelCount = NUM_CHANNELS;
 		outputParameters.sampleFormat = paFloat32;
-		outputParameters.suggestedLatency = Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
+		outputParameters.suggestedLatency = LATENCY_CONSTANT * Pa_GetDeviceInfo(outputParameters.device)->defaultLowOutputLatency;
 		outputParameters.hostApiSpecificStreamInfo = NULL;
-	}
-
-	if ((sample = new float[NUM_SECONDS * SAMPLE_RATE * NUM_CHANNELS]) == NULL)
-	{
-		std::cerr << "Error: Malloc failed." << std::endl;
-		return (1);
 	}
 
 	if (record && difuse)
@@ -91,30 +85,23 @@ int		babel::Audio::startStream(bool record, bool difuse)
 	else
 	{
 		std::cerr << "Warning: Stream not open: Please select at least one of the 2 choices." << std::endl;
-		delete sample;
 		return (1);
 	}
 
 	if (this->_err != paNoError)
 	{
 		std::cerr << "Error: An error occured when opening the stream." << std::endl;
-		delete sample;
 		return (1);
 	}
 
 	if ((this->_err = Pa_StartStream(this->_stream)) != paNoError)
 	{
 		std::cerr << "Error: An error occured when starting the stream." << std::endl;
-		delete sample;
 		return (1);
 	}
 
-	if (this->_recordedData)
-		delete this->_recordedData;
-	this->_recordedData = sample;
 	this->_record = record;
 	this->_difuse = difuse;
-	this->_sizeRecordedData = NUM_SECONDS * SAMPLE_RATE * NUM_CHANNELS;
 	return (0);
 }
 
@@ -133,9 +120,6 @@ int		babel::Audio::stopStream(void)
 	}
 
 	this->_record = this->_difuse = false;
-	if (this->_recordedData)
-		delete this->_recordedData;
-	this->_sizeRecordedData = 0;
 	return (0);
 }
 
@@ -143,14 +127,14 @@ int		babel::Audio::stopStream(void)
 //-----------------GETTER------------------//
 /////////////////////////////////////////////
 
-float	*babel::Audio::getRecord(void) const
+B_SAMPLE	babel::Audio::getRecord(void) const
 {
-	return (this->_recordedData);
+	return this->_recordedData;
 }
 
 int		babel::Audio::getRecordSize(void) const
 {
-	return (this->_sizeRecordedData);
+	return RECORD_SIZE;
 }
 
 /////////////////////////////////////////////
@@ -159,36 +143,33 @@ int		babel::Audio::getRecordSize(void) const
 
 void	babel::Audio::cleanRecord(void)
 {
-	for (auto i = 0; i < this->_sizeRecordedData; i++)
-		this->_recordedData = 0;
+	this->_recordedData = {0};
 }
 
 /////////////////////////////////////////////
 //-----------------ACTION------------------//
 /////////////////////////////////////////////
 
-float* 	babel::Audio::record()
+B_SAMPLE 	babel::Audio::record()
 {
-	float* buffer;
-
-	buffer = new float[this->_sizeRecordedData];
+	B_SAMPLE buffer;
 
 	if ((this->_err = Pa_IsStreamActive(this->_stream)) != 1)
 	{
 		std::cerr << "Error: Can't run the stream: Stream inactive." << std::endl;
-		return (nullptr);
+		return {0};
 	}
 	
-	if ((this->_err = Pa_ReadStream(this->_stream, buffer, this->_sizeRecordedData / NUM_CHANNELS)) != paNoError)
+	if ((this->_err = Pa_ReadStream(this->_stream, buffer.data(), RECORD_SIZE / NUM_CHANNELS)) != paNoError)
 	{
 		std::cerr << "Error: An error occured when recording stream: " << Pa_GetErrorText(this->_err) << std::endl;
-		return (nullptr);
+		return {0};
 	}
 
 	return buffer;
 }
 
-bool 	babel::Audio::play(float* audio, int size)
+bool 	babel::Audio::play(B_SAMPLE audio, int size)
 {
 	if ((this->_err = Pa_IsStreamActive(this->_stream)) != 1)
 	{
@@ -196,7 +177,7 @@ bool 	babel::Audio::play(float* audio, int size)
 		return false;
 	}
 	
-	if ((this->_err = Pa_WriteStream(this->_stream, audio, size / NUM_CHANNELS)) != paNoError)
+	if ((this->_err = Pa_WriteStream(this->_stream, audio.data(), RECORD_SIZE / NUM_CHANNELS)) != paNoError)
 	{
 		std::cerr << "Error: An error occured when reading stream: " << Pa_GetErrorText(this->_err) << std::endl;
 		return false;

@@ -20,14 +20,14 @@ babel::BabelClientManager& babel::GlobalMediaManager::getRoot(void) const
 }
 
 // SOUND
-bool 	babel::GlobalMediaManager::playSound()
+bool 		babel::GlobalMediaManager::playSound(B_SAMPLE sample, int size)
 {
-	return this->_audioManager.playSound();
+	return this->_audioManager.playSound(sample, size);
 }
 
-bool 	babel::GlobalMediaManager::getSound()
+B_SAMPLE 	babel::GlobalMediaManager::recordSound()
 {
-	return this->_audioManager.getSound();
+	return this->_audioManager.recordSound();
 }
 
 bool 	babel::GlobalMediaManager::encodeSound()
@@ -38,4 +38,9 @@ bool 	babel::GlobalMediaManager::encodeSound()
 bool 	babel::GlobalMediaManager::decodeSound()
 {
 	return this->_audioManager.decodeSound();
+}
+
+bool 	babel::GlobalMediaManager::setAudioStreamState(bool state)
+{
+	this->_audioManager.setStreamState(state);
 }
