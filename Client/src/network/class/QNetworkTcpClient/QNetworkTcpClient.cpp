@@ -34,13 +34,12 @@ bool babel::QNetworkTcpClient::disconnect()
 	return true;
 }
 
-bool babel::QNetworkTcpClient::write()
+bool babel::QNetworkTcpClient::write(babel::t_babelPackedData& st)
 {
 	if(this->_socket->state() == QAbstractSocket::ConnectedState)
 	{
-		// TODO : Finish write
-		// this->_socket->write(QByteArray);
-		// return this->_socket->waitForBytesWritten();
+		QByteArray ba(reinterpret_cast<char *>(&st), sizeof(st));
+		this->_socket->write(ba);
 		return true;
 	}
 	else
@@ -50,7 +49,18 @@ bool babel::QNetworkTcpClient::write()
 bool babel::QNetworkTcpClient::connected()
 {
     std::cout << "Connected !" << std::endl;
-    this->write();
+    // TODO: REMOVE that, it's an example
+    std::array<char, 2048> ba = {0};
+   	std::string username = "Admin\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+	std::string password = "Pass\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+	std::copy(username.begin(), username.end(), ba.begin());
+	std::copy(password.begin(), password.end(), ba.begin() + 32);
+	babel::t_babelPackedData t;
+	t.code = 1;
+	t.size = 64;
+	t.data = ba;
+	// ---------------------------
+    this->write(t);
 }
 
 bool babel::QNetworkTcpClient::readEvent()
