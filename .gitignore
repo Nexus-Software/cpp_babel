@@ -1,9 +1,8 @@
 # Ignore the build and lib dirs
 build
-lib/*
 
 # Ignore any executables
-bin
+*.exe
 
 # Ignore Mac and VS specific files
 .DS_Store
