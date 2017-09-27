@@ -15,7 +15,9 @@ babel::HandleCmd::HandleCmd(babel::Server &server):
 	_server(server),
 	_cmdList({
 			 {1, std::make_shared<CmdSignUp>(this->_server)},
-			 {2, std::make_shared<CmdLogIn>(this->_server)}
+			 {2, std::make_shared<CmdLogIn>(this->_server)},
+			 {3, std::make_shared<CmdContactDelete>(this->_server)},
+			 {4, std::make_shared<CmdContactAdd>(this->_server)}
 		})
 {
 }
