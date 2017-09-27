@@ -10,7 +10,6 @@
 #include <iostream>
 #include <queue>
 #include "portaudio.h"
-#include "IAudio.hpp"
 
 #define SAMPLE_RATE			(44100)
 #define FRAMES_PER_BUFFER	(512)
@@ -20,7 +19,7 @@
 
 namespace babel
 {
-	class Audio : public IAudio
+	class Audio
 	{
 	private:
 		PaStream	*_stream;
