@@ -22,12 +22,10 @@ babel::CmdLogIn::~CmdLogIn()
 
 }
 
-bool babel::CmdLogIn::run(size_t tunnelId, char *data)
+bool babel::CmdLogIn::run(size_t tunnelId,  NetworkData data)
 {
-  std::string dataToString(reinterpret_cast<const char *>(data), 64);
-
-  std::string login(dataToString.begin(), dataToString.begin() + 31);
-  std::string password(dataToString.begin() + 32, dataToString.end());
+  std::string login(data.data.begin(), data.data.begin() + 31);
+  std::string password(data.data.begin() + 32, data.data.begin() + 64);
 
   std::cout << "Login: " << login << " - Password: " << password << std::endl;
 
@@ -37,9 +35,9 @@ bool babel::CmdLogIn::run(size_t tunnelId, char *data)
       this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setIsAuth(true);
       this->_server.getAccountManager().getAccountByLogin(login).setIsOnline(true);
 
-      this->_server.getNetworkManager().get()->write(tunnelId, dataToWrite(42, 0, NULL));
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(42, 0, {}));
       return true;
     }
-  this->_server.getNetworkManager().get()->write(tunnelId, dataToWrite(503, 0, NULL));
+  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(503, 0, {}));
   return false;
 }

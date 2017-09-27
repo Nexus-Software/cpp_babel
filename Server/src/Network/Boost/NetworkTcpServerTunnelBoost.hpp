@@ -27,18 +27,10 @@ namespace babel {
   class NetworkTcpServerTunnelBoost : public boost::enable_shared_from_this<NetworkTcpServerTunnelBoost>
   {
    protected:
-    struct Header
-    {
-      std::uint32_t	_actionCode;
-      std::uint32_t	_dataSize;
-    };
-
-   protected:
     Server					&_server;
     boost::asio::ip::tcp::socket	 	_socket;
 
-    Header					_headerRead;
-    char					_dataRead[B_NETWORK_BUFFER_SIZE];
+    struct NetworkData				_dataRead;
 
     size_t 					_tunnelId;
    public:
@@ -58,18 +50,16 @@ namespace babel {
    public:
     NetworkTcpServerTunnelBoost(Server &server, boost::asio::io_service& io_service);
 
-    void write(dataToWrite data);
+    void write(NetworkData data);
 
     void close();
 
     const size_t & getTunnelId() const;
     void setTunnelId(size_t tunnelId);
    private:
-    void readHeader();
-    void readData();
+    void read();
 
-    void handleHeaderRead(const boost::system::error_code& error);
-    void handleDataRead(const boost::system::error_code& error);
+    void handleRead(const boost::system::error_code& error);
 
     void handleWrite(const boost::system::error_code &error);
   };

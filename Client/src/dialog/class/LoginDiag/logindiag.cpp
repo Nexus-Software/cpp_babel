@@ -45,7 +45,7 @@ QPushButton         *LoginDiag::getConnectButton()
 
 void LoginDiag::SwitchToSignupWindow() {
     this->_uiManager.hideWindow("LoginDiag");
-    this->_uiManager.saveNicknameFromLoginToSignupDiag(this->_ui->NicknameField->text());
+    this->_uiManager.saveNicknameFromLoginToSignupDiag(this->_ui->NicknameField->text().toStdString());
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
     this->_uiManager.showWindow("SignupDiag");
@@ -56,7 +56,10 @@ void LoginDiag::WaitingForResponse() {
     // Request to the server if credentials are correct
     // Here are temporary connection
     if (this->_ui->NicknameField->text() == "Cauvin" && this->_ui->PasswordField->text() == "1235")
+    {
+        this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
         emit ConnectionAllowed();
+    }
     else
         emit ConnectionDenied();
     this->enableAllObjects(true);
@@ -66,6 +69,7 @@ void LoginDiag::SwitchToMainWindow() {
     this->_uiManager.hideWindow("LoginDiag");
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
+    this->_uiManager.refreshGeneralInformations();
     this->_uiManager.showWindow("MainWindow");
 }
 

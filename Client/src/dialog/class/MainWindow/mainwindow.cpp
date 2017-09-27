@@ -23,12 +23,17 @@ MainWindow::~MainWindow()
     delete (this->_ui);
 }
 
-QListWidget *MainWindow::getFriendsList()
+QListWidget             *MainWindow::getFriendsList()
 {
     return (this->_ui->FriendsList);
 }
 
-void MainWindow::FilterFriendsList(QString const& filterText)
+QLabel                  *MainWindow::getGeneralInformations()
+{
+    return (this->_ui->GeneralInformations);
+}
+
+void                    MainWindow::FilterFriendsList(QString const& filterText)
 {
     QList<QListWidgetItem *> filteredList = this->_ui->FriendsList->findItems(filterText, Qt::MatchContains);
 
@@ -52,13 +57,13 @@ void MainWindow::FilterFriendsList(QString const& filterText)
     }
 }
 
-void MainWindow::RedirectToLoginDiag()
+void                    MainWindow::RedirectToLoginDiag()
 {
     this->_uiManager.hideWindow("MainWindow");
     this->_uiManager.showWindow("LoginDiag");
 }
 
-void MainWindow::OpenAddContactWindow()
+void                    MainWindow::OpenAddContactWindow()
 {
     this->_uiManager.showWindow("AddContactDiag");
     this->_ui->FilterFriendField->setText("");

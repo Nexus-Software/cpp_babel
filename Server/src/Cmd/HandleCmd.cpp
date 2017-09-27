@@ -15,7 +15,9 @@ babel::HandleCmd::HandleCmd(babel::Server &server):
 	_server(server),
 	_cmdList({
 			 {1, std::make_shared<CmdSignUp>(this->_server)},
-			 {2, std::make_shared<CmdLogIn>(this->_server)}
+			 {2, std::make_shared<CmdLogIn>(this->_server)},
+			 {3, std::make_shared<CmdContactDelete>(this->_server)},
+			 {4, std::make_shared<CmdContactAdd>(this->_server)}
 		})
 {
 }
@@ -25,7 +27,7 @@ babel::HandleCmd::~HandleCmd()
 
 }
 
-bool babel::HandleCmd::execCmd(size_t tunnelId, std::uint32_t code, char data[B_NETWORK_BUFFER_SIZE])
+bool babel::HandleCmd::execCmd(size_t tunnelId, NetworkData data)
 {
   /* dataToWrite data1;
   std::uint32_t nb = 32;
@@ -41,7 +43,7 @@ bool babel::HandleCmd::execCmd(size_t tunnelId, std::uint32_t code, char data[B_
 
   std::unordered_map<std::uint32_t, std::shared_ptr<ICmd>>::iterator it;
 
-  if ((it = this->_cmdList.find(code)) != this->_cmdList.end())
+  if ((it = this->_cmdList.find(data.code)) != this->_cmdList.end())
     {
       (*it).second.get()->run(tunnelId, data);
       std::cout << "CMD FOUND" << std::endl;

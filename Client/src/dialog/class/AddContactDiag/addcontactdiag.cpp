@@ -20,7 +20,7 @@ AddContactDiag::~AddContactDiag()
 
 void AddContactDiag::AddContact()
 {
-    this->_uiManager.addContactToFriendsList(this->_ui->SearchNameField->text());
+    this->_uiManager.addContactToFriendsList(this->_ui->SearchNameField->text().toStdString());
 }
 
 void AddContactDiag::CloseContactWindow()
