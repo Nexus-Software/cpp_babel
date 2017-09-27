@@ -50,9 +50,16 @@ babel::Status const                                                 babel::UIMan
 
     // Asks the server to check if the user does really exists
     // v Temporary not adding duplicated names v
-    if (friendsList && contactName.length() &&
-        !friendsList->findItems(QString::fromStdString(contactName), Qt::MatchExactly).count())
-        friendsList->addItem(QString::fromStdString(contactName));
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'addContactToFriendsList()': friendsList was null"));
+    else
+    {
+        if (friendsList->count() == 50)
+            this->showErrorDialog("The friends limit has been reached (50).");
+        else if (contactName.length() &&
+            !friendsList->findItems(QString::fromStdString(contactName), Qt::MatchExactly).count())
+          friendsList->addItem(QString::fromStdString(contactName));
+    }
     return (babel::Status(0, "UIManager 'addContactToFriendsList()' worked without error"));
 }
 
