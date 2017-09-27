@@ -34,12 +34,11 @@ bool babel::QNetworkTcpClient::disconnect()
 	return true;
 }
 
-bool babel::QNetworkTcpClient::write(const babel::t_babelPackedData& st)
+bool babel::QNetworkTcpClient::write(babel::t_babelPackedData& st)
 {
 	if(this->_socket->state() == QAbstractSocket::ConnectedState)
 	{
-		babel::t_babelPackedData dataToWrite = st;
-		QByteArray ba(reinterpret_cast<char *>(&dataToWrite), sizeof(dataToWrite));
+		QByteArray ba(reinterpret_cast<char *>(&st), sizeof(st));
 		this->_socket->write(ba);
 		return true;
 	}

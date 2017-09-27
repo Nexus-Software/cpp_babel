@@ -23,7 +23,7 @@ namespace babel {
 	
 		public:
 			virtual bool connectToTcpHost(const std::string&, int)	= 0;
-			virtual bool write(const babel::t_babelPackedData&)		= 0;
+			virtual bool write(babel::t_babelPackedData&)		= 0;
 			virtual bool disconnect(void)							= 0;
 	};
 } // babel

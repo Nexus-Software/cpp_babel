@@ -25,7 +25,7 @@ namespace babel {
 		
 		public:
 			virtual bool connectToTcpHost(const std::string&, int);
-			virtual bool write(const babel::t_babelPackedData&);
+			virtual bool write(babel::t_babelPackedData&);
 			virtual bool disconnect(void);
 
 		public slots:
