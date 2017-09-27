@@ -26,7 +26,21 @@ namespace babel {
 
     virtual ~AccountManagerException () throw () {}
 
-    virtual const char* what() const throw () { return this->_msg.c_str(); }
+    virtual const char* what() const throw () { return std::string("AccountManagerException: " + this->_msg).c_str(); }
+  };
+
+  class NetworkManagerException : public std::exception
+  {
+   protected:
+    std::string _msg;
+   public:
+
+    explicit NetworkManagerException(const char* message): _msg(message) {}
+    explicit NetworkManagerException (const std::string& message): _msg(message) {}
+
+    virtual ~NetworkManagerException () throw () {}
+
+    virtual const char* what() const throw () { return std::string("NetworkManagerException: " + this->_msg).c_str(); }
   };
 }
 
