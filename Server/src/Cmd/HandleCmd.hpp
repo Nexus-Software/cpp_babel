@@ -14,6 +14,7 @@
 #include <memory>
 #include <unordered_map>
 #include <string>
+#include "../Network/Protocol/NetworkData.hpp"
 #include "Interfaces/ICmd.hpp"
 #include "Cmd/CmdSignUp.hpp"
 #include "Cmd/CmdLogIn.hpp"
@@ -32,7 +33,7 @@ namespace babel
     HandleCmd(Server &server);
     ~HandleCmd();
 
-    bool execCmd(size_t tunnelId, std::uint32_t code, char data[B_NETWORK_BUFFER_SIZE]);
+    bool execCmd(size_t tunnelId, NetworkData data);
   };
 }
 

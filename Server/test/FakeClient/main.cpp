@@ -14,23 +14,30 @@
 
 using boost::asio::ip::tcp;
 
+#pragma pack(push, 1)
+struct network_data {
+  std::uint32_t proto_code;
+  std::uint32_t proto_size;
+  std::array<char, 2048> body;
+};
+#pragma pack(pop)
+
 int main()
 {
   boost::asio::io_service ios;
   tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 4546);
   tcp::socket socket(ios);
-
   socket.connect(endpoint);
 
-  std::uint32_t i = 2;
-  socket.write_some(boost::asio::buffer(&i, 4));
-  i = 64;
-  socket.write_some(boost::asio::buffer(&i, 4));
-  socket.write_some(boost::asio::buffer("Admin\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32));
-  socket.write_some(boost::asio::buffer("Passs\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32));
-  socket.read_some(boost::asio::buffer(&i, 4));
-  std::cout << "Received code: " << i << std::endl;
-  socket.read_some(boost::asio::buffer(&i, 4));
-  std::cout << "Received size: " << i << std::endl;
+  network_data data = {0};
+  data.proto_code = 1;
+  data.proto_size = 64;
+  std::memcpy(data.body.data(), "Admin\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32);
+  std::memcpy(data.body.data() + 32, "Admin\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", 32);
+  socket.write_some(boost::asio::buffer(&data, sizeof(data)));
+  socket.read_some(boost::asio::buffer(&data, sizeof(data)));
+  std::cout << "Received code: " << data.proto_code << std::endl;
+  std::cout << "Received size: " << data.proto_size << std::endl;
+  while (1);
   return 0;
 }

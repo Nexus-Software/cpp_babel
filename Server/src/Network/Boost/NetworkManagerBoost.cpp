@@ -28,20 +28,20 @@ void babel::NetworkManagerBoost::acceptClient()
   this->_tcpServer.waitClient();
 }
 
-bool babel::NetworkManagerBoost::write(size_t tunnelId, dataToWrite data)
+bool babel::NetworkManagerBoost::write(size_t tunnelId, NetworkData data)
 {
   // Todo: Check if tunnel is not in
   this->_tunnelList.at(tunnelId).get()->write(data);
   return 0;
 }
 
-bool babel::NetworkManagerBoost::write(std::string login, dataToWrite data)
+bool babel::NetworkManagerBoost::write(std::string login, NetworkData data)
 {
   // Todo: Not implement yet
   return 0;
 }
 
-bool babel::NetworkManagerBoost::writeForAll(dataToWrite data)
+bool babel::NetworkManagerBoost::writeForAll(NetworkData data)
 {
   for (auto it = this->_tunnelList.begin() ; it != this->_tunnelList.end() ; it++)
     {

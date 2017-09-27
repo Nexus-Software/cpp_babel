@@ -19,7 +19,7 @@ namespace babel
   class ICmd
   {
    public:
-    virtual bool run(size_t tunnelId, char data[B_NETWORK_BUFFER_SIZE]) = 0;
+    virtual bool run(size_t tunnelId, NetworkData data) = 0;
   };
 }
 

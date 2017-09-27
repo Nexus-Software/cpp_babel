@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QListWidget>
+#include <QLabel>
 #include "UIManager.hpp"
 
 namespace Ui {
@@ -21,15 +22,17 @@ public:
     explicit MainWindow(QWidget *parent, babel::UIManager &uiManager);
     ~MainWindow();
 
-    QListWidget *getFriendsList();
+    QListWidget         *getFriendsList();
+    QLabel              *getGeneralInformations();
 
 public slots:
-    void OpenAddContactWindow();
     void FilterFriendsList(QString const& filterText);
+    void RedirectToLoginDiag();
+    void OpenAddContactWindow();
 
 private:
-    Ui::MainWindow *_ui;
-    babel::UIManager &_uiManager;
+    Ui::MainWindow      *_ui;
+    babel::UIManager    &_uiManager;
 };
 
 #endif // MAINWINDOW_H

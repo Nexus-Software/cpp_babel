@@ -35,10 +35,10 @@ namespace babel
     virtual void acceptClient();
 
 
-    virtual bool write(size_t tunnelId, dataToWrite data);
-    virtual bool write(std::string login, dataToWrite data);
+    virtual bool write(size_t tunnelId, NetworkData data);
+    virtual bool write(std::string login, NetworkData data);
 
-    virtual bool writeForAll(dataToWrite data);
+    virtual bool writeForAll(NetworkData data);
 
     virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId);
    public:
