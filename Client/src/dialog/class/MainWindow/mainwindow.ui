@@ -133,7 +133,7 @@
                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Welcome &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Maxime&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; !&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;There are &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;42&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; friends connected.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="textFormat">
-               <enum>Qt::RichText</enum>
+               <enum>Qt::AutoText</enum>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -246,7 +246,7 @@
                </font>
               </property>
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p style=&quot;margin: 2px&quot;&gt;&lt;span style=&quot; font-weight:500;&quot;&gt;Jean-Sébastien&lt;/span&gt;&lt;/p&gt;&lt;p style=&quot;margin: 2px&quot;&gt;&lt;span style=&quot; font-style:italic; color:#56b921;&quot;&gt;Online&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#4d4d4d;&quot;&gt;No contact selected&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -273,7 +273,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>404</width>
+                 <width>382</width>
                  <height>392</height>
                 </rect>
                </property>
@@ -299,7 +299,10 @@
                    <number>0</number>
                   </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p style=&quot;margin: 1px;&quot;&gt;[16:32:43] Maxime &amp;gt; Salut !&lt;/p&gt;&lt;p style=&quot;margin: 1px;&quot;&gt;[16:32:56] Jean-Sébastien &amp;gt; yo&lt;/p&gt;&lt;p style=&quot;margin: 1px;&quot;&gt;[16:33:24] Maxime &amp;gt; Ca te dit un Chicken One ?&lt;/p&gt;&lt;p style=&quot;margin: 1px;&quot;&gt;[16:33:34] Jean-Sébastien &amp;gt; Grave, on fait ça dans 10 minutes ?&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#4d4d4d;&quot;&gt;Select someone on the left to chat with someone!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                  <property name="textFormat">
+                   <enum>Qt::RichText</enum>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -325,6 +328,9 @@
                <layout class="QHBoxLayout" name="horizontalLayout_13">
                 <item>
                  <widget class="QLineEdit" name="MessageSendField">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="placeholderText">
                    <string>Send something!</string>
                   </property>
@@ -336,6 +342,9 @@
                <layout class="QHBoxLayout" name="horizontalLayout_11">
                 <item>
                  <widget class="QPushButton" name="MessageSendButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="font">
                    <font>
                     <family>Tahoma</family>
