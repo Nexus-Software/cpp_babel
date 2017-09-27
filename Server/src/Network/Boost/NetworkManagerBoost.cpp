@@ -30,24 +30,45 @@ void babel::NetworkManagerBoost::acceptClient()
 
 bool babel::NetworkManagerBoost::write(size_t tunnelId, NetworkData data)
 {
-  // Todo: Check if tunnel is not in
-  this->_tunnelList.at(tunnelId).get()->write(data);
-  return 0;
+  try
+    {
+      auto tu = this->_tunnelList.at(tunnelId).get();
+      tu->write(data);
+      return true;
+    }
+  catch (std::out_of_range)
+
+    {
+      throw NetworkException("(Boost): Tunnel not found for write (ID:" + std::to_string(tunnelId) + ")");
+    }
 }
 
 bool babel::NetworkManagerBoost::write(std::string login, NetworkData data)
 {
-  // Todo: Not implement yet
-  return 0;
+  try
+    {
+      auto it = this->_tunnelInfo.begin();
+      for (; it != this->_tunnelInfo.end() ; it++)
+	{
+	  if ((*it).second.login.compare((login)))
+	    break ;
+	}
+      if (it == this->_tunnelInfo.end())
+	throw NetworkException("(Boost): Tunnel not found for write (Login:" + login + ")");
+      auto tu = this->_tunnelList.at((*it).first).get();
+      tu->write(data);
+      return true;
+    }
+  catch (std::out_of_range)
+
+    {
+      throw NetworkException("(Boost): Tunnel not found for write (ID:" + login + ")");
+    }
 }
 
 bool babel::NetworkManagerBoost::writeForAll(NetworkData data)
 {
-  for (auto it = this->_tunnelList.begin() ; it != this->_tunnelList.end() ; it++)
-    {
-      (*it).second.get()->write(data);
-    }
-  return 0;
+  return (true);
 }
 
 void babel::NetworkManagerBoost::addTunnel(boost::shared_ptr<NetworkTcpServerTunnelBoost> tunnel)
@@ -68,7 +89,7 @@ void babel::NetworkManagerBoost::addTunnel(boost::shared_ptr<NetworkTcpServerTun
 
   tunnel.get()->setTunnelId(newId);
 
-  this->_server.getLogInTerm().print("NetworkManager (Boost): Add in list new tunnel (" + std::to_string(newId) + ")", LogInTerm::LevelLog::INFO);
+  this->_server.getLogInTerm().print("(Boost): Add in list new tunnel (" + std::to_string(newId) + ")", LogInTerm::LevelLog::INFO);
 }
 
 void babel::NetworkManagerBoost::removeTunnel(NetworkTcpServerTunnelBoost::pointer tunnel)
@@ -82,7 +103,7 @@ void babel::NetworkManagerBoost::removeTunnel(NetworkTcpServerTunnelBoost::point
 	  keyFound = it.first;
 	  this->_tunnelList.erase(keyFound);
 	  this->_tunnelInfo.erase(keyFound);
-	  this->_server.getLogInTerm().print("NetworkManager (Boost): Delete in list tunnel (" + std::to_string(keyFound) + ")", LogInTerm::LevelLog::INFO);
+	  this->_server.getLogInTerm().print("(Boost) Delete in list tunnel (" + std::to_string(keyFound) + ")", LogInTerm::LevelLog::INFO);
 	  break ;
 	}
     }
@@ -93,7 +114,6 @@ babel::TunnelInfo babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size
   auto it = this->_tunnelInfo.find(tunnelId);
   if (it != this->_tunnelInfo.end())
     return (*it).second;
-  // Todo: Run error
-  return TunnelInfo();
+  throw NetworkException("(Boost): Tunnel not found (ID: " + std::to_string(tunnelId) + ")");
 }
 
