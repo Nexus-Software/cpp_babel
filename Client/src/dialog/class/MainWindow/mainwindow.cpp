@@ -60,7 +60,16 @@ void                    MainWindow::FilterFriendsList(QString const& filterText)
 
 void                    MainWindow::RedirectToLoginDiag()
 {
+    QList<QListWidgetItem *> selectedItems = this->_ui->FriendsList->selectedItems();
+
     this->_uiManager.hideWindow("MainWindow");
+    while (this->_ui->FriendsList->count())
+        this->_ui->FriendsList->takeItem(0);
+    this->_ui->SelectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
+    this->_ui->SelectedContactChat->setText("<html><head/><body><p><span style=\"font-style:italic; color:#4d4d4d ;\">Select someone on the left to chat with someone!</span></p></body></html>");
+    this->_ui->MessageSendField->setEnabled(false);
+    this->_ui->MessageSendButton->setEnabled(false);
+    this->_ui->FilterFriendField->setText("");
     this->_uiManager.showWindow("LoginDiag");
 }
 

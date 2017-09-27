@@ -273,7 +273,7 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>404</width>
+                 <width>382</width>
                  <height>392</height>
                 </rect>
                </property>
@@ -299,7 +299,7 @@
                    <number>0</number>
                   </property>
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#4d4d4d;&quot;&gt;Chat empty :(&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic; color:#4d4d4d;&quot;&gt;Select someone on the left to chat with someone!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="textFormat">
                    <enum>Qt::RichText</enum>
