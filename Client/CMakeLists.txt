@@ -38,6 +38,8 @@ include_directories(
 	# ---> UI
 	${APP_DIR}/src/managers/UI/class/UIManager/
 	# STANDALONE
+	# ---> AUDIO
+	${APP_DIR}/src/standalone/class/Audio/
 	# ---> CALL
 	${APP_DIR}/src/standalone/class/Call
 	# ---> CONTACT
