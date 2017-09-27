@@ -135,9 +135,7 @@ int		babel::Audio::stopStream(void)
 	this->_record = this->_difuse = false;
 	if (this->_recordedData)
 		delete this->_recordedData;
-	if (this->_toPlayData)
-		delete this->_toPlayData;
-	this->_sizeRecordedData = this->_sizeToPlayData = 0;
+	this->_sizeRecordedData = 0;
 	return (0);
 }
 
@@ -155,21 +153,6 @@ int		babel::Audio::getRecordSize(void) const
 	return (this->_sizeRecordedData);
 }
 
-int		babel::Audio::getPlayBackSize(void) const
-{
-	return (this->_sizeToPlayData);
-}
-
-/////////////////////////////////////////////
-//-----------------SETTER------------------//
-/////////////////////////////////////////////
-
-void	babel::Audio::setPlayBack(float *playMe, int size)
-{
-	this->_sizeToPlayData = size;
-	this->_toPlayData = playMe;
-}
-
 /////////////////////////////////////////////
 //-----------------CLEANER-----------------//
 /////////////////////////////////////////////
@@ -184,30 +167,39 @@ void	babel::Audio::cleanRecord(void)
 //-----------------ACTION------------------//
 /////////////////////////////////////////////
 
-int		babel::Audio::run(void)
+float* 	babel::Audio::record()
+{
+	float* buffer;
+
+	buffer = new float[this->_sizeRecordedData];
+
+	if ((this->_err = Pa_IsStreamActive(this->_stream)) != 1)
+	{
+		std::cerr << "Error: Can't run the stream: Stream inactive." << std::endl;
+		return (nullptr);
+	}
+	
+	if ((this->_err = Pa_ReadStream(this->_stream, buffer, this->_sizeRecordedData / NUM_CHANNELS)) != paNoError)
+	{
+		std::cerr << "Error: An error occured when recording stream: " << Pa_GetErrorText(this->_err) << std::endl;
+		return (nullptr);
+	}
+
+	return buffer;
+}
+
+bool 	babel::Audio::play(float* audio, int size)
 {
 	if ((this->_err = Pa_IsStreamActive(this->_stream)) != 1)
 	{
 		std::cerr << "Error: Can't run the stream: Stream inactive." << std::endl;
-		return (1);
+		return false;
 	}
-
-	if (this->_record)
+	
+	if ((this->_err = Pa_WriteStream(this->_stream, audio, size / NUM_CHANNELS)) != paNoError)
 	{
-		if ((this->_err = Pa_ReadStream(this->_stream, this->_recordedData, this->_sizeRecordedData / NUM_CHANNELS)) != paNoError)
-		{
-			std::cerr << "Error: An error occured when recording stream: " << Pa_GetErrorText(this->_err) << std::endl;
-			return (1);
-		}
+		std::cerr << "Error: An error occured when reading stream: " << Pa_GetErrorText(this->_err) << std::endl;
+		return false;
 	}
-
-	if (this->_difuse)
-	{
-		if ((this->_err = Pa_WriteStream(this->_stream, this->_toPlayData, this->_sizeToPlayData / NUM_CHANNELS)) != paNoError)
-		{
-			std::cerr << "Error: An error occured when reading stream: " << Pa_GetErrorText(this->_err) << std::endl;
-			return (1);
-		}
-	}
-	return (0);
+	return true;
 }

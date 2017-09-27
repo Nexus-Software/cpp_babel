@@ -13,7 +13,7 @@
 
 #define SAMPLE_RATE			(44100)
 #define FRAMES_PER_BUFFER	(512)
-#define NUM_SECONDS			(2)
+#define NUM_SECONDS			(1)
 #define NUM_CHANNELS		(2)
 #define DITHER_FLAG			(0)
 
@@ -30,10 +30,6 @@ namespace babel
 		int			_sizeRecordedData;
 
 	private:
-		float*		_toPlayData;
-		int			_sizeToPlayData;
-
-	private:
 		bool		_record;
 		bool		_difuse;
 
@@ -47,16 +43,13 @@ namespace babel
 
 	public:
 		int			startStream(bool record = true, bool difuse = true);
-		int			run(void);
 		int			stopStream(void);
+		bool 		play(float*, int);
+		float*		record(void);
 
 	public:
 		float		*getRecord(void) const;
 		int			getRecordSize(void) const;
-		int			getPlayBackSize(void) const;
-
-	public:
-		void		setPlayBack(float *playMe, int size);
 
 	public:
 		void		cleanRecord(void);
