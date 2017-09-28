@@ -20,6 +20,8 @@
 #include "Cmd/CmdLogIn.hpp"
 #include "Cmd/CmdContactAdd.hpp"
 #include "Cmd/CmdContactDelete.hpp"
+#include "Cmd/CmdCallJoin.hpp"
+#include "Cmd/CmdCallInvite.hpp"
 #include "BabelNetworkMacro.hpp"
 
 namespace babel
