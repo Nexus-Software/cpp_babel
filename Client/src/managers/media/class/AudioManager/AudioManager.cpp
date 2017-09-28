@@ -37,7 +37,7 @@ bool babel::AudioManager::decodeSound(void)
 {
 	return false;
 }
-bool babel::AudioManager::setStreamState(bool state)
+void babel::AudioManager::setStreamState(bool state)
 {
 	if (state)
 		this->_audio.startStream();

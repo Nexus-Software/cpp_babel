@@ -24,7 +24,7 @@ namespace babel
     CmdContactDelete(Server &server);
     virtual ~CmdContactDelete();
 
-    virtual bool run(size_t tunnelId,  NetworkData data);
+    virtual bool run(size_t tunnelId,  NetworkData & data);
   };
 }
 

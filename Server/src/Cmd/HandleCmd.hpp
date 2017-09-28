@@ -20,6 +20,8 @@
 #include "Cmd/CmdLogIn.hpp"
 #include "Cmd/CmdContactAdd.hpp"
 #include "Cmd/CmdContactDelete.hpp"
+#include "Cmd/CmdCallJoin.hpp"
+#include "Cmd/CmdCallInvite.hpp"
 #include "BabelNetworkMacro.hpp"
 
 namespace babel
@@ -35,7 +37,7 @@ namespace babel
     HandleCmd(Server &server);
     ~HandleCmd();
 
-    bool execCmd(size_t tunnelId, NetworkData data);
+    bool execCmd(size_t tunnelId, NetworkData & data);
   };
 }
 

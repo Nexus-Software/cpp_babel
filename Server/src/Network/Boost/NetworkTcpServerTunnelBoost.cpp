@@ -20,6 +20,7 @@ babel::NetworkTcpServerTunnelBoost::NetworkTcpServerTunnelBoost(Server &server, 
 
 void babel::NetworkTcpServerTunnelBoost::start()
 {
+  this->_ip = this->_socket.remote_endpoint().address().to_string();
   this->read();
 }
 
@@ -77,4 +78,9 @@ const size_t &babel::NetworkTcpServerTunnelBoost::getTunnelId() const
 void babel::NetworkTcpServerTunnelBoost::setTunnelId(size_t tunnelId)
 {
   this->_tunnelId = tunnelId;
+}
+
+const std::string &babel::NetworkTcpServerTunnelBoost::getIp() const
+{
+  return this->_ip;
 }

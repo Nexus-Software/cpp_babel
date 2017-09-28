@@ -40,7 +40,7 @@ bool 	babel::GlobalMediaManager::decodeSound()
 	return this->_audioManager.decodeSound();
 }
 
-bool 	babel::GlobalMediaManager::setAudioStreamState(bool state)
+void 	babel::GlobalMediaManager::setAudioStreamState(bool state)
 {
 	this->_audioManager.setStreamState(state);
 }
