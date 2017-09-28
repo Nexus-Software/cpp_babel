@@ -25,7 +25,7 @@ bool babel::CallManager::invite(size_t idCall, std::string login)
   if (!this->convIsExist(idCall) || !this->_server.getAccountManager().getAccountByLogin(login).getIsOnline())
     return false;
   this->_pendingInvite.insert(std::pair<size_t, std::string>(idCall, login));
-  return false;
+  return true;
 }
 
 bool babel::CallManager::add(size_t idCall, std::string login, std::string ip, unsigned int port)
@@ -33,14 +33,15 @@ bool babel::CallManager::add(size_t idCall, std::string login, std::string ip, u
   if (!this->convIsExist(idCall))
     return false;
   (*this->_calls.find(idCall)).second.add(login, CallTunnel(ip, port));
-  return false;
+  return true;
 }
 
 bool babel::CallManager::remove(size_t idCall, std::string login)
-{if (!this->convIsExist(idCall))
+{
+  if (!this->convIsExist(idCall))
     return false;
   (*this->_calls.find(idCall)).second.remove(login);
-  return false;
+  return true;
 }
 
 bool babel::CallManager::isAllowToJoin(size_t idCall, std::string login)
