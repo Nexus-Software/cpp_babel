@@ -1,5 +1,4 @@
 # Ignore the build and lib dirs
-build
 
 # Ignore any executables
 *.exe
