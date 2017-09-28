@@ -2,6 +2,7 @@
 #define CUSTOMNOTIFICATIONDIAG_H
 
 #include <QDialog>
+#include "UIManager.hpp"
 
 namespace Ui {
 class CustomNotificationDiag;
@@ -23,8 +24,8 @@ public:
     QString const       getDataText() const;
 
 private:
-    Ui::CustomNotificationDiag  *_ui;
-    babel::UIManager            &_uiManager;
+    std::shared_ptr<Ui::CustomNotificationDiag> _ui;
+    babel::UIManager                            &_uiManager;
 };
 
 #endif // CUSTOMNOTIFICATIONDIAG_H

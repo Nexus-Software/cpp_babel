@@ -10,13 +10,14 @@ include_directories(
 	# NETWORK
 	${APP_DIR}/src/network/interface/
 	${APP_DIR}/src/network/class/QNetworkTcpClient/
-    # DIALOG
-    ${APP_DIR}/src/dialog/class/AddContactDiag/
-    ${APP_DIR}/src/dialog/class/CustomNotificationDiag/
-    ${APP_DIR}/src/dialog/class/LoginDiag/
-    ${APP_DIR}/src/dialog/class/MainWindow/
-    ${APP_DIR}/src/dialog/class/ReceiveCallDiag/
-    ${APP_DIR}/src/dialog/class/SignupDiag/
+     # DIALOG
+    ${APP_DIR}/src/widget/class/AddContactDiag/
+    ${APP_DIR}/src/widget/class/AddToConversationDiag/
+    ${APP_DIR}/src/widget/class/CustomNotificationDiag/
+    ${APP_DIR}/src/widget/class/LoginDiag/
+    ${APP_DIR}/src/widget/class/MainWindow/
+    ${APP_DIR}/src/widget/class/ReceiveCallDiag/
+    ${APP_DIR}/src/widget/class/SignupDiag/
 	# MANAGERS
 	# ---> CALL
 	${APP_DIR}/src/managers/Call/class/CallManager/
@@ -44,9 +45,11 @@ include_directories(
 	${APP_DIR}/src/standalone/class/Audio/
 	# ---> CALL
 	${APP_DIR}/src/standalone/class/Call/
-	# ---> CONTACT
-	${APP_DIR}/src/standalone/class/Contact/
-    # ---> STATUS
+  # ---> CONTACT
+  ${APP_DIR}/src/standalone/class/Contact
+  # --> JOIN
+  ${APP_DIR}/src/standalone/class/Join
+  # ---> STATUS
 	${APP_DIR}/src/standalone/class/Status/
 	# --> ERROR
 	${APP_DIR}/src/standalone/class/Error/
@@ -98,12 +101,13 @@ file(GLOB_RECURSE HEADER_CLIENT_FILES_HPP	${APP_DIR}/include/*.hpp)
 
 # APP FORMS UI
 qt5_wrap_ui(UIS_HDRS
-    src/dialog/class/LoginDiag/logindiag.ui
-    src/dialog/class/MainWindow/mainwindow.ui
-    src/dialog/class/ReceiveCallDiag/receivecalldiag.ui
-    src/dialog/class/SignupDiag/signupdiag.ui
-    src/dialog/class/AddContactDiag/addcontactdiag.ui
-    src/dialog/class/CustomNotificationDiag/customnotificationdiag.ui
+    src/widget/class/LoginDiag/logindiag.ui
+    src/widget/class/MainWindow/mainwindow.ui
+    src/widget/class/ReceiveCallDiag/receivecalldiag.ui
+    src/widget/class/SignupDiag/signupdiag.ui
+    src/widget/class/AddContactDiag/addcontactdiag.ui
+    src/widget/class/CustomNotificationDiag/customnotificationdiag.ui
+    src/widget/class/AddToConversationDiag/addtoconversationdiag.ui
 )
 
 # EXECUTABLE

@@ -3,7 +3,7 @@
 
 CustomNotificationDiag::CustomNotificationDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
-    _ui(new Ui::CustomNotificationDiag),
+    _ui(std::make_shared<Ui::CustomNotificationDiag>()),
     _uiManager(uiManager)
 {
     this->_ui->setupUi(this);
@@ -12,7 +12,7 @@ CustomNotificationDiag::CustomNotificationDiag(QWidget *parent, babel::UIManager
 
 CustomNotificationDiag::~CustomNotificationDiag()
 {
-    delete (this->_ui);
+
 }
 
 void    CustomNotificationDiag::setDataText(QString const& dataText)

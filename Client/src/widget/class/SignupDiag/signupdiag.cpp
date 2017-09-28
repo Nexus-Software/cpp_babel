@@ -3,7 +3,7 @@
 
 SignupDiag::SignupDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
-    _ui(new Ui::SignupDiag),
+    _ui(std::make_shared<Ui::SignupDiag>()),
     _uiManager(uiManager)
 {
     this->_ui->setupUi(this);
@@ -17,7 +17,7 @@ SignupDiag::SignupDiag(QWidget *parent, babel::UIManager &uiManager) :
 
 SignupDiag::~SignupDiag()
 {
-    delete (this->_ui);
+
 }
 
 void                SignupDiag::enableAllObjects(bool const areDisabled)

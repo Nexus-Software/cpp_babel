@@ -3,7 +3,7 @@
 
 AddContactDiag::AddContactDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
-    _ui(new Ui::AddContactDiag),
+    _ui(std::make_shared<Ui::AddContactDiag>()),
     _uiManager(uiManager)
 {
     this->_ui->setupUi(this);
@@ -15,7 +15,7 @@ AddContactDiag::AddContactDiag(QWidget *parent, babel::UIManager &uiManager) :
 
 AddContactDiag::~AddContactDiag()
 {
-    delete (this->_ui);
+
 }
 
 void AddContactDiag::AddContact()

@@ -26,8 +26,8 @@ public slots:
     void CloseContactWindow();
 
 private:
-    Ui::AddContactDiag  *_ui;
-    babel::UIManager    &_uiManager;
+    std::shared_ptr<Ui::AddContactDiag> _ui;
+    babel::UIManager                    &_uiManager;
 };
 
 #endif // ADDCONTACTDIAG_H

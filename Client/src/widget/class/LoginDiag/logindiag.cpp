@@ -3,7 +3,7 @@
 
 LoginDiag::LoginDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
-    _ui(new Ui::LoginDiag),
+    _ui(std::make_shared<Ui::LoginDiag>()),
     _uiManager(uiManager)
 {
     this->_ui->setupUi(this);
@@ -13,6 +13,12 @@ LoginDiag::LoginDiag(QWidget *parent, babel::UIManager &uiManager) :
     QObject::connect(this->_ui->ConnectButton, SIGNAL(clicked()), this, SLOT(WaitingForResponse()));
     QObject::connect(this, SIGNAL(ConnectionAllowed()), this, SLOT(SwitchToMainWindow()));
     QObject::connect(this, SIGNAL(ConnectionDenied()), this, SLOT(ShowErrorDialog()));
+}
+
+
+LoginDiag::~LoginDiag()
+{
+
 }
 
 void                LoginDiag::enableAllObjects(bool const areDisabled)
@@ -75,9 +81,4 @@ void LoginDiag::SwitchToMainWindow() {
 
 void LoginDiag::ShowErrorDialog() {
     this->_uiManager.showErrorDialog("An internal error occured.");
-}
-
-LoginDiag::~LoginDiag()
-{
-    delete (this->_ui);
 }

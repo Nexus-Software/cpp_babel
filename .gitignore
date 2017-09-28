@@ -1,5 +1,5 @@
 # Ignore the build and lib dirs
-
+build
 # Ignore any executables
 *.exe
 
@@ -17,4 +17,5 @@ cmake-build-debug
 *.user
 /Debug
 bin
+*.dll
 debug
