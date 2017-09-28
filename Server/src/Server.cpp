@@ -15,7 +15,8 @@
 babel::Server::Server(unsigned int port) :
 	_port(port),
 	_handleCmd(*this),
-	_accountManager(*this)
+	_accountManager(*this),
+	_callManager(*this)
 {
   this->_logInTerm.print("Server initialisation ...", LogInTerm::LevelLog::INFO);
 }
@@ -59,3 +60,14 @@ std::shared_ptr<babel::INetworkManager> babel::Server::getNetworkManager()
 {
   return this->_networkManager;
 }
+
+const babel::CallManager &babel::Server::getCallManager() const
+{
+  return this->_callManager;
+}
+
+babel::CallManager &babel::Server::getCallManager()
+{
+  return this->_callManager;
+}
+

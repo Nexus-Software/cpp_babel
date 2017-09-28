@@ -33,6 +33,7 @@ namespace babel {
     struct NetworkData				_dataRead;
 
     size_t 					_tunnelId;
+    std::string					_ip;
    public:
     typedef boost::shared_ptr<NetworkTcpServerTunnelBoost> pointer;
 
@@ -56,6 +57,9 @@ namespace babel {
 
     const size_t & getTunnelId() const;
     void setTunnelId(size_t tunnelId);
+
+    const std::string &getIp() const;
+
    private:
     void read();
 

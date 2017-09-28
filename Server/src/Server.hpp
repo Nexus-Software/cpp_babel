@@ -20,6 +20,7 @@
 #include "Network/Interfaces/INetworkManager.hpp"
 #include "Log/LogInTerm.hpp"
 #include "Cmd/HandleCmd.hpp"
+#include "Call/CallManager.hpp"
 
 namespace babel {
   class Server {
@@ -29,6 +30,7 @@ namespace babel {
     LogInTerm									_logInTerm;
     HandleCmd									_handleCmd;
     AccountManager								_accountManager;
+    CallManager									_callManager;
    public:
     Server(unsigned int port = 4242);
     ~Server();
@@ -43,6 +45,9 @@ namespace babel {
     const AccountManager & getAccountManager() const;
 
     std::shared_ptr<babel::INetworkManager> getNetworkManager();
+
+    const CallManager &getCallManager() const;
+    CallManager &getCallManager();
   };
 }
 

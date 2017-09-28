@@ -117,3 +117,14 @@ babel::TunnelInfo babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size
   throw NetworkException("(Boost): Tunnel not found (ID: " + std::to_string(tunnelId) + ")");
 }
 
+void babel::NetworkManagerBoost::setIpForTunnelId(size_t tunnelId, const std::string & ip)
+{
+  auto it = this->_tunnelInfo.find(tunnelId);
+  if (it != this->_tunnelInfo.end())
+    {
+      (*it).second.ip = ip;
+      return ;
+    }
+  throw NetworkException("(Boost): Tunnel not found (ID: " + std::to_string(tunnelId) + ")");
+}
+

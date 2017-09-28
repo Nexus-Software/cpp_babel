@@ -24,7 +24,7 @@ namespace babel
     CmdLogIn(Server &server);
     virtual ~CmdLogIn();
 
-    virtual bool run(size_t tunnelId,  NetworkData data);
+    virtual bool run(size_t tunnelId,  NetworkData & data);
   };
 }
 
