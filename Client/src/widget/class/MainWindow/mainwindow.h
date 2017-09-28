@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QListWidget>
 #include <QLabel>
+#include <QPushButton>
+#include <QLineEdit>
 #include "UIManager.hpp"
 
 namespace Ui {
@@ -24,12 +26,18 @@ public:
 
     QListWidget         *getFriendsList();
     QLabel              *getGeneralInformations();
+    QLabel              *getSelectedContactInformations();
+    QLabel              *getSelectedContactChat();
+    QPushButton         *getMessageSendButton();
+    QLineEdit           *getMessageSendField();
+    QPushButton         *getCallButton();
 
 public slots:
     void FilterFriendsList(QString const& filterText);
     void RedirectToLoginDiag();
     void SelectedFriendClicked(QListWidgetItem *selectedContact);
-    void OpenAddContactWindow();
+    void OpenAddContactDiag();
+    void OpenAddToConversationDiag();
 
 private:
     Ui::MainWindow      *_ui;
