@@ -20,7 +20,7 @@ babel::CallManager::~CallManager()
 {
 }
 
-bool babel::CallManager::invite(size_t idCall, std::string & login)
+bool babel::CallManager::invite(size_t idCall, std::string login)
 {
   if (!this->convIsExist(idCall) || !this->_server.getAccountManager().getAccountByLogin(login).getIsOnline())
     return false;
@@ -28,32 +28,15 @@ bool babel::CallManager::invite(size_t idCall, std::string & login)
   return false;
 }
 
-bool babel::CallManager::add(size_t idCall, std::string & login, std::string & ip, unsigned int port)
+bool babel::CallManager::add(size_t idCall, std::string login, std::string ip, unsigned int port)
 {
   if (!this->convIsExist(idCall))
     return false;
   (*this->_calls.find(idCall)).second.add(login, CallTunnel(ip, port));
-
-  /*
-  CLIENT_CALL_STRUCT client;
-  login.copy(client.login, 32);
-  ip.copy(client.ip, 15);
-  client.port = port;
-
-  std::array<char, 2048> data;
-  std::copy_n(reinterpret_cast<const char *>(&client), sizeof(CLIENT_CALL_STRUCT), data.begin());
-
-  auto participant = (*this->_calls.find(idCall)).second.getParticipants();
-  for (auto it = participant.begin() ; it != participant.end() ; it++)
-    {
-      this->_server.getNetworkManager().get()->write((*it).first, NetworkData(9, sizeof(CLIENT_CALL_STRUCT), data));
-    }
-    */
-
   return false;
 }
 
-bool babel::CallManager::remove(size_t idCall, std::string &  login)
+bool babel::CallManager::remove(size_t idCall, std::string login)
 {if (!this->convIsExist(idCall))
     return false;
   (*this->_calls.find(idCall)).second.remove(login);
