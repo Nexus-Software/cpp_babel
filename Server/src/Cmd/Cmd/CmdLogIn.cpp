@@ -36,6 +36,9 @@ bool babel::CmdLogIn::run(size_t tunnelId,  NetworkData & data)
       this->_server.getAccountManager().getAccountByLogin(login).setIsOnline(true);
 
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(42, 0, {}));
+
+      this->_server.getAccountManager().sendContactList(tunnelId,
+							this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login);
       return true;
     }
   this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(503, 0, {}));
