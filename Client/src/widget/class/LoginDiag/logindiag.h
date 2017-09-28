@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QMessageBox>
 #include "UIManager.hpp"
 
 namespace babel {

@@ -2,6 +2,7 @@
 #define SIGNUPDIAG_H
 
 #include <QDialog>
+#include <QMessageBox>
 #include "UIManager.hpp"
 
 namespace Ui {

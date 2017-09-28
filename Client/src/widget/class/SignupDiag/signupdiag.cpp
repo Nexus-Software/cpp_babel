@@ -86,5 +86,5 @@ void SignupDiag::SwitchToMainWindow() {
 }
 
 void SignupDiag::ShowErrorDialog() {
-    this->_uiManager.showErrorDialog("An internal error occured.");
+    QMessageBox::warning(this, "Signup", "The nickname you entered is already used or both passwords does not match.");
 }
