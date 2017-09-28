@@ -2,6 +2,8 @@
 cmake_minimum_required(VERSION 2.8.11)
 project(babel)
 
+set(TARGET_NAME babel_client)
+
 set(APP_DIR ./)
 
 include_directories(
@@ -62,9 +64,15 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules")
+set(BIN_MSVC_PATH "C:/Qt/Qt5.9.1/5.9.1/msvc2015/bin")
 # APP TARGET
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
-set(CMAKE_PREFIX_PATH C:/Qt/Qt5.9.1/5.9.1/msvc2015/lib/cmake)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin)
+
+# Windows specific build steps
+if(WIN32)
+	set(CMAKE_PREFIX_PATH C:/Qt/Qt5.9.1/5.9.1/msvc2015/lib/cmake)
+endif()
 
 # AUDIO COMPONENTS
 find_package(Portaudio REQUIRED)
@@ -99,7 +107,16 @@ qt5_wrap_ui(UIS_HDRS
 )
 
 # EXECUTABLE
-add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
+add_executable(${TARGET_NAME} ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
 # LIBRARIES
-target_link_libraries(babel_client Qt5::Widgets Qt5::Network)
-target_link_libraries(babel_client ${Portaudio_LIBRARY})
+target_link_libraries(${TARGET_NAME} Qt5::Widgets Qt5::Network)
+target_link_libraries(${TARGET_NAME} ${Portaudio_LIBRARY})
+
+# Windows specific build steps
+if(WIN32)
+	file(GLOB_RECURSE DLL_LIB_FILES ${PROJECT_SOURCE_DIR}/lib/win/dll/*.dll)
+    # Run winddeployqt if it can be found
+    find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${BIN_MSVC_PATH})
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD COMMAND ${WINDEPLOYQT_EXECUTABLE} $<TARGET_FILE:${TARGET_NAME}>)
+	add_custom_command(TARGET ${TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${DLL_LIB_FILES} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endif()
