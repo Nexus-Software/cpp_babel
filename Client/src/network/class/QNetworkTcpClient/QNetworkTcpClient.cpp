@@ -61,6 +61,7 @@ bool babel::QNetworkTcpClient::connected()
 	t.data = ba;
 	// ---------------------------
     this->write(t);
+	return true;
 }
 
 bool babel::QNetworkTcpClient::readEvent()
