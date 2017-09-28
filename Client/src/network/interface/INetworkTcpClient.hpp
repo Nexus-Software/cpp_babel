@@ -1,6 +1,8 @@
 #ifndef I_NETWORK_TCP_CLIENT_HPP
 #define I_NETWORK_TCP_CLIENT_HPP
 
+#include <array>
+
 #pragma pack(push, 1)
 
 namespace babel {
