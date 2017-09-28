@@ -2,6 +2,7 @@
 #define RECEIVECALLDIAG_H
 
 #include <QDialog>
+#include "UIManager.hpp"
 
 namespace Ui {
 class ReceiveCallDiag;
@@ -20,8 +21,8 @@ public:
     ~ReceiveCallDiag();
 
 private:
-    Ui::ReceiveCallDiag *_ui;
-    babel::UIManager &_uiManager;
+    std::shared_ptr<Ui::ReceiveCallDiag>    _ui;
+    babel::UIManager                        &_uiManager;
 };
 
 #endif // RECEIVECALLDIAG_H

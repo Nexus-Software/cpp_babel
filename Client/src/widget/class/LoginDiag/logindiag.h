@@ -39,8 +39,8 @@ signals:
     void ConnectionDenied();
 
 private:
-    Ui::LoginDiag       *_ui;
-    babel::UIManager    &_uiManager;
+    std::shared_ptr<Ui::LoginDiag>  _ui;
+    babel::UIManager                &_uiManager;
 };
 
 #endif // LOGINDIAG_H

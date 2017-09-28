@@ -32,9 +32,9 @@ public slots:
     void    RefreshFriendsInConversation(QListWidgetItem *item);
 
 private:
-    Ui::AddToConversationDiag   *_ui;
-    babel::UIManager            &_uiManager;
-    QList<std::string>          _tmpConversationList;
+    std::shared_ptr<Ui::AddToConversationDiag>  _ui;
+    babel::UIManager                            &_uiManager;
+    QList<std::string>                          _tmpConversationList;
 };
 
 #endif // ADDTOCONVERSATIONDIAG_H

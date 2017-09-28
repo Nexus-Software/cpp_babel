@@ -40,8 +40,8 @@ public slots:
     void OpenAddToConversationDiag();
 
 private:
-    Ui::MainWindow      *_ui;
-    babel::UIManager    &_uiManager;
+    std::shared_ptr<Ui::MainWindow> _ui;
+    babel::UIManager                &_uiManager;
 };
 
 #endif // MAINWINDOW_H

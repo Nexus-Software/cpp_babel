@@ -3,7 +3,7 @@
 
 ReceiveCallDiag::ReceiveCallDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
-    _ui(new Ui::ReceiveCallDiag),
+    _ui(std::make_shared<Ui::ReceiveCallDiag>()),
     _uiManager(uiManager)
 {
     this->_ui->setupUi(this);
@@ -12,5 +12,5 @@ ReceiveCallDiag::ReceiveCallDiag(QWidget *parent, babel::UIManager &uiManager) :
 
 ReceiveCallDiag::~ReceiveCallDiag()
 {
-    delete (this->_ui);
+
 }

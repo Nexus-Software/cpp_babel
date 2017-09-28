@@ -17,4 +17,5 @@ cmake-build-debug
 *.filters
 *.user
 /Debug
+bin
 *.dll

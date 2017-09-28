@@ -39,8 +39,8 @@ signals:
     void ConnectionDenied();
 
 private:
-    Ui::SignupDiag *_ui;
-    babel::UIManager &_uiManager;
+    std::shared_ptr<Ui::SignupDiag> _ui;
+    babel::UIManager                &_uiManager;
 };
 
 #endif // SIGNUPDIAG_H

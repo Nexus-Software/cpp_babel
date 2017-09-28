@@ -3,7 +3,7 @@
 
 MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
     QMainWindow(parent),
-    _ui(new Ui::MainWindow),
+    _ui(std::make_shared<Ui::MainWindow>()),
     _uiManager(uiManager)
 {
     this->_ui->setupUi(this);
@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
 
 MainWindow::~MainWindow()
 {
-    delete (this->_ui);
+
 }
 
 QListWidget             *MainWindow::getFriendsList()

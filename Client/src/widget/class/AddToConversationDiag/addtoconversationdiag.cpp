@@ -3,7 +3,7 @@
 
 AddToConversationDiag::AddToConversationDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
-    _ui(new Ui::AddToConversationDiag),
+    _ui(std::make_shared<Ui::AddToConversationDiag>()),
     _uiManager(uiManager)
 {
     this->_ui->setupUi(this);
@@ -16,7 +16,7 @@ AddToConversationDiag::AddToConversationDiag(QWidget *parent, babel::UIManager &
 
 AddToConversationDiag::~AddToConversationDiag()
 {
-    delete this->_ui;
+
 }
 
 QListWidget                 *AddToConversationDiag::getFriendsList() const
