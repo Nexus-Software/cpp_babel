@@ -97,3 +97,9 @@ qt5_wrap_ui(UIS_HDRS
     src/dialog/class/AddContactDiag/addcontactdiag.ui
     src/dialog/class/CustomNotificationDiag/customnotificationdiag.ui
 )
+
+# EXECUTABLE
+add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
+# LIBRARIES
+target_link_libraries(babel_client Qt5::Widgets Qt5::Network)
+target_link_libraries(babel_client ${Portaudio_LIBRARY})
