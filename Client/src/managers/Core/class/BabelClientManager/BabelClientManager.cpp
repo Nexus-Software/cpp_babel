@@ -4,6 +4,7 @@
 babel::BabelClientManager::BabelClientManager(int argc, char **argv)
 	:
 	_app(argc, argv),
+    _media(*this),
 	_ui(*this),
     _network(*this),
 	_contact(*this),

@@ -1,14 +1,34 @@
 #ifndef BABEL_GLOBALMEDIAMANAGER_HPP_
 # define BABEL_GLOBALMEDIAMANAGER_HPP_
 
+#include "AudioManager.hpp"
+
+namespace babel {
+	class BabelClientManager;
+} // babel
+
 namespace babel {
 	class GlobalMediaManager
 	{
 		public:
-			GlobalMediaManager();
+			GlobalMediaManager(babel::BabelClientManager&);
 			~GlobalMediaManager();
 
 		private:
+			babel::BabelClientManager&	_root;
+			babel::AudioManager 		_audioManager;
+
+		public:
+			babel::BabelClientManager& getRoot(void) const;
+
+		// Sound methods
+		public:
+			bool 		playSound(B_SAMPLE, int);
+			B_SAMPLE 	recordSound(void);
+			bool 		encodeSound(void);
+			bool 		decodeSound(void);
+			bool 		setAudioStreamState(bool);
+
 
 	};
 }
