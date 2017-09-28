@@ -24,7 +24,7 @@ namespace babel
     CmdContactAdd(Server &server);
     virtual ~CmdContactAdd();
 
-    virtual bool run(size_t tunnelId,  NetworkData data);
+    virtual bool run(size_t tunnelId,  NetworkData & data);
   };
 }
 

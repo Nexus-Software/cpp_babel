@@ -24,7 +24,7 @@ namespace babel
     CmdCallJoin(Server &server);
     virtual ~CmdCallJoin();
 
-    virtual bool run(size_t tunnelId,  NetworkData data);
+    virtual bool run(size_t tunnelId,  NetworkData & data);
   };
 }
 

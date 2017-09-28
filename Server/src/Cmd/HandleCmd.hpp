@@ -35,7 +35,7 @@ namespace babel
     HandleCmd(Server &server);
     ~HandleCmd();
 
-    bool execCmd(size_t tunnelId, NetworkData data);
+    bool execCmd(size_t tunnelId, NetworkData & data);
   };
 }
 

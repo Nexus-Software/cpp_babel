@@ -20,7 +20,7 @@ babel::CallManager::~CallManager()
 {
 }
 
-bool babel::CallManager::invite(size_t idCall, std::string login)
+bool babel::CallManager::invite(size_t idCall, std::string & login)
 {
   if (!this->convIsExist(idCall) || !this->_server.getAccountManager().getAccountByLogin(login).getIsOnline())
     return false;
@@ -28,7 +28,7 @@ bool babel::CallManager::invite(size_t idCall, std::string login)
   return false;
 }
 
-bool babel::CallManager::add(size_t idCall, std::string login, std::string ip, unsigned int port)
+bool babel::CallManager::add(size_t idCall, std::string & login, std::string & ip, unsigned int port)
 {
   if (!this->convIsExist(idCall))
     return false;
@@ -53,7 +53,7 @@ bool babel::CallManager::add(size_t idCall, std::string login, std::string ip, u
   return false;
 }
 
-bool babel::CallManager::remove(size_t idCall, std::string login)
+bool babel::CallManager::remove(size_t idCall, std::string &  login)
 {if (!this->convIsExist(idCall))
     return false;
   (*this->_calls.find(idCall)).second.remove(login);
@@ -64,9 +64,9 @@ bool babel::CallManager::isAllowToJoin(size_t idCall, std::string login)
 {
   if (!this->convIsExist(idCall))
     return false;
-  for (auto it = this->_pendingInvite.begin() ; it != this->_pendingInvite.end() ; it++)
+  for (auto it : this->_pendingInvite)
     {
-      if ((*it).first == idCall && (*it).second.compare(login) == 0)
+      if (it.first == idCall && it.second.compare(login) == 0)
 	return true;
     }
   return false;
@@ -75,9 +75,7 @@ bool babel::CallManager::isAllowToJoin(size_t idCall, std::string login)
 bool babel::CallManager::convIsExist(size_t idCall)
 {
   auto it = this->_calls.find(idCall);
-  if (it != this->_calls.end())
-    return true;
-  return false;
+  return it != this->_calls.end();
 }
 
 babel::Call babel::CallManager::create()

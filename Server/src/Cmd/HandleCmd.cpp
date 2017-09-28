@@ -27,7 +27,7 @@ babel::HandleCmd::~HandleCmd()
 
 }
 
-bool babel::HandleCmd::execCmd(size_t tunnelId, NetworkData data)
+bool babel::HandleCmd::execCmd(size_t tunnelId, NetworkData & data)
 {
   /* dataToWrite data1;
   std::uint32_t nb = 32;

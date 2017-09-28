@@ -20,7 +20,7 @@ babel::CmdSignUp::~CmdSignUp()
 {
 }
 
-bool babel::CmdSignUp::run(size_t tunnelId,  NetworkData data)
+bool babel::CmdSignUp::run(size_t tunnelId,  NetworkData & data)
 {
   std::string login(data.data.begin(), data.data.begin() + 31);
   std::string password(data.data.begin() + 32, data.data.begin() + 64);

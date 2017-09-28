@@ -22,7 +22,7 @@ babel::CmdCallJoin::~CmdCallJoin()
 
 }
 
-bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData data)
+bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 {
   NetworkDataCSJoin networkDataCSJoin;
   std::copy_n(reinterpret_cast<const char *>(&data.data), sizeof(CLIENT_CALL_STRUCT), reinterpret_cast<char *>(&networkDataCSJoin));
@@ -49,6 +49,12 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData data)
 	      networkDataCSJoinSuccess.client[i].port = (*it).second.port;
 	      it++;
 	    }
+	  else
+	    {
+	      networkDataCSJoinSuccess.client[i].login[0] = '\0';
+	      networkDataCSJoinSuccess.client[i].ip[0] = '\0';
+	      networkDataCSJoinSuccess.client[i].port = 0;
+	    }
 	}
 
       std::array<char, 2048> dataSend;
@@ -67,10 +73,10 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData data)
       dataSend.fill(0);
       std::copy_n(reinterpret_cast<const char *>(&networkDataSCJoin), sizeof(NetworkDataSCJoin), dataSend.begin());
 
-      for (auto it = participant.begin() ; it != participant.end() ; it++)
+      for (auto it : participant)
 	{
-	  if ((*it).second.login.compare(this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login) != 0)
-	    this->_server.getNetworkManager().get()->write((*it).first, NetworkData(9, sizeof(NetworkDataSCJoin), dataSend));
+	  if (it.second.login.compare(this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login) != 0)
+	    this->_server.getNetworkManager().get()->write(it.first, NetworkData(9, sizeof(NetworkDataSCJoin), dataSend));
 	}
       return true;
     }
