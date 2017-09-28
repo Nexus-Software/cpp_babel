@@ -17,4 +17,5 @@ cmake-build-debug
 *.user
 /Debug
 bin
+*.dll
 debug
