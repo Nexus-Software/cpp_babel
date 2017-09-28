@@ -97,17 +97,3 @@ qt5_wrap_ui(UIS_HDRS
     src/dialog/class/AddContactDiag/addcontactdiag.ui
     src/dialog/class/CustomNotificationDiag/customnotificationdiag.ui
 )
-
-# EXECUTABLE
-add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
-# LIBRARIES
-target_link_libraries(babel_client Qt5::Widgets Qt5::Network)
-target_link_libraries(babel_client ${Portaudio_LIBRARY})
-
-# Windows specific build steps
-if(WIN32)
-    # Run winddeployqt if it can be found
-    find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QTDIR} ENV QTDIR PATH_SUFFIXES bin)
-    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-    COMMAND ${WINDEPLOYQT_EXECUTABLE} $<TARGET_FILE:${TARGET_NAME}>)
-endif()
