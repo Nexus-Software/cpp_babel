@@ -47,27 +47,36 @@ babel::Status const                                                 babel::UIMan
 
 babel::Status const                                                 babel::UIManager::addContactToFriendsList(std::string const& contactName)
 {
-    QListWidget *friendsList = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getFriendsList();
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
 
     // Asks the server to check if the user does really exists
     // v Temporary not adding duplicated names v
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'addContactToFriendsList()': mainWindow was null"));
+
+    QListWidget *friendsList = mainWindow->getFriendsList();
+
     if (!friendsList)
         return (babel::Status(1, "UIManager 'addContactToFriendsList()': friendsList was null"));
-    else
-    {
-        if (friendsList->count() == 50)
-            this->showErrorDialog("The friends limit has been reached (50).");
-        else if (contactName.length() &&
-            !friendsList->findItems(QString::fromStdString(contactName), Qt::MatchExactly).count())
-          friendsList->addItem(QString::fromStdString(contactName));
-    }
+    if (friendsList->count() == 50)
+        this->showErrorDialog("The friends limit has been reached (50).");
+    else if (contactName.length() &&
+        !friendsList->findItems(QString::fromStdString(contactName), Qt::MatchExactly).count())
+    friendsList->addItem(QString::fromStdString(contactName));
     return (babel::Status(0, "UIManager 'addContactToFriendsList()' worked without error"));
 }
 
 babel::Status const                                                 babel::UIManager::refreshCurrentlySelectedLabel(std::vector<std::string> const& listSelected)
 {
-    QLabel                      *currentlySelectedLabel = dynamic_cast<AddToConversationDiag *>(this->_windowList["AddToConversationDiag"].get())->getCurrentlySelectedLabel();
+    AddToConversationDiag       *addToConversationDiag = dynamic_cast<AddToConversationDiag *>(this->_windowList["AddToConversationDiag"].get());
 
+    if (!addToConversationDiag)
+        return (babel::Status(1, "UIManager 'refreshCurrentlySelectedLabel()': addToConversationDiag was null"));
+
+    QLabel                      *currentlySelectedLabel = addToConversationDiag->getCurrentlySelectedLabel();
+
+    if (!currentlySelectedLabel)
+        return (babel::Status(1, "UIManager 'refreshCurrentlySelectedLabel()': currentlySelectedLabel was null"));
     if (!listSelected.empty())
     {
         currentlySelectedLabel->setText("<html><head/><body><p>Currently selected:<span style=\" font-weight:600;\">");
@@ -82,10 +91,15 @@ babel::Status const                                                 babel::UIMan
 
 babel::Status const                                                 babel::UIManager::refreshNewDataConversation(std::vector<std::string> const& newConversationList)
 {
-    QListWidget *friendsList = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getFriendsList();
-    QPushButton *messageSendButton = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getMessageSendButton();
-    QLineEdit   *messageSendField = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getMessageSendField();
-    QPushButton *callButton = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getCallButton();
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'refreshNewDataConversation()': mainWindow was null"));
+
+    QListWidget *friendsList = mainWindow->getFriendsList();
+    QPushButton *messageSendButton = mainWindow->getMessageSendButton();
+    QLineEdit   *messageSendField = mainWindow->getMessageSendField();
+    QPushButton *callButton = mainWindow->getCallButton();
 
     if (!friendsList || !messageSendButton || !messageSendField || !callButton)
         return (babel::Status(1, "UIManager 'refreshNewDataConversation()': A widget was null"));
@@ -131,7 +145,12 @@ babel::Status const                                                 babel::UIMan
 
 babel::Status const                                                 babel::UIManager::saveNicknameFromLoginToSignupDiag(std::string const& nickname)
 {
-    QLineEdit *nicknameField = dynamic_cast<SignupDiag *>(this->_windowList["SignupDiag"].get())->getNicknameField();
+    SignupDiag *signupDiag = dynamic_cast<SignupDiag *>(this->_windowList["SignupDiag"].get());
+
+    if (!signupDiag)
+        return (babel::Status(1, "UIManager 'saveNicknameFromLoginToSignupDiag()': signupDiag was null"));
+
+    QLineEdit *nicknameField = signupDiag->getNicknameField();
 
     if (!nicknameField)
         return (babel::Status(1, "UIManager 'saveNicknameFromLoginToSignupDiag()': The NicknameField widget was null"));
@@ -141,7 +160,12 @@ babel::Status const                                                 babel::UIMan
 
 babel::Status const                                                 babel::UIManager::refreshGeneralInformations()
 {
-    QLabel *generalInformations = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getGeneralInformations();
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'refreshGeneralInformations()': mainWindow was null"));
+
+    QLabel *generalInformations = mainWindow->getGeneralInformations();
 
     if (!generalInformations)
         return (babel::Status(1, "UIManager 'refreshGeneralInformations()': The GeneralInformations widget was null"));
@@ -156,15 +180,24 @@ babel::Status const                                                 babel::UIMan
 babel::Status const                                                 babel::UIManager::updateFriendsListConversations()
 {
     AddToConversationDiag       *addToConversationDiag = dynamic_cast<AddToConversationDiag *>(this->_windowList["AddToConversationDiag"].get());
+    MainWindow                  *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!addToConversationDiag)
+        return (babel::Status(1, "UIManager 'updateFriendsListConversations()': addToConversationDiag was null"));
+    else if (!mainWindow)
+        return (babel::Status(1, "UIManager 'updateFriendsListConversations()': mainWindow was null"));
+
     QListWidget                 *friendsListConversations = addToConversationDiag->getFriendsList();
-    QListWidget                 *friendsListMainWin = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getFriendsList();
+    QListWidget                 *friendsListMainWin = mainWindow->getFriendsList();
     QLabel                      *currentlySelectedLabel = addToConversationDiag->getCurrentlySelectedLabel();
     QList<QListWidgetItem *>    selectedFriend;
 
-    if (!addToConversationDiag || !friendsListConversations || !friendsListMainWin || !currentlySelectedLabel)
+    if (!friendsListConversations || !friendsListMainWin || !currentlySelectedLabel)
         return (babel::Status(1, "UIManager 'updateFriendsListConversations()': A widget was null"));
     selectedFriend = friendsListMainWin->selectedItems();
+
     QList<std::string> &tmpConversationList = addToConversationDiag->getTmpConversationList();
+
     while (friendsListConversations->count())
         friendsListConversations->takeItem(0);
     tmpConversationList.clear();
@@ -186,8 +219,13 @@ babel::Status const                                                 babel::UIMan
 
 babel::Status const                                                 babel::UIManager::refreshSelectedContact(std::string const& selectedContact, bool const isAConversation)
 {
-    QLabel              *selectedContactInformations = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getSelectedContactInformations();
-    QLabel              *selectedContactChat = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get())->getSelectedContactChat();
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'refreshSelectedContact()': mainWindow was null"));
+
+    QLabel              *selectedContactInformations = mainWindow->getSelectedContactInformations();
+    QLabel              *selectedContactChat = mainWindow->getSelectedContactChat();
 
     if (!selectedContactInformations || !selectedContactChat)
         return (babel::Status(1, "UIManager 'refreshSelectedContact()': A widget was null"));
@@ -218,7 +256,12 @@ babel::Status const                                                 babel::UIMan
 
 babel::Status const                                                 babel::UIManager::saveNicknameFromSignupToLoginDiag(std::string const& nickname)
 {
-    QLineEdit   *nicknameField = dynamic_cast<LoginDiag *>(this->_windowList["LoginDiag"].get())->getNicknameField();
+    LoginDiag *loginDiag = dynamic_cast<LoginDiag *>(this->_windowList["LoginDiag"].get());
+
+    if (!loginDiag)
+        return (babel::Status(1, "UIManager 'refreshSelectedContact()': loginDiag was null"));
+
+    QLineEdit   *nicknameField = loginDiag->getNicknameField();
 
     if (!nicknameField)
         return (babel::Status(1, "UIManager 'saveNicknameFromSignupToLoginDiag()': The NicknameField widget was null"));
