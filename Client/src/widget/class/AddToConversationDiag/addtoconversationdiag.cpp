@@ -48,7 +48,15 @@ void                        AddToConversationDiag::ConfirmActionAddToConversatio
 void                        AddToConversationDiag::RefreshFriendsInConversation(QListWidgetItem *item)
 {
     if (item->checkState())
+    {
+        if (this->_tmpConversationList.count() == 8)
+        {
+            item->setCheckState(Qt::CheckState::Unchecked);
+            QMessageBox::warning(this, "Conversation limit", "The people limit in a conversation has been reached");
+            return ;
+        }
         this->_tmpConversationList.append(item->data(0).toString().toStdString());
+    }
     else
         this->_tmpConversationList.removeAll(item->data(0).toString().toStdString());
     this->_uiManager.refreshCurrentlySelectedLabel(this->_tmpConversationList.toVector().toStdVector());
