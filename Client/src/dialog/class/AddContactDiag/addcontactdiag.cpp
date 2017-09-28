@@ -26,4 +26,5 @@ void AddContactDiag::AddContact()
 void AddContactDiag::CloseContactWindow()
 {
     this->_uiManager.hideWindow("AddContactDiag");
+    this->_ui->SearchNameField->setText("");
 }

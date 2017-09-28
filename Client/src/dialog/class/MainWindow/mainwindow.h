@@ -28,6 +28,7 @@ public:
 public slots:
     void FilterFriendsList(QString const& filterText);
     void RedirectToLoginDiag();
+    void SelectedFriendClicked(QListWidgetItem *selectedContact);
     void OpenAddContactWindow();
 
 private:
