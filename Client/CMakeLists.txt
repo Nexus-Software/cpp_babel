@@ -39,6 +39,8 @@ include_directories(
 	# ---> UI
 	${APP_DIR}/src/managers/UI/class/UIManager/
 	# STANDALONE
+	# ---> AUDIO
+	${APP_DIR}/src/standalone/class/Audio/
 	# ---> CALL
 	${APP_DIR}/src/standalone/class/Call
         # ---> CONTACT
@@ -48,7 +50,9 @@ include_directories(
         # ---> STATUS
 	${APP_DIR}/src/standalone/class/Status
 	# --> ERROR
-	${APP_DIR}/src/standalone/class/Error
+	${APP_DIR}/src/standalone/class/Error/
+	# --> LIB
+	${APP_DIR}/include/
 )
 
 set(CMAKE_CXX_STANDARD 14)
@@ -60,11 +64,12 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules")
 # APP TARGET
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/win32)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/)
 
 # AUDIO COMPONENTS
-# find_package(PortAudio)
+find_package(Portaudio REQUIRED)
 # find_package(Opus)
 
 # QT COMPONENTS
@@ -101,7 +106,7 @@ qt5_wrap_ui(UIS_HDRS
 add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
 # LIBRARIES
 target_link_libraries(babel_client Qt5::Network Qt5::Widgets)
-
+target_link_libraries(babel_client ${Portaudio_LIBRARY})
 
 # PROPER GUI WITHOUT CONSOLE [ALL OS] // DO NOT TOUCH
 if(WIN32) # Check if we are on Windows
