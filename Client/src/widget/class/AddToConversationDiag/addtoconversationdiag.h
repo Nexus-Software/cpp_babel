@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QListWidget>
 #include <QLabel>
+#include <QMessageBox>
 #include "UIManager.hpp"
 
 namespace Ui {
