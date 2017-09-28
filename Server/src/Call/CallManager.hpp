@@ -39,6 +39,8 @@ namespace babel
 
     Call create();
     bool finish(size_t idCall);
+
+    const std::unordered_map<size_t, Call> &getCalls() const;
   };
 }
 

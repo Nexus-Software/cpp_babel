@@ -22,10 +22,12 @@ namespace babel
     size_t 	id;
     std::string	login;
     bool 	isAuth;
+    std::string ip;
 
     void setId(size_t id) { this->id = id; };
     void setLogin(std::string login) { this->login = login; };
     void setIsAuth(bool isAuth) { this->isAuth = isAuth; };
+    void setIp(std::string ip) { this->ip = ip; };
   };
 
   class INetworkManager
@@ -39,6 +41,8 @@ namespace babel
     virtual bool writeForAll(NetworkData data) = 0;
 
     virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId) = 0;
+
+    virtual void setIpForTunnelId(size_t tunnelId, std::string ip) = 0;
   };
 }
 

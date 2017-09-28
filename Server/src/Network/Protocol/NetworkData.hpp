@@ -38,9 +38,22 @@ namespace babel
     std::uint32_t	port;
   };
 
-  struct NetworkDataJoin
+  struct NetworkDataCSJoin
   {
     std::uint32_t 	idCall;
+    unsigned int	port;
+  };
+
+  struct NetworkDataSCJoin
+  {
+    std::uint32_t 	idCall;
+    CLIENT_CALL_STRUCT	client;
+  };
+
+  struct NetworkDataCSJoinSuccess
+  {
+    std::uint32_t 	idCall;
+    CLIENT_CALL_STRUCT	client[8];
   };
 #pragma pack(pop)
 }

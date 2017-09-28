@@ -41,6 +41,9 @@ namespace babel
     virtual bool writeForAll(NetworkData data);
 
     virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId);
+
+    virtual void setIpForTunnelId(size_t tunnelId, std::string ip);
+
    public:
     void addTunnel(NetworkTcpServerTunnelBoost::pointer tunnel);
     void removeTunnel(NetworkTcpServerTunnelBoost::pointer tunnel);

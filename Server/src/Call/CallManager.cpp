@@ -101,3 +101,8 @@ bool babel::CallManager::finish(size_t idCall)
   this->_calls.erase(idCall);
   return true;
 }
+
+const std::unordered_map<size_t, babel::Call> &babel::CallManager::getCalls() const
+{
+  return this->_calls;
+}
