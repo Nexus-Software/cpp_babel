@@ -55,6 +55,12 @@ namespace babel
     std::uint32_t 	idCall;
     CLIENT_CALL_STRUCT	client[8];
   };
+
+  struct NetworkDataCSInvite
+  {
+    std::uint32_t 	idCall;
+    char 		loginInvite[32];
+  };
 #pragma pack(pop)
 }
 

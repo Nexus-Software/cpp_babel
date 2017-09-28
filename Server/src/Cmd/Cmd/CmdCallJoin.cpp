@@ -25,7 +25,7 @@ babel::CmdCallJoin::~CmdCallJoin()
 bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 {
   NetworkDataCSJoin networkDataCSJoin;
-  std::copy_n(reinterpret_cast<const char *>(&data.data), sizeof(CLIENT_CALL_STRUCT), reinterpret_cast<char *>(&networkDataCSJoin));
+  std::copy_n(reinterpret_cast<const char *>(&data.data), sizeof(NetworkDataCSJoin), reinterpret_cast<char *>(&networkDataCSJoin));
 
   if (networkDataCSJoin.idCall != 0)
     {
@@ -57,10 +57,15 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 	    }
 	}
 
+      this->_server.getCallManager().add(networkDataCSJoin.idCall,
+					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
+					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip,
+					 networkDataCSJoin.port);
+
       std::array<char, 2048> dataSend;
       std::copy_n(reinterpret_cast<const char *>(&networkDataCSJoinSuccess), sizeof(NetworkDataCSJoinSuccess), dataSend.begin());
 
-      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(9, sizeof(NetworkDataCSJoinSuccess), dataSend));
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(44, sizeof(NetworkDataCSJoinSuccess), dataSend));
 
       NetworkDataSCJoin networkDataSCJoin;
       this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(client.login, 32);
@@ -85,12 +90,17 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       auto call = this->_server.getCallManager().create();
       std::array<char, 2048> dataSend;
 
+      this->_server.getCallManager().add(call.getId(),
+					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
+					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip,
+					 networkDataCSJoin.port);
+
       NetworkDataCSJoinSuccess networkDataCSJoinSuccess;
 
       networkDataCSJoinSuccess.idCall = call.getId();
 
       std::copy_n(reinterpret_cast<const char *>(&networkDataCSJoinSuccess), sizeof(NetworkDataCSJoinSuccess), dataSend.begin());
-      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(9, sizeof(NetworkDataCSJoinSuccess), dataSend));
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(44, sizeof(NetworkDataCSJoinSuccess), dataSend));
       return true;
     }
 }

@@ -30,9 +30,9 @@ namespace babel
     CallManager(Server &server);
     virtual ~CallManager();
 
-    bool invite(size_t idCall, std::string & login);
-    bool add(size_t idCall, std::string & login, std::string & ip, unsigned int port);
-    bool remove(size_t idCall, std::string & login);
+    bool invite(size_t idCall, std::string login);
+    bool add(size_t idCall, std::string login, std::string ip, unsigned int port);
+    bool remove(size_t idCall, std::string login);
 
     bool isAllowToJoin(size_t idCall, std::string login);
     bool convIsExist(size_t idCall);
