@@ -1,5 +1,5 @@
 # GENERAL SETTINGS
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8.11)
 project(babel)
 
 set(APP_DIR ./)
@@ -63,15 +63,15 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules")
 # APP TARGET
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin/)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
+set(CMAKE_PREFIX_PATH C:/Qt/Qt5.9.1/5.9.1/msvc2015/lib/cmake)
 
 # AUDIO COMPONENTS
 find_package(Portaudio REQUIRED)
 # find_package(Opus)
 
 # QT COMPONENTS
-find_package(Qt5Network REQUIRED)
-find_package(Qt5Widgets REQUIRED)
+find_package(Qt5 REQUIRED COMPONENTS Core Network Widgets)
 
 # QT INCLUDES
 include_directories(${Qt5Network_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
@@ -101,27 +101,13 @@ qt5_wrap_ui(UIS_HDRS
 # EXECUTABLE
 add_executable(babel_client ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
 # LIBRARIES
-target_link_libraries(babel_client Qt5::Network Qt5::Widgets)
+target_link_libraries(babel_client Qt5::Widgets Qt5::Network)
 target_link_libraries(babel_client ${Portaudio_LIBRARY})
 
-# PROPER GUI WITHOUT CONSOLE [ALL OS] // DO NOT TOUCH
-if(WIN32) # Check if we are on Windows
-	if(MSVC) # Check if we are using the Visual Studio compiler
-		set_target_properties(${PROJECT_NAME} PROPERTIES
-			WIN32_EXECUTABLE YES
-			LINK_FLAGS "/ENTRY:mainCRTStartup"
-		)
-	elseif(CMAKE_COMPILER_IS_GNUCXX)
-		SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mwindows") # Not tested
-	else()
-		message(SEND_ERROR "You are using an unsupported Windows compiler! (Not MSVC or GCC)")
-	endif(MSVC)
-elseif(APPLE)
-	set_target_properties(${PROJECT_NAME} PROPERTIES
-			MACOSX_BUNDLE YES
-	)
-elseif(UNIX)
-	# Nothing special required
-else()
-	message(SEND_ERROR "You are on an unsupported platform! (Not Win32, Mac OS X or Unix)")
-endif(WIN32)
+# Windows specific build steps
+if(WIN32)
+    # Run winddeployqt if it can be found
+    find_program(WINDEPLOYQT_EXECUTABLE NAMES windeployqt HINTS ${QTDIR} ENV QTDIR PATH_SUFFIXES bin)
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND ${WINDEPLOYQT_EXECUTABLE} $<TARGET_FILE:${TARGET_NAME}>)
+endif()
