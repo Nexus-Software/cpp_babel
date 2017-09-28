@@ -80,5 +80,5 @@ void LoginDiag::SwitchToMainWindow() {
 }
 
 void LoginDiag::ShowErrorDialog() {
-    this->_uiManager.showErrorDialog("An internal error occured.");
+    QMessageBox::warning(this, "Login", "Wrong nickname or the password entered was incorrect.");
 }
