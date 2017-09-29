@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
     QObject::connect(this->_ui->FriendsList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(SelectedFriendClicked(QListWidgetItem *)));
     QObject::connect(this->_ui->AddContactButton, SIGNAL(clicked()), this, SLOT(OpenAddContactDiag()));
     QObject::connect(this->_ui->AddToConversationButton, SIGNAL(clicked()), this, SLOT(OpenAddToConversationDiag()));
+    QObject::connect(this->_ui->CallButton, SIGNAL(clicked()), this, SLOT(StartingCall()));
+    QObject::connect(this->_ui->HangupButton, SIGNAL(clicked()), this, SLOT(HangingUpCall()));
 }
 
 MainWindow::~MainWindow()
@@ -119,4 +121,16 @@ void                    MainWindow::OpenAddToConversationDiag()
 {
     this->_uiManager.showWindow("AddToConversationDiag");
     this->_uiManager.updateFriendsListConversations();
+}
+
+void                    MainWindow::StartingCall()
+{
+    this->_ui->CallButton->setEnabled(false);
+    this->_ui->HangupButton->setEnabled(true);
+}
+
+void                    MainWindow::HangingUpCall()
+{
+    this->_ui->HangupButton->setEnabled(false);
+    this->_ui->CallButton->setEnabled(true);
 }

@@ -38,6 +38,8 @@ public slots:
     void SelectedFriendClicked(QListWidgetItem *selectedContact);
     void OpenAddContactDiag();
     void OpenAddToConversationDiag();
+    void StartingCall();
+    void HangingUpCall();
 
 private:
     std::shared_ptr<Ui::MainWindow> _ui;
