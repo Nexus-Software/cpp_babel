@@ -6,7 +6,6 @@ babel::Status::Status(const int code, const std::string& note)
 	_code(code),
     _annotation(note)
 {
-	std::cout << "Status created with code " << code << std::endl;
 }
 
 babel::Status::Status(babel::Status const& status) :
@@ -17,7 +16,7 @@ babel::Status::Status(babel::Status const& status) :
 }
 
 babel::Status::~Status() {
-	std::cout << "Status destructed" << std::endl;
+
 }
 
 const int           &babel::Status::getCode(void) const {

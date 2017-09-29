@@ -1,5 +1,6 @@
 #include "addcontactdiag.h"
 #include "ui_addcontactdiag.h"
+#include "BabelClientManager.hpp"
 
 AddContactDiag::AddContactDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
@@ -25,7 +26,16 @@ QLineEdit           *AddContactDiag::getSearchNameField() const
 
 void AddContactDiag::AddContact()
 {
-    this->_uiManager.addContactToFriendsList(this->_ui->SearchNameField->text().toStdString());
+	std::array<char, 2048> ba = { 0 };
+	char contactC[32] = { 0 };
+
+	this->_ui->SearchNameField->text().toStdString().copy(contactC, 32);
+
+	std::string contact(contactC);
+
+	std::copy(contact.begin(), contact.end(), ba.begin());
+
+	this->_uiManager.getRoot().getNetwork().writeServerTCP(4, 32, ba);
 }
 
 void AddContactDiag::CloseContactWindow()
