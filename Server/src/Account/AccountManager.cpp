@@ -39,7 +39,7 @@ bool babel::AccountManager::remove(std::string login)
   return false;
 }
 
-babel::Account babel::AccountManager::getAccountByLogin(const std::string login)
+babel::Account & babel::AccountManager::getAccountByLogin(const std::string login)
 {
   auto it = this->_accountList.find(login);
   if (it != this->_accountList.end())
@@ -47,7 +47,7 @@ babel::Account babel::AccountManager::getAccountByLogin(const std::string login)
   throw babel::AccountManagerException("Account not found for login: " + login);
 }
 
-babel::Account const babel::AccountManager::getAccountByLogin(const std::string login) const
+babel::Account const & babel::AccountManager::getAccountByLogin(const std::string login) const
 {
   auto it = this->_accountList.find(login);
   if (it != this->_accountList.end())
@@ -65,33 +65,59 @@ bool babel::AccountManager::addContact(const std::string &login_req, const std::
 {
   try
     {
-      this->getAccountByLogin(login);
+      if (!this->getAccountByLogin(login).addContact(login_req) || !this->getAccountByLogin(login_req).addContact(login))
+	return false;
+      return true;
     }
   catch (babel::AccountManagerException & e)
     {
       return false;
     }
-  return this->_server.getAccountManager().getAccountByLogin(login_req).addContact(login);
 }
 
 bool babel::AccountManager::removeContact(const std::string &login_req, const std::string &login)
 {
-  return this->getAccountByLogin(login_req).removeContact(login);
+  try
+    {
+      if (!this->getAccountByLogin(login).removeContact(login_req) || !this->getAccountByLogin(login_req).removeContact(login))
+	return false;
+    }
+  catch (babel::AccountManagerException & e)
+    {
+      return false;
+    }
+  return true;
 }
 
 void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
 {
-  NetworkDataSCContactList networkDataSCContactList;
+  NetworkDataSCContactList networkDataSCContactList = {0};
 
   auto i = 0;
-  for (auto it : this->_accountList.find(login)->second.getContactList())
+  try
     {
-      this->_accountList.find(it)->second.getLogin().copy(networkDataSCContactList.contacts[i].login, 32);
-      networkDataSCContactList.contacts[i].isOnline = this->_accountList.find(it)->second.getIsOnline();
-      i += 1;
-    }
-  std::array<char, 2048> dataSend;
-  std::copy_n(reinterpret_cast<const char *>(&networkDataSCContactList), sizeof(NetworkDataSCContactList), dataSend.begin());
+      Account account = this->getAccountByLogin(login);
+      if (!this->_accountList.find(login)->second.getContactList().empty())
+	{
+	  for (auto it : this->_accountList.find(login)->second.getContactList())
+	    {
+	      this->_accountList.find(it)->second.getLogin().copy(networkDataSCContactList.contacts[i].login, 32);
+	      networkDataSCContactList.contacts[i].isOnline = this->_accountList.find(it)->second.getIsOnline();
+	      std::cout << "Login: " << networkDataSCContactList.contacts[i].login << std::endl;
+	      i += 1;
+	    }
+	}
+      std::array<char, 2048> dataSend = {0};
+      std::copy_n(reinterpret_cast<const char *>(&networkDataSCContactList), sizeof(NetworkDataSCContactList), dataSend.begin());
 
-  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(6, sizeof(networkDataSCContactList), dataSend));
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(6, sizeof(networkDataSCContactList), dataSend));
+    }
+  catch (AccountManagerException)
+    {
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(501, 0, {}));
+      return ;
+    }
 }
+
+
+// Todo: Add func login + leave (and block log is online)

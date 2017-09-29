@@ -54,15 +54,17 @@ void babel::Account::setIsOnline(bool isOnline)
 
 bool babel::Account::addContact(const std::string &login)
 {
+  if (login == this->getLogin() || std::find(this->_contactList.begin(), this->_contactList.end(), login) != this->_contactList.end())
+    return false;
   this->_contactList.push_back(login);
-  return false;
+  return true;
 }
 
 bool babel::Account::removeContact(const std::string &login)
 {
-  if (std::find(this->_contactList.begin(), this->_contactList.end(), login) == this->_contactList.end())
+  if (login == this->getLogin() || std::find(this->_contactList.begin(), this->_contactList.end(), login) == this->_contactList.end())
     return false;
   auto it = std::find(this->_contactList.begin(), this->_contactList.end(), login);
   this->_contactList.erase(it);
-  return false;
+  return true;
 }
