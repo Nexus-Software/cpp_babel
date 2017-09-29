@@ -68,6 +68,7 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 			}
 			if (!*(list.contacts[i].login))
 				return;
+			// TODO
 			//this->_root.getUI().updateContactList(list);
 		} },
 		{ 7, [&](babel::t_babelPackedData t) {
