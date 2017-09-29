@@ -21,8 +21,18 @@ namespace babel {
 
 namespace babel {
 	class UIManager
-	{
-		public:
+    {
+        public:
+            enum class ContactInfoType : int
+            {
+                ONLINE = 0,
+                CALLING_WAIT = 1,
+                IN_CONVERSATION,
+                IN_CALL,
+                NO_CONTACT_SELECTED
+            };
+
+		public:        
 			UIManager(babel::BabelClientManager&);
             ~UIManager();
 
@@ -44,7 +54,9 @@ namespace babel {
             //MainWindow methods
             babel::Status const                                         refreshGeneralInformations();
             babel::Status const                                         updateFriendsListConversations();
-            babel::Status const                                         refreshSelectedContact(std::string const& selectedContact, bool const isAConversation);
+            babel::Status const                                         refreshSelectedContact(std::string const& selectedContact, babel::UIManager::ContactInfoType const type);
+            babel::Status const                                         startCall();
+            babel::Status const                                         hangupCall();
 
             //SignupDiag methods
             babel::Status const                                         saveNicknameFromSignupToLoginDiag(std::string const& nickname);

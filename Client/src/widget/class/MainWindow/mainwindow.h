@@ -31,6 +31,7 @@ public:
     QPushButton         *getMessageSendButton();
     QLineEdit           *getMessageSendField();
     QPushButton         *getCallButton();
+    QPushButton         *getHangupButton();
 
 public slots:
     void FilterFriendsList(QString const& filterText);

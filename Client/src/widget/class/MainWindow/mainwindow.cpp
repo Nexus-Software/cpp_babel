@@ -62,6 +62,11 @@ QPushButton             *MainWindow::getCallButton()
     return (this->_ui->CallButton);
 }
 
+QPushButton             *MainWindow::getHangupButton()
+{
+    return (this->_ui->HangupButton);
+}
+
 void                    MainWindow::FilterFriendsList(QString const& filterText)
 {
     QList<QListWidgetItem *> filteredList = this->_ui->FriendsList->findItems(filterText, Qt::MatchContains);
@@ -105,7 +110,7 @@ void                    MainWindow::SelectedFriendClicked(QListWidgetItem *selec
 {
     this->_uiManager.clearConversationList();
     this->_uiManager.appendToConversationList(selectedContact->data(0).toString().toStdString());
-    this->_uiManager.refreshSelectedContact(selectedContact->data(0).toString().toStdString(), false);
+    this->_uiManager.refreshSelectedContact(selectedContact->data(0).toString().toStdString(), babel::UIManager::ContactInfoType::ONLINE);
     this->_ui->MessageSendButton->setEnabled(true);
     this->_ui->MessageSendField->setEnabled(true);
     this->_ui->CallButton->setEnabled(true);
@@ -125,12 +130,10 @@ void                    MainWindow::OpenAddToConversationDiag()
 
 void                    MainWindow::StartingCall()
 {
-    this->_ui->CallButton->setEnabled(false);
-    this->_ui->HangupButton->setEnabled(true);
+    this->_uiManager.startCall();
 }
 
 void                    MainWindow::HangingUpCall()
 {
-    this->_ui->HangupButton->setEnabled(false);
-    this->_ui->CallButton->setEnabled(true);
+    this->_uiManager.hangupCall();
 }
