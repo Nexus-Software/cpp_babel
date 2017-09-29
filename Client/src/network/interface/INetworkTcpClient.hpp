@@ -16,7 +16,6 @@ namespace babel {
 
 #pragma pack(pop)
 
-
 namespace babel {
 	class INetworkTcpClient
 	{

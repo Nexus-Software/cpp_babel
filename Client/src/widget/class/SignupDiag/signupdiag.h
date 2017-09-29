@@ -35,7 +35,6 @@ public slots:
     void ShowErrorDialog();
 
 signals:
-    void ConnectionAllowed();
     void ConnectionDenied();
 
 private:

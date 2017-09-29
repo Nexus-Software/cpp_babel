@@ -10,15 +10,20 @@
 #include "INetworkTcpClient.hpp"
 
 namespace babel {
+	class NetworkManager;
+}
+
+namespace babel {
 	class QNetworkTcpClient : public QWidget, public INetworkTcpClient
 	{
 		Q_OBJECT
 
 		public:
-			QNetworkTcpClient();
+			QNetworkTcpClient(NetworkManager&);
 			virtual ~QNetworkTcpClient();
 
 		private:
+			NetworkManager&		_manager;
 			QTcpSocket*			_socket;
 			QDataStream			_in;
             QNetworkSession*	_session;
