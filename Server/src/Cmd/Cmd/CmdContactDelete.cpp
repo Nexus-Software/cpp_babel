@@ -29,6 +29,7 @@ bool babel::CmdContactDelete::run(size_t tunnelId, babel::NetworkData & data)
 
   try
     {
+      this->_server.getAccountManager().getAccountByLogin(login);
       if (login == this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login)
 	{
 	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(501, 0, {}));
@@ -38,7 +39,7 @@ bool babel::CmdContactDelete::run(size_t tunnelId, babel::NetworkData & data)
 	      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
 	      login))
 	{
-	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(505, 0, {}));
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(501, 0, {}));
 	  return false;
 	}
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(46, 0, {}));
