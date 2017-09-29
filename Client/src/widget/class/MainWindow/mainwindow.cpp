@@ -108,12 +108,7 @@ void                    MainWindow::RedirectToLoginDiag()
 
 void                    MainWindow::SelectedFriendClicked(QListWidgetItem *selectedContact)
 {
-    this->_uiManager.clearConversationList();
-    this->_uiManager.appendToConversationList(selectedContact->data(0).toString().toStdString());
-    this->_uiManager.refreshSelectedContact(selectedContact->data(0).toString().toStdString(), babel::UIManager::ContactInfoType::ONLINE);
-    this->_ui->MessageSendButton->setEnabled(true);
-    this->_ui->MessageSendField->setEnabled(true);
-    this->_ui->CallButton->setEnabled(true);
+    this->_uiManager.selectedFriendClicked(selectedContact->data(0).toString().toStdString());
 }
 
 void                    MainWindow::OpenAddContactDiag()

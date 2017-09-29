@@ -18,6 +18,11 @@ AddContactDiag::~AddContactDiag()
 
 }
 
+QLineEdit           *AddContactDiag::getSearchNameField() const
+{
+    return (this->_ui->SearchNameField);
+}
+
 void AddContactDiag::AddContact()
 {
     this->_uiManager.addContactToFriendsList(this->_ui->SearchNameField->text().toStdString());
@@ -25,6 +30,5 @@ void AddContactDiag::AddContact()
 
 void AddContactDiag::CloseContactWindow()
 {
-    this->_uiManager.hideWindow("AddContactDiag");
-    this->_ui->SearchNameField->setText("");
+    this->_uiManager.closeContactWindow();
 }

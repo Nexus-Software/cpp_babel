@@ -65,6 +65,18 @@ babel::Status const                                                 babel::UIMan
     return (babel::Status(0, "UIManager 'addContactToFriendsList()' worked without error"));
 }
 
+babel::Status const                                                 babel::UIManager::closeContactWindow()
+{
+    AddContactDiag       *addContactDiag = dynamic_cast<AddContactDiag *>(this->_windowList["AddContactDiag"].get());
+
+    if (!addContactDiag)
+        return (babel::Status(1, "UIManager 'closeContactWindow()': addContactDiag was null"));
+
+    this->hideWindow("AddContactDiag");
+    addContactDiag->getSearchNameField()->setText("");
+    return (babel::Status(0, "UIManager 'closeContactWindow()' worked without error"));
+}
+
 babel::Status const                                                 babel::UIManager::refreshCurrentlySelectedLabel(std::vector<std::string> const& listSelected)
 {
     AddToConversationDiag       *addToConversationDiag = dynamic_cast<AddToConversationDiag *>(this->_windowList["AddToConversationDiag"].get());
@@ -301,6 +313,22 @@ babel::Status const                                                 babel::UIMan
     else
         this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
     return (babel::Status(0, "UIManager 'hangupCall()' worked without error"));
+}
+
+babel::Status const                                                 babel::UIManager::selectedFriendClicked(std::string const& contactName)
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'selectedFriendClicked()': mainWindow was null"));
+
+    this->clearConversationList();
+    this->appendToConversationList(contactName);
+    this->refreshSelectedContact(contactName, babel::UIManager::ContactInfoType::ONLINE);
+    mainWindow->getMessageSendButton()->setEnabled(true);
+    mainWindow->getMessageSendField()->setEnabled(true);
+    mainWindow->getCallButton()->setEnabled(true);
+    return (babel::Status(0, "UIManager 'selectedFriendClicked()' worked without error"));
 }
 
 babel::Status const                                                 babel::UIManager::saveNicknameFromSignupToLoginDiag(std::string const& nickname)
