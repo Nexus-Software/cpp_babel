@@ -60,7 +60,8 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 		{ 6, [&](babel::t_babelPackedData t) {
 			std::cout << "CONTACT LIST(" << t.code << ")" << std::endl;
 			babel::t_clientContactList list = *(reinterpret_cast<babel::t_clientContactList*>(t.data.data()));
-			for (int i = 0; i < 50; i++) {
+			int i = 0;
+			for (; i < 50; i++) {
 				if (!*(list.contacts[i].login))
 					break;
 				std::cout << i + 1 << ". " << list.contacts[i].login << std::endl;
