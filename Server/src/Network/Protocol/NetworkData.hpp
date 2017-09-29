@@ -61,6 +61,11 @@ namespace babel
     std::uint32_t 	idCall;
     char 		loginInvite[32];
   };
+
+  struct NetworkDataSCContactList
+  {
+    CLIENT_CONTACT_STRUCT	contacts[50];
+  };
 #pragma pack(pop)
 }
 
