@@ -39,6 +39,8 @@ namespace babel
 
     bool addContact(const std::string & login_req, const std::string & login);
     bool removeContact(const std::string & login_req, const std::string & login);
+
+    void sendContactList(size_t tunnelId, std::string login);
   };
 }
 
