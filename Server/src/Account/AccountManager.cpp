@@ -93,7 +93,7 @@ void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
 {
   NetworkDataSCContactList networkDataSCContactList = {0};
 
-  auto i = 0;
+  int i = 0;
   try
     {
       Account account = this->getAccountByLogin(login);
