@@ -33,7 +33,7 @@ bool babel::CmdContactAdd::run(size_t tunnelId, babel::NetworkData & data)
 	      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
 	      login))
 	{
-	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(506, 0, {}));
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(505, 0, {}));
 	  return false;
 	}
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(47, 0, {}));
@@ -45,7 +45,7 @@ bool babel::CmdContactAdd::run(size_t tunnelId, babel::NetworkData & data)
     }
   catch (AccountManagerException & e)
     {
-      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(506, 0, {}));
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(505, 0, {}));
       return false;
     }
 }

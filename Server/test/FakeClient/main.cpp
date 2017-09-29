@@ -41,6 +41,7 @@ int main()
 
     network_data data = {0};
     {
+      data = {0};
       data.proto_code = 1;
       data.proto_size = 64;
       std::memcpy(data.body.data(), std::string("michel").c_str(), 32);
@@ -52,6 +53,7 @@ int main()
     }
 
     {
+      data = {0};
       socket.read_some(boost::asio::buffer(&data, sizeof(data)));
 
       NetworkDataSCContactList networkDataSCContactList;
@@ -73,6 +75,7 @@ int main()
 
     network_data data = {0};
     {
+      data = {0};
       data.proto_code = 1;
       data.proto_size = 64;
       std::memcpy(data.body.data(), std::string("ty").c_str(), 32);
@@ -84,6 +87,7 @@ int main()
     }
 
     {
+      data = {0};
       socket.read_some(boost::asio::buffer(&data, sizeof(data)));
 
       NetworkDataSCContactList networkDataSCContactList;
@@ -97,6 +101,7 @@ int main()
     }
 
     {
+      data = {0};
       data.proto_code = 4;
       data.proto_size = 32;
       std::memcpy(data.body.data(), std::string("michel").c_str(), sizeof("michel"));
@@ -107,6 +112,7 @@ int main()
     }
 
     {
+      data = {0};
       socket.read_some(boost::asio::buffer(&data, sizeof(data)));
 
       NetworkDataSCContactList networkDataSCContactList;
