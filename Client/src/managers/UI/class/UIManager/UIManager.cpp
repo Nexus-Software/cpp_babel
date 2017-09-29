@@ -1,4 +1,3 @@
-#include <iostream>
 #include "UIManager.hpp"
 
 babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
