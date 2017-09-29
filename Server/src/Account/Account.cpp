@@ -55,7 +55,7 @@ void babel::Account::setIsOnline(bool isOnline)
 bool babel::Account::addContact(const std::string &login)
 {
   this->_contactList.push_back(login);
-  return false;
+  return true;
 }
 
 bool babel::Account::removeContact(const std::string &login)
@@ -64,5 +64,5 @@ bool babel::Account::removeContact(const std::string &login)
     return false;
   auto it = std::find(this->_contactList.begin(), this->_contactList.end(), login);
   this->_contactList.erase(it);
-  return false;
+  return true;
 }

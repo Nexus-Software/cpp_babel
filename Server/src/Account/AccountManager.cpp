@@ -39,7 +39,7 @@ bool babel::AccountManager::remove(std::string login)
   return false;
 }
 
-babel::Account babel::AccountManager::getAccountByLogin(const std::string login)
+babel::Account & babel::AccountManager::getAccountByLogin(const std::string login)
 {
   auto it = this->_accountList.find(login);
   if (it != this->_accountList.end())
@@ -47,7 +47,7 @@ babel::Account babel::AccountManager::getAccountByLogin(const std::string login)
   throw babel::AccountManagerException("Account not found for login: " + login);
 }
 
-babel::Account const babel::AccountManager::getAccountByLogin(const std::string login) const
+babel::Account const & babel::AccountManager::getAccountByLogin(const std::string login) const
 {
   auto it = this->_accountList.find(login);
   if (it != this->_accountList.end())
@@ -65,13 +65,14 @@ bool babel::AccountManager::addContact(const std::string &login_req, const std::
 {
   try
     {
-      this->getAccountByLogin(login);
+      if (!this->getAccountByLogin(login).addContact(login_req))
+	return false;
     }
   catch (babel::AccountManagerException & e)
     {
       return false;
     }
-  return this->_server.getAccountManager().getAccountByLogin(login_req).addContact(login);
+  return this->getAccountByLogin(login_req).addContact(login);
 }
 
 bool babel::AccountManager::removeContact(const std::string &login_req, const std::string &login)
@@ -81,7 +82,7 @@ bool babel::AccountManager::removeContact(const std::string &login_req, const st
 
 void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
 {
-  NetworkDataSCContactList networkDataSCContactList;
+  NetworkDataSCContactList networkDataSCContactList = {0};
 
   auto i = 0;
   try
@@ -97,7 +98,7 @@ void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
 	      i += 1;
 	    }
 	}
-      std::array<char, 2048> dataSend;
+      std::array<char, 2048> dataSend = {0};
       std::copy_n(reinterpret_cast<const char *>(&networkDataSCContactList), sizeof(NetworkDataSCContactList), dataSend.begin());
 
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(6, sizeof(networkDataSCContactList), dataSend));

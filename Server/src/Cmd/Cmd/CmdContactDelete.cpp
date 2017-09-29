@@ -23,14 +23,12 @@ babel::CmdContactDelete::~CmdContactDelete()
 
 bool babel::CmdContactDelete::run(size_t tunnelId, babel::NetworkData & data)
 {
-  std::string login(data.data.begin(), data.data.begin() + 31);
+  std::string login(data.data.begin());
 
   std::cout << "Login: " << login << std::endl;
 
   try
     {
-      this->_server.getAccountManager().getAccountByLogin(login);
-      //Todo: Check get Tunnel info throw
       this->_server.getAccountManager().removeContact(
 	      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
 	      login);

@@ -62,6 +62,7 @@ void babel::NetworkTcpServerTunnelBoost::handleRead(const boost::system::error_c
       std::cout << "Data: " << std::string(reinterpret_cast<const char *>(this->_dataRead.data.data()), 2048)
 		<< std::endl;
       this->_server.getHandleCmd().execCmd(this->_tunnelId, this->_dataRead);
+      this->_dataRead.data = {0};
     }
   else
     {
