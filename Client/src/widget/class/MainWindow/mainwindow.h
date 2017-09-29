@@ -31,6 +31,7 @@ public:
     QPushButton         *getMessageSendButton();
     QLineEdit           *getMessageSendField();
     QPushButton         *getCallButton();
+    QPushButton         *getHangupButton();
 
 public slots:
     void FilterFriendsList(QString const& filterText);
@@ -38,6 +39,8 @@ public slots:
     void SelectedFriendClicked(QListWidgetItem *selectedContact);
     void OpenAddContactDiag();
     void OpenAddToConversationDiag();
+    void StartingCall();
+    void HangingUpCall();
 
 private:
     std::shared_ptr<Ui::MainWindow> _ui;

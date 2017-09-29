@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
     QObject::connect(this->_ui->FriendsList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(SelectedFriendClicked(QListWidgetItem *)));
     QObject::connect(this->_ui->AddContactButton, SIGNAL(clicked()), this, SLOT(OpenAddContactDiag()));
     QObject::connect(this->_ui->AddToConversationButton, SIGNAL(clicked()), this, SLOT(OpenAddToConversationDiag()));
+    QObject::connect(this->_ui->CallButton, SIGNAL(clicked()), this, SLOT(StartingCall()));
+    QObject::connect(this->_ui->HangupButton, SIGNAL(clicked()), this, SLOT(HangingUpCall()));
 }
 
 MainWindow::~MainWindow()
@@ -58,6 +60,11 @@ QLineEdit               *MainWindow::getMessageSendField()
 QPushButton             *MainWindow::getCallButton()
 {
     return (this->_ui->CallButton);
+}
+
+QPushButton             *MainWindow::getHangupButton()
+{
+    return (this->_ui->HangupButton);
 }
 
 void                    MainWindow::FilterFriendsList(QString const& filterText)
@@ -103,7 +110,7 @@ void                    MainWindow::SelectedFriendClicked(QListWidgetItem *selec
 {
     this->_uiManager.clearConversationList();
     this->_uiManager.appendToConversationList(selectedContact->data(0).toString().toStdString());
-    this->_uiManager.refreshSelectedContact(selectedContact->data(0).toString().toStdString(), false);
+    this->_uiManager.refreshSelectedContact(selectedContact->data(0).toString().toStdString(), babel::UIManager::ContactInfoType::ONLINE);
     this->_ui->MessageSendButton->setEnabled(true);
     this->_ui->MessageSendField->setEnabled(true);
     this->_ui->CallButton->setEnabled(true);
@@ -119,4 +126,14 @@ void                    MainWindow::OpenAddToConversationDiag()
 {
     this->_uiManager.showWindow("AddToConversationDiag");
     this->_uiManager.updateFriendsListConversations();
+}
+
+void                    MainWindow::StartingCall()
+{
+    this->_uiManager.startCall();
+}
+
+void                    MainWindow::HangingUpCall()
+{
+    this->_uiManager.hangupCall();
 }

@@ -110,9 +110,9 @@ babel::Status const                                                 babel::UIMan
         {
             friendsList->item(i)->setSelected(false);
             if (this->_conversationList.isEmpty())
-                this->refreshSelectedContact("", false);
+                this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
             else
-                this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), true);
+                this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::IN_CONVERSATION);
         }
         else
         {
@@ -121,7 +121,7 @@ babel::Status const                                                 babel::UIMan
                 if (friendsList->item(i)->data(0).toString().toStdString() == it)
                 {
                     friendsList->item(i)->setSelected(true);
-                    this->refreshSelectedContact(friendsList->item(i)->data(0).toString().toStdString(), false);
+                    this->refreshSelectedContact(friendsList->item(i)->data(0).toString().toStdString(), babel::UIManager::ContactInfoType::ONLINE);
                 }
                 else
                     friendsList->item(i)->setSelected(false);
@@ -217,7 +217,7 @@ babel::Status const                                                 babel::UIMan
     return (babel::Status(0, "UIManager 'updateFriendsListConversations()' worked without error"));
 }
 
-babel::Status const                                                 babel::UIManager::refreshSelectedContact(std::string const& selectedContact, bool const isAConversation)
+babel::Status const                                                 babel::UIManager::refreshSelectedContact(std::string const& selectedContact, babel::UIManager::ContactInfoType const type)
 {
     MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
 
@@ -229,29 +229,79 @@ babel::Status const                                                 babel::UIMan
 
     if (!selectedContactInformations || !selectedContactChat)
         return (babel::Status(1, "UIManager 'refreshSelectedContact()': A widget was null"));
-    if (!isAConversation)
+
+    switch (type)
     {
-        if (selectedContact != "")
-        {
+        case (babel::UIManager::ContactInfoType::ONLINE):
             selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
                                                 selectedContact +
                                                 "</span></p><p style=\"margin: 2px\"><span style=\" font-style:italic; color:#56b921;\">Online</span></p></body></html>"));
             selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
-        }
-        else
-        {
-            selectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
-            selectedContactChat->setText("<html><head/><body><p><span style=\"font-style:italic; color:#4d4d4d ;\">Select someone on the left to chat with someone!</span></p></body></html>");
-        }
-    }
-    else
-    {
+        break;
+    case (babel::UIManager::ContactInfoType::CALLING_WAIT):
+        selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
+                                                                    selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#ffaa00;\">\
+                                                                    Waiting..</span></p></body></html>"));
+        //selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+        break;
+    case (babel::UIManager::ContactInfoType::IN_CONVERSATION):
         selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\" font-weight:496;\">" +
                                              selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" \
-                                             font-style:italic; color:#4d4d4d ;\">In conversation</span></p></body></html>"));
+                                             font-style:italic; color:#4d4d4d ;\">Conversation</span></p></body></html>"));
         selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+        break;
+    case (babel::UIManager::ContactInfoType::IN_CALL):
+        selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
+                                                                    selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#56b921;\">\
+                                                                    In call</span></p></body></html>"));
+        //selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#56b921;\">Chat empty :(</span></p></body></html>");
+        break;
+    case (babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED):
+        selectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
+        selectedContactChat->setText("<html><head/><body><p><span style=\"font-style:italic; color:#4d4d4d ;\">Select someone on the left to chat with someone!</span></p></body></html>");
+        break;
     }
     return (babel::Status(0, "UIManager 'refreshSelectedContact()' worked without error"));
+}
+
+babel::Status const                                                 babel::UIManager::startCall()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'startCall()': mainWindow was null"));
+
+    mainWindow->getCallButton()->setEnabled(false);
+    mainWindow->getHangupButton()->setEnabled(true);
+    this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::CALLING_WAIT);
+    return (babel::Status(0, "UIManager 'startCall()' worked without error"));
+}
+
+babel::Status const                                                 babel::UIManager::hangupCall()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'hangupCall()': mainWindow was null"));
+
+    QListWidget *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'hangupCall()': friendsList was null"));
+    mainWindow->getHangupButton()->setEnabled(false);
+    mainWindow->getCallButton()->setEnabled(true);
+    if (this->_conversationList.count() != 1)
+    {
+        this->_conversationList.clear();
+        for (quint32 i = 0; i < friendsList->count(); i++)
+            friendsList->item(i)->setSelected(false);
+        this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
+        mainWindow->getMessageSendField()->setEnabled(false);
+        mainWindow->getMessageSendButton()->setEnabled(false);
+    }
+    else
+        this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
+    return (babel::Status(0, "UIManager 'hangupCall()' worked without error"));
 }
 
 babel::Status const                                                 babel::UIManager::saveNicknameFromSignupToLoginDiag(std::string const& nickname)
@@ -259,7 +309,7 @@ babel::Status const                                                 babel::UIMan
     LoginDiag *loginDiag = dynamic_cast<LoginDiag *>(this->_windowList["LoginDiag"].get());
 
     if (!loginDiag)
-        return (babel::Status(1, "UIManager 'refreshSelectedContact()': loginDiag was null"));
+        return (babel::Status(1, "UIManager 'saveNicknameFromSignupToLoginDiag()': loginDiag was null"));
 
     QLineEdit   *nicknameField = loginDiag->getNicknameField();
 
