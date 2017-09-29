@@ -29,9 +29,13 @@ bool babel::CmdContactDelete::run(size_t tunnelId, babel::NetworkData & data)
 
   try
     {
-      this->_server.getAccountManager().removeContact(
+      if (!this->_server.getAccountManager().removeContact(
 	      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
-	      login);
+	      login))
+	{
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(505, 0, {}));
+	  return false;
+	}
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(46, 0, {}));
 
       this->_server.getAccountManager().sendContactList(tunnelId,

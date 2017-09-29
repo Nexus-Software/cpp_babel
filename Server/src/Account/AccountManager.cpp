@@ -77,6 +77,15 @@ bool babel::AccountManager::addContact(const std::string &login_req, const std::
 
 bool babel::AccountManager::removeContact(const std::string &login_req, const std::string &login)
 {
+  try
+    {
+      if (!this->getAccountByLogin(login).removeContact(login_req))
+	return false;
+    }
+  catch (babel::AccountManagerException & e)
+    {
+      return false;
+    }
   return this->getAccountByLogin(login_req).removeContact(login);
 }
 
