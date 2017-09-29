@@ -40,7 +40,7 @@ namespace babel
 
     virtual bool writeForAll(NetworkData data);
 
-    virtual TunnelInfo getTunnelInfoByTunnelId(const size_t tunnelId);
+    virtual TunnelInfo & getTunnelInfoByTunnelId(const size_t tunnelId);
 
     virtual void setIpForTunnelId(size_t tunnelId, const std::string & ip);
 

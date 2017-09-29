@@ -109,7 +109,7 @@ void babel::NetworkManagerBoost::removeTunnel(NetworkTcpServerTunnelBoost::point
     }
 }
 
-babel::TunnelInfo babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size_t tunnelId)
+babel::TunnelInfo & babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size_t tunnelId)
 {
   auto it = this->_tunnelInfo.find(tunnelId);
   if (it != this->_tunnelInfo.end())
