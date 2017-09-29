@@ -1,5 +1,6 @@
 #include "logindiag.h"
 #include "ui_logindiag.h"
+#include "BabelClientManager.hpp"
 
 LoginDiag::LoginDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
@@ -61,13 +62,24 @@ void LoginDiag::WaitingForResponse() {
     this->enableAllObjects(false);
     // Request to the server if credentials are correct
     // Here are temporary connection
-    if (this->_ui->NicknameField->text() == "Cauvin" && this->_ui->PasswordField->text() == "1235")
-    {
-        this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
-        emit ConnectionAllowed();
-    }
-    else
-        emit ConnectionDenied();
+    this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
+
+	std::array<char, 2048> ba = { 0 };
+	char usernameC[32] = { 0 };
+	char passwordC[32] = { 0 };
+
+	this->_ui->NicknameField->text().toStdString().copy(usernameC, 32);
+	this->_ui->PasswordField->text().toStdString().copy(passwordC, 32);
+
+	std::string username(usernameC);
+	std::string password(passwordC);
+
+	std::copy(username.begin(), username.end(), ba.begin());
+	std::copy(password.begin(), password.end(), ba.begin() + 32);
+
+	this->_uiManager.getRoot().getNetwork().writeServerTCP(2, 64, ba);
+	this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
+   
     this->enableAllObjects(true);
 }
 

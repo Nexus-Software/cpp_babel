@@ -1,6 +1,5 @@
 #include "signupdiag.h"
 #include "ui_signupdiag.h"
-#include "UIManager.hpp"
 #include "BabelClientManager.hpp"
 
 SignupDiag::SignupDiag(QWidget *parent, babel::UIManager &uiManager) :

@@ -15,6 +15,9 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 		} },
 		{ 44, [&](babel::t_babelPackedData t) {
 			std::cout << "SUCCESS LOGIN (" << t.code << ")" << std::endl;
+			this->_root.getUI().hideWindow("LoginDiag");
+			this->_root.getUI().refreshGeneralInformations();
+			this->_root.getUI().showWindow("MainWindow");
 		} },
 		{ 45, [&](babel::t_babelPackedData t) {
 			std::cout << "SUCCESS SIGNUP(" << t.code << ")" << std::endl;
