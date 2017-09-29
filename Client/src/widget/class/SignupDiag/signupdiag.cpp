@@ -1,5 +1,7 @@
 #include "signupdiag.h"
 #include "ui_signupdiag.h"
+#include "UIManager.hpp"
+#include "BabelClientManager.hpp"
 
 SignupDiag::SignupDiag(QWidget *parent, babel::UIManager &uiManager) :
     QDialog(parent),
@@ -11,7 +13,6 @@ SignupDiag::SignupDiag(QWidget *parent, babel::UIManager &uiManager) :
 
     QObject::connect(this->_ui->LoginButton, SIGNAL(clicked()), this, SLOT(SwitchToLoginWindow()));
     QObject::connect(this->_ui->RegisterButton, SIGNAL(clicked()), this, SLOT(WaitingForResponse()));
-    QObject::connect(this, SIGNAL(ConnectionAllowed()), this, SLOT(SwitchToMainWindow()));
     QObject::connect(this, SIGNAL(ConnectionDenied()), this, SLOT(ShowErrorDialog()));
 }
 
@@ -64,12 +65,25 @@ void SignupDiag::SwitchToLoginWindow() {
 }
 
 void SignupDiag::WaitingForResponse() {
-    this->enableAllObjects(false);
-    // v This + if that nickname isn't not already registered v
+	this->enableAllObjects(false);
     if (this->_ui->PasswordField->text() == this->_ui->ConfirmField->text())
     {
         this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
-        emit ConnectionAllowed();
+
+		std::array<char, 2048> ba = { 0 };
+		char usernameC[32] = { 0 };
+		char passwordC[32] = { 0 };
+
+		this->_ui->NicknameField->text().toStdString().copy(usernameC, 32);
+		this->_ui->PasswordField->text().toStdString().copy(passwordC, 32);
+
+		std::string username(usernameC);
+		std::string password(passwordC);
+
+		std::copy(username.begin(), username.end(), ba.begin());
+		std::copy(password.begin(), password.end(), ba.begin() + 32);
+
+		this->_uiManager.getRoot().getNetwork().writeServerTCP(1, 64, ba);
     }
     else
         emit ConnectionDenied();
@@ -77,7 +91,7 @@ void SignupDiag::WaitingForResponse() {
 }
 
 void SignupDiag::SwitchToMainWindow() {
-    this->_uiManager.hideWindow("SignupDiag");
+	this->_uiManager.hideWindow("SignupDiag");
     this->_ui->NicknameField->setText("");
     this->_ui->PasswordField->setText("");
     this->_ui->ConfirmField->setText("");

@@ -1,8 +1,10 @@
 #include <iostream>
 #include "QNetworkTcpClient.hpp"
+#include "NetworkManager.hpp"
 
-babel::QNetworkTcpClient::QNetworkTcpClient()
+babel::QNetworkTcpClient::QNetworkTcpClient(babel::NetworkManager& manager)
 :
+	_manager(manager),
 	_socket(new QTcpSocket()),
 	_session(Q_NULLPTR)
 {
@@ -49,34 +51,12 @@ bool babel::QNetworkTcpClient::write(babel::t_babelPackedData& st)
 bool babel::QNetworkTcpClient::connected()
 {
     std::cout << "Connected !" << std::endl;
-    // TODO: REMOVE that, it's an example
-    std::array<char, 2048> ba = {0};
-   	std::string username = "Admin\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
-	std::string password = "Pass\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
-	std::copy(username.begin(), username.end(), ba.begin());
-	std::copy(password.begin(), password.end(), ba.begin() + 32);
-	babel::t_babelPackedData t;
-	t.code = 1;
-	t.size = 64;
-	t.data = ba;
-	// ---------------------------
-    this->write(t);
 	return true;
 }
 
 bool babel::QNetworkTcpClient::readEvent()
 {
-    std::cout << "read event triggered" << std::endl;
-	this->_in.startTransaction();
-
-	std::cout << "New data available, reading it..." << std::endl;
-    QString nextFortune;
-    this->_in >> nextFortune;
-
-    if (!this->_in.commitTransaction())
-        return false;
-
-    std::cout << "Get: " << nextFortune.toStdString() << std::endl;
+	this->_manager.handleCmd(*(reinterpret_cast<babel::t_babelPackedData*>(this->_socket->readAll().data())));
 	return true;
 }
 
