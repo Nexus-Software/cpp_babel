@@ -21,6 +21,8 @@ public:
     explicit AddContactDiag(QWidget *parent, babel::UIManager &uiManager);
     ~AddContactDiag();
 
+    QLineEdit           *getSearchNameField() const;
+
 public slots:
     void AddContact();
     void CloseContactWindow();

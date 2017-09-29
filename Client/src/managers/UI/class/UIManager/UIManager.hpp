@@ -44,6 +44,7 @@ namespace babel {
 
             //AddContactDiag methods
             babel::Status const                                         addContactToFriendsList(std::string const& contactName);
+            babel::Status const                                         closeContactWindow();
 
             //AddToConversationDiag methods
             babel::Status const                                         refreshCurrentlySelectedLabel(std::vector<std::string> const& listSelected);
@@ -58,6 +59,7 @@ namespace babel {
             babel::Status const                                         refreshSelectedContact(std::string const& selectedContact, babel::UIManager::ContactInfoType const type);
             babel::Status const                                         startCall();
             babel::Status const                                         hangupCall();
+            babel::Status const                                         selectedFriendClicked(std::string const& contactName);
 
             //SignupDiag methods
             babel::Status const                                         saveNicknameFromSignupToLoginDiag(std::string const& nickname);
