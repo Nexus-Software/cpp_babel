@@ -309,6 +309,7 @@ babel::Status const                                                 babel::UIMan
         this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
         mainWindow->getMessageSendField()->setEnabled(false);
         mainWindow->getMessageSendButton()->setEnabled(false);
+        mainWindow->getCallButton()->setEnabled(false);
     }
     else
         this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
