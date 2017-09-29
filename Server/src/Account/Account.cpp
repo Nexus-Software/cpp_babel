@@ -54,6 +54,8 @@ void babel::Account::setIsOnline(bool isOnline)
 
 bool babel::Account::addContact(const std::string &login)
 {
+  if (std::find(this->_contactList.begin(), this->_contactList.end(), login) != this->_contactList.end())
+    return false;
   this->_contactList.push_back(login);
   return true;
 }

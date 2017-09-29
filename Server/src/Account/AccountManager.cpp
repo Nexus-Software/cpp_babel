@@ -65,28 +65,28 @@ bool babel::AccountManager::addContact(const std::string &login_req, const std::
 {
   try
     {
-      if (!this->getAccountByLogin(login).addContact(login_req))
+      if (!this->getAccountByLogin(login).addContact(login_req) || !this->getAccountByLogin(login_req).addContact(login))
 	return false;
+      return true;
     }
   catch (babel::AccountManagerException & e)
     {
       return false;
     }
-  return this->getAccountByLogin(login_req).addContact(login);
 }
 
 bool babel::AccountManager::removeContact(const std::string &login_req, const std::string &login)
 {
   try
     {
-      if (!this->getAccountByLogin(login).removeContact(login_req))
+      if (!this->getAccountByLogin(login).removeContact(login_req) || !this->getAccountByLogin(login_req).removeContact(login))
 	return false;
     }
   catch (babel::AccountManagerException & e)
     {
       return false;
     }
-  return this->getAccountByLogin(login_req).removeContact(login);
+  return true;
 }
 
 void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)

@@ -29,7 +29,12 @@ bool babel::CmdContactAdd::run(size_t tunnelId, babel::NetworkData & data)
 
   try
     {
-      if (!this->_server.getAccountManager().addContact(
+      if (login == this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login)
+	{
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(501, 0, {}));
+	  return false;
+	}
+      else if (!this->_server.getAccountManager().addContact(
 	      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
 	      login))
 	{
