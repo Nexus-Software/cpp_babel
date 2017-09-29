@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <memory>
 #include <list>
+#include <array>
 #include <QApplication>
 #include "Status.hpp"
 #include "addcontactdiag.h"

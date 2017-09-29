@@ -24,12 +24,14 @@ babel::CmdCallInvite::~CmdCallInvite()
 bool babel::CmdCallInvite::run(size_t tunnelId, babel::NetworkData &data)
 {
   NetworkDataCSInvite networkDataCSInvite;
-  std::copy_n(reinterpret_cast<const char *>(&data.data), sizeof(CLIENT_CALL_STRUCT), reinterpret_cast<char *>(&networkDataCSInvite));
+  std::copy_n(reinterpret_cast<const char *>(&data.data), sizeof(NetworkDataCSInvite), reinterpret_cast<char *>(&networkDataCSInvite));
 
   if (!this->_server.getCallManager().convIsExist(networkDataCSInvite.idCall))
     return false;
   this->_server.getCallManager().invite(networkDataCSInvite.idCall, networkDataCSInvite.loginInvite);
 
   this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(48, 0, {}));
+
+  //Todo: Invite loginInvite
   return true;
 }

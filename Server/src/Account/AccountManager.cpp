@@ -78,3 +78,20 @@ bool babel::AccountManager::removeContact(const std::string &login_req, const st
 {
   return this->getAccountByLogin(login_req).removeContact(login);
 }
+
+void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
+{
+  NetworkDataSCContactList networkDataSCContactList;
+
+  auto i = 0;
+  for (auto it : this->_accountList.find(login)->second.getContactList())
+    {
+      this->_accountList.find(it)->second.getLogin().copy(networkDataSCContactList.contacts[i].login, 32);
+      networkDataSCContactList.contacts[i].isOnline = this->_accountList.find(it)->second.getIsOnline();
+      i += 1;
+    }
+  std::array<char, 2048> dataSend;
+  std::copy_n(reinterpret_cast<const char *>(&networkDataSCContactList), sizeof(NetworkDataSCContactList), dataSend.begin());
+
+  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(6, sizeof(networkDataSCContactList), dataSend));
+}
