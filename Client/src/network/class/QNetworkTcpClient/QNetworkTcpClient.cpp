@@ -56,7 +56,12 @@ bool babel::QNetworkTcpClient::connected()
 
 bool babel::QNetworkTcpClient::readEvent()
 {
-	this->_manager.handleCmd(*(reinterpret_cast<babel::t_babelPackedData*>(this->_socket->readAll().data())));
+	std::cout << "New transmission incoming" << std::endl;
+	std::cout << "Bytes available: (begin)" << this->_socket->bytesAvailable() << std::endl;
+	while (this->_socket->bytesAvailable() >= sizeof(babel::t_babelPackedData)) {
+		std::cout << "loop> Bytes available: " << this->_socket->bytesAvailable() << std::endl;
+		this->_manager.handleCmd(*(reinterpret_cast<babel::t_babelPackedData*>(this->_socket->read(sizeof(babel::t_babelPackedData)).data())));
+	}
 	return true;
 }
 

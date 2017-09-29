@@ -57,6 +57,33 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 			std::cout << "SUCCESS NO SUCH CONV(" << t.code << ")" << std::endl;
 			this->_root.getUI().showErrorDialog("This conv does not exist :(");
 		} },
+		{ 6, [&](babel::t_babelPackedData t) {
+			std::cout << "CONTACT LIST(" << t.code << ")" << std::endl;
+			babel::t_clientContactList list = *(reinterpret_cast<babel::t_clientContactList*>(t.data.data()));
+			int i = 0;
+			for (; i < 50; i++) {
+				if (!*(list.contacts[i].login))
+					break;
+				std::cout << i + 1 << ". " << list.contacts[i].login << std::endl;
+			}
+			if (!*(list.contacts[i].login))
+				return;
+			// TODO
+			//this->_root.getUI().updateContactList(list);
+		} },
+		{ 7, [&](babel::t_babelPackedData t) {
+			std::cout << "INVITE CALL(" << t.code << ")" << std::endl;
+			this->_root.getUI().showErrorDialog("This conv does not exist :(");
+		} },
+		{ 8, [&](babel::t_babelPackedData t) {
+			std::cout << "LEAVE CALL(" << t.code << ")" << std::endl;
+			this->_root.getUI().showErrorDialog("This conv does not exist :(");
+		} },
+		{ 9, [&](babel::t_babelPackedData t) {
+			std::cout << "JOIN CALL(" << t.code << ")" << std::endl;
+
+			this->_root.getUI().showErrorDialog("This conv does not exist :(");
+		} },
 	})
 {
 	std::cout << "NetworkManager created" << std::endl;

@@ -61,7 +61,6 @@ void LoginDiag::SwitchToSignupWindow() {
 void LoginDiag::WaitingForResponse() {
     this->enableAllObjects(false);
     // Request to the server if credentials are correct
-    // Here are temporary connection
     this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
 
 	std::array<char, 2048> ba = { 0 };
