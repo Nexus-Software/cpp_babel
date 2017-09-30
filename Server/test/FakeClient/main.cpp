@@ -33,6 +33,7 @@ struct NetworkDataSCContactList
 
 int main()
 {
+  std::cout << "--------------------------[TEST SIGN UP]-------------------------" << std::endl;
   {
     boost::asio::io_service ios;
     tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 42420);
@@ -66,7 +67,7 @@ int main()
       std::cout << "Contact :" << networkDataSCContactList.contacts[0].login << std::endl;
     }
   }
-  	std::cout << "-----------------------------------------------------" << std::endl;
+  	std::cout << "--------------------------[TEST ADD CONTACT]-------------------------" << std::endl;
   {
     boost::asio::io_service ios;
     tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 42420);
@@ -123,32 +124,7 @@ int main()
       std::cout << "Received size: " << data.proto_size << std::endl;
       std::cout << "Contact :" << networkDataSCContactList.contacts[0].login << std::endl;
     }
-
-    //
-    {
-      data = {0};
-      data.proto_code = 4;
-      data.proto_size = 32;
-      std::memcpy(data.body.data(), std::string("michel").c_str(), sizeof("michel"));
-      socket.write_some(boost::asio::buffer(&data, sizeof(data)));
-      socket.read_some(boost::asio::buffer(&data, sizeof(data)));
-      std::cout << "Received code: " << data.proto_code << std::endl;
-      std::cout << "Received size: " << data.proto_size << std::endl;
-    }
-
-    {
-      data = {0};
-      socket.read_some(boost::asio::buffer(&data, sizeof(data)));
-
-      NetworkDataSCContactList networkDataSCContactList;
-
-      std::copy_n(reinterpret_cast<const char *>(&data.body), sizeof(NetworkDataSCContactList), reinterpret_cast<char *>(&networkDataSCContactList));
-
-      std::cout << "Received code: " << data.proto_code << std::endl;
-      std::cout << "Received size: " << data.proto_size << std::endl;
-      std::cout << "Contact :" << networkDataSCContactList.contacts[0].login << std::endl;
-    }
-    //
+    std::cout << "------------------------[TEST CALL]---------------------------" << std::endl;
   }
 
   return 0;

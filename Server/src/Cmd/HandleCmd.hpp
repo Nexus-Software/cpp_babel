@@ -22,6 +22,7 @@
 #include "Cmd/CmdContactDelete.hpp"
 #include "Cmd/CmdCallJoin.hpp"
 #include "Cmd/CmdCallInvite.hpp"
+#include "Cmd/CmdLeave.hpp"
 #include "BabelNetworkMacro.hpp"
 
 namespace babel

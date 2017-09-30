@@ -115,7 +115,7 @@ babel::Status const                                                 babel::UIMan
     if (!friendsList || !messageSendButton || !messageSendField || !callButton)
         return (babel::Status(1, "UIManager 'refreshNewDataConversation()': A widget was null"));
     this->_conversationList = QList<std::string>::fromVector(QVector<std::string>::fromStdVector(newConversationList));
-    for (quint32 i = 0; i < friendsList->count(); i++)
+    for (int i = 0; i < friendsList->count(); i++)
     {
         if (this->_conversationList.length() != 1)
         {
@@ -234,7 +234,7 @@ babel::Status const                                                 babel::UIMan
     for (auto it : this->_conversationList)
         tmpConversationList.append(it);
     this->refreshCurrentlySelectedLabel(tmpConversationList.toVector().toStdVector());
-    for (quint32 i = 0; i < friendsListMainWin->count(); i++)
+    for (int i = 0; i < friendsListMainWin->count(); i++)
     {
         friendsListConversations->addItem(friendsListMainWin->item(i)->data(0).toString());
         friendsListConversations->item(i)->setCheckState(Qt::CheckState::Unchecked);
@@ -348,7 +348,7 @@ babel::Status const                                                 babel::UIMan
     if (this->_conversationList.count() != 1)
     {
         this->_conversationList.clear();
-        for (quint32 i = 0; i < friendsList->count(); i++)
+        for (int i = 0; i < friendsList->count(); i++)
             friendsList->item(i)->setSelected(false);
         this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
         mainWindow->getMessageSendField()->setEnabled(false);
