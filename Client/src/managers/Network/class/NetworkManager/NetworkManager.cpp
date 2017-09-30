@@ -61,16 +61,16 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 		{ 6, [&](babel::t_babelPackedData t) {
 			std::cout << "CONTACT LIST(" << t.code << ")" << std::endl;
 			babel::t_clientContactList list = *(reinterpret_cast<babel::t_clientContactList*>(t.data.data()));
+            std::vector<babel::Contact> listContact;
 			int i = 0;
 			for (; i < 50; i++) {
 				if (!*(list.contacts[i].login))
 					break;
+                listContact.push_back(babel::Contact(list.contacts[i].login, list.contacts[i].isOnline));
 				std::cout << i + 1 << ". " << list.contacts[i].login << std::endl;
-			}
-			if (!*(list.contacts[i].login))
-				return;
-			// TODO
-			//this->_root.getUI().updateContactList(list);
+            }
+            this->_root.getContact().updateContactList(listContact);
+            this->_root.getUI().updateFriendsListFromContactManager();
 		} },
 		{ 7, [&](babel::t_babelPackedData t) {
 			std::cout << "INVITE CALL(" << t.code << ")" << std::endl;

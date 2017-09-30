@@ -61,7 +61,7 @@ void LoginDiag::SwitchToSignupWindow() {
 void LoginDiag::WaitingForResponse() {
     this->enableAllObjects(false);
     // Request to the server if credentials are correct
-    this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
+    this->_uiManager.getRoot().getContact().setUser(babel::Contact(this->_ui->NicknameField->text().toStdString(), true));
 
 	std::array<char, 2048> ba = { 0 };
 	char usernameC[32] = { 0 };
@@ -76,8 +76,7 @@ void LoginDiag::WaitingForResponse() {
 	std::copy(username.begin(), username.end(), ba.begin());
 	std::copy(password.begin(), password.end(), ba.begin() + 32);
 
-	this->_uiManager.getRoot().getNetwork().writeServerTCP(2, 64, ba);
-	this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
+    this->_uiManager.getRoot().getNetwork().writeServerTCP(2, 64, ba);
    
     this->enableAllObjects(true);
 }
