@@ -2,7 +2,6 @@
 #define BABEL_CALLMANAGER_HPP_
 
 #include <iostream>
-#include <vector>
 #include "Call.hpp"
 #include "Status.hpp"
 
@@ -18,26 +17,22 @@ namespace babel {
 			~CallManager();
 
 		private:
-			babel::BabelClientManager&	_root;
-			babel::Call					_currentCall;
-			std::vector<babel::Call>	_callHistory;
+            babel::BabelClientManager&              _root;
+            babel::Call                             _currentCall;
 
 		public:
 			babel::BabelClientManager&				getRoot(void);
 			const babel::BabelClientManager&		getRoot(void) const;
 			const babel::Call&						getCurrentcall(void) const;
-			babel::Call&							getCurrentCall(void);
-			const std::vector<babel::Call>&			getCallHistory(void) const;
-			std::vector<babel::Call>&				getCallHistory(void);
+            babel::Call&							getCurrentCall(void);
 
 		public:
-			const babel::Status leaveCall(void);
-			const babel::Status addNewParticipant(const std::string&);
-			const babel::Status joinCall(const std::vector<std::string>&);
-			const std::vector<std::string>& updateCurrentCallParticipants(void);
+            const babel::Status                     leaveCall(void);
+            const babel::Status                     addNewParticipant(const std::string&);
+            const babel::Status                     joinCall(const std::unordered_map<std::string, babel::CallTunnel>&);
+            const std::unordered_map<std::string, babel::CallTunnel>    &updateCurrentCallParticipants(void);
 
-		private:
-			void archiveCurrentCall(void);
+        private:
 			void resetCurrentCall(void);
 
 

@@ -6,6 +6,7 @@
 #include <list>
 #include <array>
 #include <QApplication>
+#include <QUdpSocket>
 #include "Status.hpp"
 #include "addcontactdiag.h"
 #include "addtoconversationdiag.h"
@@ -61,6 +62,13 @@ namespace babel {
             babel::Status const                                         startCall();
             babel::Status const                                         hangupCall();
             babel::Status const                                         selectedFriendClicked(std::string const& contactName);
+            babel::Status const                                         removeFriend();
+
+            //ReceiveCallDiag methods
+            babel::Status const                                         decliningCall();
+            babel::Status const                                         acceptingCall();
+            babel::Status const                                         updateNameCallingText(std::string const& nickname);
+            babel::Status const                                         updateNameCallingText(std::string const& nicknameHost, std::vector<std::string> const& otherPeople);
 
             //SignupDiag methods
             babel::Status const                                         saveNicknameFromSignupToLoginDiag(std::string const& nickname);
