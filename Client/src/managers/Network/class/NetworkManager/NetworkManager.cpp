@@ -68,9 +68,7 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 			}
 			if (!*(list.contacts[i].login))
 				return;
-            this->_root.getUI().updateFriendsListFromServer();
-			// TODO
-			//this->_root.getUI().updateContactList(list);
+            this->_root.getUI().updateFriendsListFromContactManager();
 		} },
 		{ 7, [&](babel::t_babelPackedData t) {
 			std::cout << "INVITE CALL(" << t.code << ")" << std::endl;
