@@ -45,7 +45,7 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 	  if (it != participant.end())
 	    {
 	      (*it).second.login.copy(networkDataCSJoinSuccess.client[i].login, 32);
-	      (*it).second.ip.copy(networkDataCSJoinSuccess.client[i].ip, 15);
+	      (*it).second.ip.copy(networkDataCSJoinSuccess.client[i].ip, 16);
 	      networkDataCSJoinSuccess.client[i].port = (*it).second.port;
 	      it++;
 	    }
@@ -69,7 +69,7 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 
       NetworkDataSCJoin networkDataSCJoin;
       this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(client.login, 32);
-      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip.copy(client.ip, 15);
+      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip.copy(client.ip, 16);
       client.port = networkDataCSJoin.port;
 
       networkDataSCJoin.idCall = networkDataCSJoin.idCall;

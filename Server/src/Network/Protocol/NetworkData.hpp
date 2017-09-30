@@ -15,7 +15,6 @@
 
 namespace babel
 {
-#pragma pack(push, 1)
   struct NetworkData
   {
     NetworkData() {};
@@ -28,13 +27,13 @@ namespace babel
   struct CLIENT_CONTACT_STRUCT
   {
     char		login[32];
-    std::uint8_t	isOnline;
+    std::uint32_t	isOnline;
   };
 
   struct CLIENT_CALL_STRUCT
   {
     char		login[32];
-    char 		ip[15];
+    char 		ip[16];
     std::uint32_t	port;
   };
 
@@ -66,7 +65,6 @@ namespace babel
   {
     CLIENT_CONTACT_STRUCT	contacts[50];
   };
-#pragma pack(pop)
 }
 
 #endif //SERVER_NETWORKDATA_HPP
