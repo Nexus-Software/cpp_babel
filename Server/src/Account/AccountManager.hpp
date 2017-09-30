@@ -41,6 +41,9 @@ namespace babel
     bool removeContact(const std::string & login_req, const std::string & login);
 
     void sendContactList(size_t tunnelId, std::string login);
+
+    bool login(std::string login);
+    bool leave(std::string login);
   };
 }
 

@@ -96,7 +96,7 @@ void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
   int i = 0;
   try
     {
-      Account account = this->getAccountByLogin(login);
+      Account & account = this->getAccountByLogin(login);
       if (!this->_accountList.find(login)->second.getContactList().empty())
 	{
 	  for (auto it : this->_accountList.find(login)->second.getContactList())
@@ -119,5 +119,56 @@ void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
     }
 }
 
+bool babel::AccountManager::login(std::string login)
+{
+  try
+    {
+      Account & account = this->getAccountByLogin(login);
 
-// Todo: Add func login + leave (and block log is online)
+      if (account.getIsOnline())
+	return false;
+      account.setIsOnline(true);
+      auto contactList = this->getAccountByLogin(login).getContactList();
+      for (auto it = contactList.begin() ; it != contactList.end() ; it++)
+	{
+	  if (this->getAccountByLogin(*it).getIsOnline())
+	    this->sendContactList(this->_server.getNetworkManager().get()->getTunnelIdByLogin(login), *it);
+	}
+      return true;
+    }
+  catch (AccountManagerException)
+    {
+      return false;
+    }
+  catch (NetworkManagerException)
+    {
+      return false;
+    }
+}
+
+bool babel::AccountManager::leave(std::string login)
+{
+  try
+    {
+      Account & account = this->getAccountByLogin(login);
+
+      if (!account.getIsOnline())
+	return false;
+      account.setIsOnline(false);
+      auto contactList = this->getAccountByLogin(login).getContactList();
+      for (auto it = contactList.begin() ; it != contactList.end() ; it++)
+	{
+	  if (this->getAccountByLogin(*it).getIsOnline())
+	    this->sendContactList(this->_server.getNetworkManager().get()->getTunnelIdByLogin(login), *it);
+	}
+      return true;
+    }
+  catch (AccountManagerException)
+    {
+      return false;
+    }
+  catch (NetworkManagerException)
+    {
+      return false;
+    }
+}

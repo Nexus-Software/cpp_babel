@@ -16,7 +16,8 @@ babel::NetworkTcpServerBoost::NetworkTcpServerBoost(Server &server, NetworkManag
 	_server(server),
 	_networkManager(networkManager),
 	_port(port),
-	_acceptor(this->_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), static_cast<unsigned short>(port)))
+	_acceptor(this->_ioService, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), static_cast<unsigned short>(port))),
+	_ioRun(false)
 {
   try
     {
@@ -44,7 +45,11 @@ void babel::NetworkTcpServerBoost::waitClient()
 
   this->_acceptor.async_accept(newConnection->socket(), boost::bind(&NetworkTcpServerBoost::handle_accept, this, newConnection, boost::asio::placeholders::error));
 
-  this->_threadIoService = boost::shared_ptr<boost::thread>(new boost::thread(&NetworkTcpServerBoost::runIoServer, this));
+  if (!this->_ioRun)
+    {
+      this->_threadIoService = boost::shared_ptr<boost::thread>(new boost::thread(&NetworkTcpServerBoost::runIoServer, this));
+      this->_ioRun = true;
+    }
 }
 
 void babel::NetworkTcpServerBoost::handle_accept(NetworkTcpServerTunnelBoost::pointer newConnection, const boost::system::error_code& error)
@@ -63,12 +68,12 @@ void babel::NetworkTcpServerBoost::handle_accept(NetworkTcpServerTunnelBoost::po
 
 void babel::NetworkTcpServerBoost::runIoServer()
 {
-  while(1) {
-      try {
-	  this->_server.getLogInTerm().print("TCP Server (Boost): Run io_service", LogInTerm::LevelLog::INFO);
-	  this->_ioService.run();
-	} catch( const boost::system::system_error& e ) {
-	  std::cerr << e.what() << std::endl;
-	}
+  try
+    {
+      this->_server.getLogInTerm().print("TCP Server (Boost): Run io_service", LogInTerm::LevelLog::INFO);
+      this->_ioService.run();
+    } catch (const boost::system::system_error &e)
+    {
+      std::cerr << e.what() << std::endl;
     }
 }

@@ -71,7 +71,7 @@ bool babel::NetworkManagerBoost::writeForAll(NetworkData data)
   return (true);
 }
 
-void babel::NetworkManagerBoost::addTunnel(boost::shared_ptr<NetworkTcpServerTunnelBoost> tunnel)
+void babel::NetworkManagerBoost::addTunnel(NetworkTcpServerTunnelBoost::pointer tunnel)
 {
   size_t newId = 0;
 
@@ -92,23 +92,6 @@ void babel::NetworkManagerBoost::addTunnel(boost::shared_ptr<NetworkTcpServerTun
   this->_server.getLogInTerm().print("(Boost): Add in list new tunnel (" + std::to_string(newId) + ")", LogInTerm::LevelLog::INFO);
 }
 
-void babel::NetworkManagerBoost::removeTunnel(NetworkTcpServerTunnelBoost::pointer tunnel)
-{
-  size_t keyFound;
-
-  for (auto it : this->_tunnelList)
-    {
-      if (it.second == tunnel)
-	{
-	  keyFound = it.first;
-	  this->_tunnelList.erase(keyFound);
-	  this->_tunnelInfo.erase(keyFound);
-	  this->_server.getLogInTerm().print("(Boost) Delete in list tunnel (" + std::to_string(keyFound) + ")", LogInTerm::LevelLog::INFO);
-	  break ;
-	}
-    }
-}
-
 babel::TunnelInfo & babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const size_t tunnelId)
 {
   auto it = this->_tunnelInfo.find(tunnelId);
@@ -126,5 +109,32 @@ void babel::NetworkManagerBoost::setIpForTunnelId(size_t tunnelId, const std::st
       return ;
     }
   throw NetworkException("(Boost): Tunnel not found (ID: " + std::to_string(tunnelId) + ")");
+}
+
+void babel::NetworkManagerBoost::closeTunnel(size_t tunnelId)
+{
+  if (this->_tunnelInfo.find(tunnelId) == this->_tunnelInfo.end() ||
+      this->_tunnelList.find(tunnelId) == this->_tunnelList.end())
+    return ;
+  try
+    {
+      this->_server.getAccountManager().leave(this->_tunnelInfo.find(tunnelId)->second.login);
+    }
+  catch (AccountManagerException &e)
+    {
+    }
+  this->_tunnelInfo.erase(this->_tunnelInfo.find(tunnelId));
+  this->_tunnelList.erase(this->_tunnelList.find(tunnelId));
+  this->_server.getLogInTerm().print("(Boost): Remove in list tunnel (" + std::to_string(tunnelId) + ")", LogInTerm::LevelLog::INFO);
+}
+
+const size_t babel::NetworkManagerBoost::getTunnelIdByLogin(const std::string login)
+{
+  for (auto it = this->_tunnelInfo.begin() ; it != this->_tunnelInfo.end() ; it++)
+    {
+      if (it->second.login.compare(login) == 0)
+	return it->first;
+    }
+  throw NetworkException("(Boost): Tunnel not found (Login: " + login + ")");
 }
 

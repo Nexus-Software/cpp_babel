@@ -38,6 +38,8 @@ namespace babel {
     unsigned int			_port;
     boost::shared_ptr<boost::thread>	_threadIoService;
     boost::asio::ip::tcp::acceptor 	_acceptor;
+
+    bool 				_ioRun;
    public:
     NetworkTcpServerBoost(Server &server, NetworkManagerBoost &networkManager, unsigned int port);
     ~NetworkTcpServerBoost();
