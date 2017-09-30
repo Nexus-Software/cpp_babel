@@ -116,6 +116,13 @@ void babel::NetworkManagerBoost::closeTunnel(size_t tunnelId)
   if (this->_tunnelInfo.find(tunnelId) == this->_tunnelInfo.end() ||
       this->_tunnelList.find(tunnelId) == this->_tunnelList.end())
     return ;
+  try
+    {
+      this->_server.getAccountManager().leave(this->_tunnelInfo.find(tunnelId)->second.login);
+    }
+  catch (AccountManagerException &e)
+    {
+    }
   this->_tunnelInfo.erase(this->_tunnelInfo.find(tunnelId));
   this->_tunnelList.erase(this->_tunnelList.find(tunnelId));
   this->_server.getLogInTerm().print("(Boost): Remove in list tunnel (" + std::to_string(tunnelId) + ")", LogInTerm::LevelLog::INFO);

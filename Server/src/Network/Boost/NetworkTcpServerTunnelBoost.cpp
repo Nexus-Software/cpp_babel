@@ -43,7 +43,6 @@ void babel::NetworkTcpServerTunnelBoost::handleWrite(const boost::system::error_
 {
   if (error)
     {
-      std::cout << "CLOSE WRITE" << std::endl;
       this->close();
     }
 }
@@ -69,7 +68,6 @@ void babel::NetworkTcpServerTunnelBoost::handleRead(const boost::system::error_c
     }
   else
     {
-      std::cout << "CLOSE READ" << std::endl;
       this->close();
     }
 }
