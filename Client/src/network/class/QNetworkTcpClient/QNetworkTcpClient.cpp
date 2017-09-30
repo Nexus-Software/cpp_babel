@@ -5,15 +5,14 @@
 babel::QNetworkTcpClient::QNetworkTcpClient(babel::NetworkManager& manager)
 :
 	_manager(manager),
-	_socket(new QTcpSocket()),
-	_session(Q_NULLPTR)
+	_socket(std::make_shared<QTcpSocket>())
 {
-	this->_in.setDevice(this->_socket);
+	this->_in.setDevice(this->_socket.get());
     this->_in.setVersion(QDataStream::Qt_4_0);
 
-    QObject::connect(this->_socket, SIGNAL(connected()), this, SLOT(connected()));
-    QObject::connect(this->_socket, SIGNAL(readyRead()), this, SLOT(readEvent()));
-    QObject::connect(this->_socket, QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &QNetworkTcpClient::displayError);
+    QObject::connect(this->_socket.get(), SIGNAL(connected()), this, SLOT(connected()));
+    QObject::connect(this->_socket.get(), SIGNAL(readyRead()), this, SLOT(readEvent()));
+    QObject::connect(this->_socket.get(), QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &QNetworkTcpClient::displayError);
 }
 
 babel::QNetworkTcpClient::~QNetworkTcpClient()

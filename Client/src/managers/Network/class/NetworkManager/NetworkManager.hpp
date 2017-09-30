@@ -6,8 +6,9 @@
 #include <unordered_map>
 #include "Status.hpp"
 #include "QNetworkTcpClient.hpp"
+#include "QNetworkUdp.hpp"
 
-# define IP_MAIN_SERVER "149.202.42.41"
+# define IP_MAIN_SERVER "10.101.54.29"
 # define SERVER_PORT 42420
 
 namespace babel {
@@ -24,6 +25,7 @@ namespace babel {
 		private:
 			babel::BabelClientManager&									_root;
 			std::shared_ptr<INetworkTcpClient>							_networkTcp;
+			std::shared_ptr<INetworkUdp>								_networkUdp;
 			std::unordered_map<std::uint32_t, std::function<void(babel::t_babelPackedData)>>	_cmds;
 
 		public:

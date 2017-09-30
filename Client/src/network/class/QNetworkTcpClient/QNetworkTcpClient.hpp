@@ -7,6 +7,7 @@
 #include <QTcpSocket>
 #include <QDataStream>
 #include <algorithm>
+#include <memory>
 #include "INetworkTcpClient.hpp"
 
 namespace babel {
@@ -23,10 +24,9 @@ namespace babel {
 			virtual ~QNetworkTcpClient();
 
 		private:
-			NetworkManager&		_manager;
-			QTcpSocket*			_socket;
-			QDataStream			_in;
-            QNetworkSession*	_session;
+			NetworkManager&					_manager;
+			std::shared_ptr<QTcpSocket>		_socket;
+			QDataStream						_in;
 		
 		public:
 			virtual bool connectToTcpHost(const std::string&, int);

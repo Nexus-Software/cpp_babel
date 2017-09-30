@@ -6,6 +6,7 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 :
 	_root(ancestor),
 	_networkTcp(std::make_shared<babel::QNetworkTcpClient>(*this)),
+	_networkUdp(std::make_shared<babel::QNetworkUdp>(*this)),
 	_cmds({
 		{42, [&](babel::t_babelPackedData t) {
 			std::cout << "SUCCESS (" << t.code << ")" << std::endl;

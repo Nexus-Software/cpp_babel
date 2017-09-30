@@ -10,6 +10,7 @@ include_directories(
 	# NETWORK
 	${APP_DIR}/src/network/interface/
 	${APP_DIR}/src/network/class/QNetworkTcpClient/
+	${APP_DIR}/src/network/class/QNetworkUdp/
      # DIALOG
     ${APP_DIR}/src/widget/class/AddContactDiag/
     ${APP_DIR}/src/widget/class/AddToConversationDiag/
