@@ -7,7 +7,6 @@
 #include <array>
 #include <QApplication>
 #include "Status.hpp"
-#include "BabelClientManager.hpp"
 #include "addcontactdiag.h"
 #include "addtoconversationdiag.h"
 #include "customnotificationdiag.h"
@@ -70,7 +69,6 @@ namespace babel {
             babel::Status const                                         showErrorDialog(std::string const& dataText);
 
             //Setters
-            void                                                        setNickname(std::string const& nickname);
             void                                                        setFriendsOnline(uint32_t const friendsOnline);
             void                                                        setConversationList(std::list<std::string> const& vStr);
 
@@ -86,7 +84,6 @@ namespace babel {
             babel::BabelClientManager                                   &_root;
             std::unordered_map<std::string, std::shared_ptr<QWidget>>   _windowList;
 
-            QString                                                     _nickname;
             quint32                                                     _friendsOnline;
             QList<std::string>                                          _conversationList;
 	};

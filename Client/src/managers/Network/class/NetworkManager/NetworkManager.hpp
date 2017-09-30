@@ -7,7 +7,7 @@
 #include "Status.hpp"
 #include "QNetworkTcpClient.hpp"
 
-# define IP_MAIN_SERVER "149.202.42.41"
+# define IP_MAIN_SERVER "10.101.54.29"
 # define SERVER_PORT 42420
 
 namespace babel {
