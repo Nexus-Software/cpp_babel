@@ -45,9 +45,9 @@ bool babel::CmdCallInvite::run(size_t tunnelId, babel::NetworkData &data)
 	  Call call = this->_server.getCallManager().getCalls().find(networkDataCSInvite.idCall)->second;
 
 	  int i = 0;
-	  for (auto it = call.getParticipants().begin() ; it != call.getParticipants().end() ; it++)
+	  for (auto it : call.getParticipants())
 	    {
-	      it->second.login.copy(networkDataSCInvite.clientInConv[i], 32);
+	      it.second.login.copy(networkDataSCInvite.clientInConv[i], 32);
 	      i += 1;
 	    }
 
