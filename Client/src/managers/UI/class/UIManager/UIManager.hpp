@@ -62,6 +62,7 @@ namespace babel {
             babel::Status const                                         startCall();
             babel::Status const                                         hangupCall();
             babel::Status const                                         selectedFriendClicked(std::string const& contactName);
+            babel::Status const                                         removeFriend();
 
             //ReceiveCallDiag methods
             babel::Status const                                         decliningCall();

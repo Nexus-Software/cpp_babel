@@ -377,6 +377,27 @@ babel::Status const                                                 babel::UIMan
     return (babel::Status(0, "UIManager 'selectedFriendClicked()' worked without error"));
 }
 
+babel::Status const                                         babel::UIManager::removeFriend()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'removeFriend()': mainWindow was null"));
+
+    for (int i = 0; i < mainWindow->getFriendsList()->selectedItems().size(); ++i) {
+        QListWidgetItem *item = mainWindow->getFriendsList()->takeItem(mainWindow->getFriendsList()->currentRow());
+
+        std::array<char, 2048>  ba = { 0 };
+        std::string             nickname(item->data(0).toString().toStdString());
+
+        std::copy(nickname.begin(), nickname.end(), ba.begin());
+
+        this->getRoot().getNetwork().writeServerTCP(3, 32, ba);
+        delete item;
+    }
+    return (babel::Status(0, "UIManager 'removeFriend()' worked without error"));
+}
+
 babel::Status const                                         babel::UIManager::decliningCall()
 {
     this->hideWindow("ReceiveCallDiag");

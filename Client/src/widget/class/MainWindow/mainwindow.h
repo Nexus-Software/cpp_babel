@@ -37,10 +37,12 @@ public slots:
     void FilterFriendsList(QString const& filterText);
     void RedirectToLoginDiag();
     void SelectedFriendClicked(QListWidgetItem *selectedContact);
+    void ShowContextMenu(QPoint const& pos);
     void OpenAddContactDiag();
     void OpenAddToConversationDiag();
     void StartingCall();
     void HangingUpCall();
+    void RemoveFriend();
 
 private:
     std::shared_ptr<Ui::MainWindow> _ui;
