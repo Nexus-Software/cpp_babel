@@ -48,11 +48,18 @@ bool babel::CmdCallInvite::run(size_t tunnelId, babel::NetworkData &data)
 	  int i = 0;
 	  for (auto it : call.getParticipants())
 	    {
+	      std::cout << it.second.login << std::endl;
 	      it.second.login.copy(networkDataSCInvite.clientInConv[i], 32);
 	      i += 1;
 	    }
 
-	  this->_server.getNetworkManager().get()->write(networkDataCSInvite.loginInvite, NetworkData(7, 0, {}));
+	  std::cout << "LoginHasInvite: " << networkDataSCInvite.loginHasInvite << std::endl;
+	  std::cout << "Login 1: " << networkDataSCInvite.clientInConv[0] << std::endl;
+
+	  std::array<char, 2048> dataSend = {0};
+	  std::copy_n(reinterpret_cast<const char *>(&networkDataSCInvite), sizeof(NetworkDataSCInvite), dataSend.begin());
+
+	  this->_server.getNetworkManager().get()->write(networkDataCSInvite.loginInvite, NetworkData(7, 0, dataSend));
 	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(48, 0, {}));
 	  return true;
 	}
