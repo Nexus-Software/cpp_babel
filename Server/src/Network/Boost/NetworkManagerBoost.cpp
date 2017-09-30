@@ -128,3 +128,13 @@ void babel::NetworkManagerBoost::closeTunnel(size_t tunnelId)
   this->_server.getLogInTerm().print("(Boost): Remove in list tunnel (" + std::to_string(tunnelId) + ")", LogInTerm::LevelLog::INFO);
 }
 
+const size_t babel::NetworkManagerBoost::getTunnelIdByLogin(const std::string login)
+{
+  for (auto it = this->_tunnelInfo.begin() ; it != this->_tunnelInfo.end() ; it++)
+    {
+      if (it->second.login.compare(login) == 0)
+	return it->first;
+    }
+  throw NetworkException("(Boost): Tunnel not found (Login: " + login + ")");
+}
+

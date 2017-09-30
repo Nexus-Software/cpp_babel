@@ -45,6 +45,9 @@ namespace babel
     virtual void setIpForTunnelId(size_t tunnelId, const std::string & ip);
 
     virtual void closeTunnel(size_t tunnelId);
+
+    virtual const size_t getTunnelIdByLogin(const std::string login);
+
    public:
     void addTunnel(NetworkTcpServerTunnelBoost::pointer tunnel);
   };

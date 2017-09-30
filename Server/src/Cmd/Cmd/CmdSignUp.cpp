@@ -44,7 +44,11 @@ bool babel::CmdSignUp::run(size_t tunnelId,  NetworkData & data)
   this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setLogin(login);
   this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setIsAuth(true);
 
-  this->_server.getAccountManager().login(login);
+  if (!this->_server.getAccountManager().login(login))
+    {
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(503, 0, {}));
+      return false;
+    }
 
   this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(45, 0, {}));
 

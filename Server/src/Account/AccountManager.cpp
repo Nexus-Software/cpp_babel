@@ -96,7 +96,7 @@ void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
   int i = 0;
   try
     {
-      Account account = this->getAccountByLogin(login);
+      Account & account = this->getAccountByLogin(login);
       if (!this->_accountList.find(login)->second.getContactList().empty())
 	{
 	  for (auto it : this->_accountList.find(login)->second.getContactList())
@@ -123,7 +123,7 @@ bool babel::AccountManager::login(std::string login)
 {
   try
     {
-      Account account = this->getAccountByLogin(login);
+      Account & account = this->getAccountByLogin(login);
 
       if (account.getIsOnline())
 	return false;
@@ -140,7 +140,7 @@ bool babel::AccountManager::leave(std::string login)
 {
   try
     {
-      Account account = this->getAccountByLogin(login);
+      Account & account = this->getAccountByLogin(login);
 
       if (!account.getIsOnline())
 	return false;
