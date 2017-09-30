@@ -18,4 +18,5 @@ cmake-build-debug
 /Debug
 bin
 *.dll
+!/Client/lib/win/dll/*.dll
 debug

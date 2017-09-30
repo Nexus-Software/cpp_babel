@@ -3,8 +3,6 @@
 
 #include <array>
 
-#pragma pack(push, 1)
-
 namespace babel {
 	typedef struct 	s_babelPackedData
 	{
@@ -16,13 +14,13 @@ namespace babel {
 	typedef struct		s_clientContactStruct
 	{
 		char			login[32];
-		std::uint8_t	isOnline;
+		std::uint32_t	isOnline;
 	}					t_clientContactStruct;
 
 	typedef struct		s_clientCallStruct
 	{
 		char			login[32];
-		char			ip[15];
+		char			ip[16];
 		std::uint32_t	port;
 	}					t_clientCallStruct;
 
@@ -31,8 +29,6 @@ namespace babel {
 		t_clientContactStruct contacts[50];
 	};
 } // babel
-
-#pragma pack(pop)
 
 namespace babel {
 	class INetworkTcpClient
