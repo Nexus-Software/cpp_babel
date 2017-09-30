@@ -1,4 +1,5 @@
 #include "UIManager.hpp"
+#include "BabelClientManager.hpp"
 
 babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
 :
@@ -12,7 +13,6 @@ babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
         {"ReceiveCallDiag", std::make_shared<ReceiveCallDiag>(nullptr, *this)},
         {"SignupDiag", std::make_shared<SignupDiag>(nullptr, *this)}
     }),
-    _nickname("Anonymous"),
     _friendsOnline(0)
 {
 	std::cout << "UIManager created" << std::endl;
@@ -169,6 +169,25 @@ babel::Status const                                                 babel::UIMan
     return (babel::Status(0, "UIManager 'saveNicknameFromLoginToSignupDiag()' worked without error"));
 }
 
+babel::Status const                                                 babel::UIManager::updateFriendsListFromContactManager()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'updateFriendsListFromContactManager()': mainWindow was null"));
+
+    std::vector<babel::Contact> &contactList = this->_root.getContact().getContactList();
+    QListWidget                 *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'updateFriendsListFromContactManager()': friendsList was null"));
+    friendsList->clear();
+    for (auto it : contactList)
+        friendsList->addItem(QString::fromStdString(it.getLogin()));
+
+    return (babel::Status(0, "UIManager 'updateFriendsListFromContactManager()' worked without error"));
+}
+
 babel::Status const                                                 babel::UIManager::refreshGeneralInformations()
 {
     MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
@@ -181,7 +200,7 @@ babel::Status const                                                 babel::UIMan
     if (!generalInformations)
         return (babel::Status(1, "UIManager 'refreshGeneralInformations()': The GeneralInformations widget was null"));
     generalInformations->setText("<html><head/><body><p><span style=\" font-size:10pt;\">Welcome\
-                                  </span><span style=\" font-size:10pt; font-weight:600;\">" + this->_nickname + "</span><span style=\"\
+                                  </span><span style=\" font-size:10pt; font-weight:600;\">" + QString::fromStdString(this->_root.getContact().getUser().getLogin()) + "</span><span style=\"\
                                   font-size:10pt;\"> !</span></p><p><span style=\" font-size:10pt;\">There are </span><span style=\"\
                                   font-size:10pt; font-weight:600;\">" + QString::number(this->_friendsOnline) + "</span><span style=\" font-size:10pt;\">\
                                   friends connected.</span></p></body></html>");
@@ -356,11 +375,6 @@ babel::Status const                                                 babel::UIMan
     customNotificationDiag->setDataText(QString::fromStdString(dataText));
     this->showWindow("CustomNotificationDiag");
     return (babel::Status(0, "UIManager 'showErrorDialog()' worked without error"));
-}
-
-void                                                                babel::UIManager::setNickname(std::string const& nickname)
-{
-    this->_nickname = QString::fromStdString(nickname);
 }
 
 void                                                                babel::UIManager::setFriendsOnline(uint32_t const friendsOnline)
