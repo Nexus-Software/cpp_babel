@@ -32,7 +32,10 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       if (!this->_server.getCallManager().convIsExist(networkDataCSJoin.idCall) &&
 	      !this->_server.getCallManager().isAllowToJoin(networkDataCSJoin.idCall,
 							    this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login))
-	return false;
+	{
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(506, 0, {}));
+	  return false;
+	}
 
       CLIENT_CALL_STRUCT client = {0};
       NetworkDataCSJoinSuccess networkDataCSJoinSuccess = {0};

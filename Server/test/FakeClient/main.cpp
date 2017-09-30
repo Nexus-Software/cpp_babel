@@ -33,6 +33,7 @@ struct NetworkDataSCContactList
 
 int main()
 {
+  std::cout << "--------------------------[TEST SIGN UP]-------------------------" << std::endl;
   {
     boost::asio::io_service ios;
     tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 42420);
@@ -66,7 +67,7 @@ int main()
       std::cout << "Contact :" << networkDataSCContactList.contacts[0].login << std::endl;
     }
   }
-  	std::cout << "-----------------------------------------------------" << std::endl;
+  	std::cout << "--------------------------[TEST ADD CONTACT]-------------------------" << std::endl;
   {
     boost::asio::io_service ios;
     tcp::endpoint endpoint(boost::asio::ip::address::from_string("127.0.0.1"), 42420);
@@ -123,6 +124,7 @@ int main()
       std::cout << "Received size: " << data.proto_size << std::endl;
       std::cout << "Contact :" << networkDataSCContactList.contacts[0].login << std::endl;
     }
+    std::cout << "------------------------[TEST CALL]---------------------------" << std::endl;
   }
 
   return 0;
