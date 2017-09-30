@@ -20,6 +20,7 @@ babel::HandleCmd::HandleCmd(babel::Server &server):
 			 {4, std::make_shared<CmdContactAdd>(this->_server)},
 			 {5, std::make_shared<CmdLeave>(this->_server)},
 			 {7, std::make_shared<CmdCallInvite>(this->_server)},
+			 {8, std::make_shared<CmdCallLeave>(this->_server)},
 			 {9, std::make_shared<CmdCallJoin>(this->_server)}
 		 })
 {
