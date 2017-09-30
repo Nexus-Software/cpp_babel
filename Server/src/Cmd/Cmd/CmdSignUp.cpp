@@ -31,6 +31,7 @@ bool babel::CmdSignUp::run(size_t tunnelId,  NetworkData & data)
     {
       try
 	{
+
 	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(502, 0, {}));
 	}
       catch (NetworkManagerException)
@@ -42,7 +43,8 @@ bool babel::CmdSignUp::run(size_t tunnelId,  NetworkData & data)
 
   this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setLogin(login);
   this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setIsAuth(true);
-  this->_server.getAccountManager().getAccountByLogin(login).setIsOnline(true);
+
+  this->_server.getAccountManager().login(login);
 
   this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(45, 0, {}));
 

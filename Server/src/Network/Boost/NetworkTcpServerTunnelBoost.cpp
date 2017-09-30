@@ -21,6 +21,7 @@ babel::NetworkTcpServerTunnelBoost::NetworkTcpServerTunnelBoost(Server &server, 
 void babel::NetworkTcpServerTunnelBoost::start()
 {
   this->_ip = this->_socket.remote_endpoint().address().to_string();
+  this->_server.getNetworkManager().get()->setIpForTunnelId(this->_tunnelId, this->_ip);
   this->read();
 }
 
@@ -35,14 +36,15 @@ void babel::NetworkTcpServerTunnelBoost::write(NetworkData data)
 void babel::NetworkTcpServerTunnelBoost::close()
 {
   this->_socket.close();
+  this->_server.getNetworkManager().get()->closeTunnel(this->_tunnelId);
 }
 
 void babel::NetworkTcpServerTunnelBoost::handleWrite(const boost::system::error_code &error)
 {
-  // Todo: Not implement yet (check error)
   if (error)
     {
-      // Todo: Check error for close socket
+      std::cout << "CLOSE WRITE" << std::endl;
+      this->close();
     }
 }
 
@@ -63,12 +65,13 @@ void babel::NetworkTcpServerTunnelBoost::handleRead(const boost::system::error_c
 		<< std::endl;
       this->_server.getHandleCmd().execCmd(this->_tunnelId, this->_dataRead);
       this->_dataRead.data = {0};
+      this->read();
     }
   else
     {
-      // Todo: Check error for close socket
+      std::cout << "CLOSE READ" << std::endl;
+      this->close();
     }
-  this->read();
 }
 
 const size_t &babel::NetworkTcpServerTunnelBoost::getTunnelId() const

@@ -119,5 +119,36 @@ void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
     }
 }
 
+bool babel::AccountManager::login(std::string login)
+{
+  try
+    {
+      Account account = this->getAccountByLogin(login);
 
-// Todo: Add func login + leave (and block log is online)
+      if (account.getIsOnline())
+	return false;
+      account.setIsOnline(true);
+      return true;
+    }
+  catch (AccountManagerException)
+    {
+      return false;
+    }
+}
+
+bool babel::AccountManager::leave(std::string login)
+{
+  try
+    {
+      Account account = this->getAccountByLogin(login);
+
+      if (!account.getIsOnline())
+	return false;
+      account.setIsOnline(false);
+      return true;
+    }
+  catch (AccountManagerException)
+    {
+      return false;
+    }
+}

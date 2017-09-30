@@ -43,6 +43,8 @@ namespace babel
     virtual TunnelInfo & getTunnelInfoByTunnelId(const size_t tunnelId) = 0;
 
     virtual void setIpForTunnelId(size_t tunnelId, const std::string & ip) = 0;
+
+    virtual void closeTunnel(size_t tunnelId) = 0;
   };
 }
 
