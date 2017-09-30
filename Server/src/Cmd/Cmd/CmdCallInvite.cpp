@@ -26,12 +26,46 @@ bool babel::CmdCallInvite::run(size_t tunnelId, babel::NetworkData &data)
   NetworkDataCSInvite networkDataCSInvite = {0};
   std::copy_n(reinterpret_cast<const char *>(&data.data), sizeof(NetworkDataCSInvite), reinterpret_cast<char *>(&networkDataCSInvite));
 
-  if (!this->_server.getCallManager().convIsExist(networkDataCSInvite.idCall))
-    return false;
-  this->_server.getCallManager().invite(networkDataCSInvite.idCall, networkDataCSInvite.loginInvite);
+  try
+    {
+      if (!this->_server.getCallManager().convIsExist(networkDataCSInvite.idCall))
+	{
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(506, 0, {}));
+	  return false;
+	}
+      this->_server.getCallManager().invite(networkDataCSInvite.idCall, networkDataCSInvite.loginInvite);
 
-  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(48, 0, {}));
+      if (this->_server.getAccountManager().getAccountByLogin(networkDataCSInvite.loginInvite).getIsOnline())
+	{
+	  NetworkDataSCInvite networkDataSCInvite = {0};
 
-  //Todo: Invite loginInvite
-  return true;
+	  networkDataSCInvite.idCall = networkDataCSInvite.idCall;
+	  this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(networkDataSCInvite.loginHasInvite, 32);
+
+	  Call call = this->_server.getCallManager().getCalls().find(networkDataCSInvite.idCall)->second;
+
+	  int i = 0;
+	  for (auto it = call.getParticipants().begin() ; it != call.getParticipants().end() ; it++)
+	    {
+	      it->second.login.copy(networkDataSCInvite.clientInConv[i], 32);
+	      i += 1;
+	    }
+
+	  this->_server.getNetworkManager().get()->write(networkDataCSInvite.loginInvite, NetworkData(48, 0, {}));
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(48, 0, {}));
+	  return true;
+	}
+    }
+  catch (AccountManagerException &e)
+    {
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(505, 0, {}));
+      return false;
+    }
+  catch (NetworkManagerException &e)
+    {
+      return false;
+    }
+  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(505, 0, {}));
+  return false;
+
 }

@@ -65,6 +65,12 @@ namespace babel
   {
     CLIENT_CONTACT_STRUCT	contacts[50];
   };
+  struct NetworkDataSCInvite
+  {
+    std::uint32_t 	idCall;
+    char 		clientInConv[8][32];
+    char		loginHasInvite[32];
+  };
 }
 
 #endif //SERVER_NETWORKDATA_HPP
