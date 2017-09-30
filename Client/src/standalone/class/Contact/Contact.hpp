@@ -11,6 +11,7 @@ namespace babel {
 			Contact();
 			Contact(const babel::Contact&);
 			Contact& operator=(const Contact&);
+            Contact(std::string const& login, bool const status);
 			virtual ~Contact();
 
 		private:

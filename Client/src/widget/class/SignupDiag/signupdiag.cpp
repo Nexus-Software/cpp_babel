@@ -67,7 +67,7 @@ void SignupDiag::WaitingForResponse() {
 	this->enableAllObjects(false);
     if (this->_ui->PasswordField->text() == this->_ui->ConfirmField->text())
     {
-        this->_uiManager.setNickname(this->_ui->NicknameField->text().toStdString());
+        this->_uiManager.getRoot().getContact().setUser(babel::Contact(this->_ui->NicknameField->text().toStdString(), true));
 
 		std::array<char, 2048> ba = { 0 };
 		char usernameC[32] = { 0 };

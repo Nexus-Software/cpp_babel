@@ -54,6 +54,7 @@ namespace babel {
             babel::Status const                                         saveNicknameFromLoginToSignupDiag(std::string const& nickname);
 
             //MainWindow methods
+            babel::Status const                                         updateFriendsListFromContactManager();
             babel::Status const                                         refreshGeneralInformations();
             babel::Status const                                         updateFriendsListConversations();
             babel::Status const                                         refreshSelectedContact(std::string const& selectedContact, babel::UIManager::ContactInfoType const type);
@@ -68,7 +69,6 @@ namespace babel {
             babel::Status const                                         showErrorDialog(std::string const& dataText);
 
             //Setters
-            void                                                        setNickname(std::string const& nickname);
             void                                                        setFriendsOnline(uint32_t const friendsOnline);
             void                                                        setConversationList(std::list<std::string> const& vStr);
 
@@ -84,7 +84,6 @@ namespace babel {
             babel::BabelClientManager                                   &_root;
             std::unordered_map<std::string, std::shared_ptr<QWidget>>   _windowList;
 
-            QString                                                     _nickname;
             quint32                                                     _friendsOnline;
             QList<std::string>                                          _conversationList;
 	};

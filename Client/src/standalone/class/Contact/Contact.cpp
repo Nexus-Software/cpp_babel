@@ -14,6 +14,13 @@ babel::Contact::Contact(const babel::Contact& item)
 
 }
 
+babel::Contact::Contact(std::string const& login, bool const status) :
+    _login(login),
+    _status(status)
+{
+
+}
+
 babel::Contact::~Contact()
 {
 	std::cout << "Contact destructed" << std::endl;
