@@ -3,36 +3,32 @@
 
 #include <array>
 
-#pragma pack(push, 1)
-
 namespace babel {
-	typedef struct 	s_babelPackedData
-	{
-		std::uint32_t			code;
-		std::uint32_t			size;
-		std::array<char, 2048>	data;
-	}				t_babelPackedData;
+    typedef struct     s_babelPackedData
+    {
+        std::uint32_t            code;
+        std::uint32_t            size;
+        std::array<char, 2048>    data;
+    }                t_babelPackedData;
 
-	typedef struct		s_clientContactStruct
-	{
-		char			login[32];
-		std::uint8_t	isOnline;
-	}					t_clientContactStruct;
+    typedef struct        s_clientContactStruct
+    {
+        char            login[32];
+        std::uint32_t    isOnline;
+    }                    t_clientContactStruct;
 
-	typedef struct		s_clientCallStruct
-	{
-		char			login[32];
-		char			ip[15];
-		std::uint32_t	port;
-	}					t_clientCallStruct;
+    typedef struct        s_clientCallStruct
+    {
+        char            login[32];
+        char            ip[16];
+        std::uint32_t    port;
+    }                    t_clientCallStruct;
 
-	struct					t_clientContactList
-	{
-		t_clientContactStruct contacts[50];
-	};
+    struct                    t_clientContactList
+    {
+        t_clientContactStruct contacts[50];
+    };
 } // babel
-
-#pragma pack(pop)
 
 namespace babel {
 	class INetworkTcpClient

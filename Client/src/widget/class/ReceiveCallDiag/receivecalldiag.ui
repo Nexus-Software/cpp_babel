@@ -21,7 +21,7 @@
        <item>
         <widget class="QLabel" name="NameCallingText">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:500;&quot;&gt;Jean-Sébastien&lt;/span&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt; is calling you...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:500;&quot;&gt;[NICKNAME]&lt;/span&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt; is calling you...&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

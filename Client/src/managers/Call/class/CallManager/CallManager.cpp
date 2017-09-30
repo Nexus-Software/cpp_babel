@@ -32,16 +32,6 @@ babel::Call & babel::CallManager::getCurrentCall(void)
 	return this->_currentCall;
 }
 
-const std::vector<babel::Call>& babel::CallManager::getCallHistory(void) const
-{
-	return this->_callHistory;
-}
-
-std::vector<babel::Call>& babel::CallManager::getCallHistory(void)
-{
-	return this->_callHistory;
-}
-
 const babel::Status babel::CallManager::addNewParticipant(const std::string &)
 {
 	// TODO: network call to add a new participant to the call
@@ -50,14 +40,13 @@ const babel::Status babel::CallManager::addNewParticipant(const std::string &)
 
 const babel::Status babel::CallManager::leaveCall(void)
 {
-	// TODO: Encapsulate this in network call (handlecmd)
-	this->archiveCurrentCall();
+    // TODO: Encapsulate this in network call (handlecmd)
 	this->resetCurrentCall();
 	// __________________________________________________
 	return babel::Status(0, "Call ended");
 }
 
-const babel::Status babel::CallManager::joinCall(const std::vector<std::string>& list)
+const babel::Status babel::CallManager::joinCall(const std::unordered_map<std::string, babel::CallTunnel>& list)
 {
 	// TODO: Encapsulate this in network call
 	this->_currentCall.updateParticipantsList(list);
@@ -66,16 +55,10 @@ const babel::Status babel::CallManager::joinCall(const std::vector<std::string>&
 	return babel::Status(0, "Call joined");
 }
 
-const std::vector<std::string>& babel::CallManager::updateCurrentCallParticipants(void)
+const std::unordered_map<std::string, babel::CallTunnel>& babel::CallManager::updateCurrentCallParticipants(void)
 {
 	// TODO : Netork call 'server.getParticipantForCall()'
 	return this->_currentCall.getParticipants();
-}
-
-void babel::CallManager::archiveCurrentCall(void)
-{
-	this->_callHistory.push_back(babel::Call(this->_currentCall));
-	this->resetCurrentCall();
 }
 
 void babel::CallManager::resetCurrentCall(void)

@@ -22,12 +22,12 @@ babel::Call::~Call()
 	std::cout << "Call destructed" << std::endl;
 }
 
-const std::vector<std::string>& babel::Call::getParticipants(void) const
+const std::unordered_map<std::string, babel::CallTunnel>& babel::Call::getParticipants(void) const
 {
 	return this->_participants;
 }
 
-std::vector<std::string>& babel::Call::getParticipants(void)
+std::unordered_map<std::string, babel::CallTunnel>& babel::Call::getParticipants(void)
 {
 	return this->_participants;
 }
@@ -64,7 +64,7 @@ void babel::Call::reset(void)
 	this->setActivity(false);
 }
 
-const std::vector<std::string>& babel::Call::updateParticipantsList(const std::vector<std::string>& list)
+const std::unordered_map<std::string, babel::CallTunnel>& babel::Call::updateParticipantsList(const std::unordered_map<std::string, babel::CallTunnel>& list)
 {
 	this->_participants = list;
 	return this->_participants;
@@ -81,7 +81,7 @@ std::ostream& operator<<(std::ostream& os, const babel::Call& cl)
 	std::cout << "There is " << psize << " particpants in the call:" << std::endl;
 	for (auto it : cl.getParticipants())
 	{
-		std::cout << it << std::endl;
+        std::cout << it.second.login << std::endl;
 	}
 	return os;
 }

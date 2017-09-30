@@ -20,6 +20,16 @@ public:
     explicit ReceiveCallDiag(QWidget *parent, babel::UIManager &uiManager);
     ~ReceiveCallDiag();
 
+    void        setNameCallingText(std::string const& dataText);
+
+    QPushButton *getDeclineButton();
+    QPushButton *getAcceptButton();
+    QLabel      *getNameCallingText();
+
+public slots:
+    void DecliningCall();
+    void AcceptingCall();
+
 private:
     std::shared_ptr<Ui::ReceiveCallDiag>    _ui;
     babel::UIManager                        &_uiManager;
