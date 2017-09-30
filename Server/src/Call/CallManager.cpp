@@ -32,7 +32,7 @@ bool babel::CallManager::add(size_t idCall, std::string login, std::string ip, u
 {
   if (!this->convIsExist(idCall))
     return false;
-  (*this->_calls.find(idCall)).second.add(login, CallTunnel(ip, port));
+  (*this->_calls.find(idCall)).second.add(login, CallTunnel(ip, port, login));
   return true;
 }
 
