@@ -115,7 +115,7 @@ babel::Status const                                                 babel::UIMan
     if (!friendsList || !messageSendButton || !messageSendField || !callButton)
         return (babel::Status(1, "UIManager 'refreshNewDataConversation()': A widget was null"));
     this->_conversationList = QList<std::string>::fromVector(QVector<std::string>::fromStdVector(newConversationList));
-    for (quint32 i = 0; i < friendsList->count(); i++)
+    for (int i = 0; i < friendsList->count(); i++)
     {
         if (this->_conversationList.length() != 1)
         {
@@ -234,7 +234,7 @@ babel::Status const                                                 babel::UIMan
     for (auto it : this->_conversationList)
         tmpConversationList.append(it);
     this->refreshCurrentlySelectedLabel(tmpConversationList.toVector().toStdVector());
-    for (quint32 i = 0; i < friendsListMainWin->count(); i++)
+    for (int i = 0; i < friendsListMainWin->count(); i++)
     {
         friendsListConversations->addItem(friendsListMainWin->item(i)->data(0).toString());
         friendsListConversations->item(i)->setCheckState(Qt::CheckState::Unchecked);
@@ -304,6 +304,31 @@ babel::Status const                                                 babel::UIMan
     mainWindow->getCallButton()->setEnabled(false);
     mainWindow->getHangupButton()->setEnabled(true);
     this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::CALLING_WAIT);
+
+    //Create a roomcall - TODO
+//    std::array<char, 2048>          ba = { 0 };
+//    std::uint32_t                   idConv = 0;
+//    std::uint32_t                   listeningPort;
+
+//    std::copy_n(reinterpret_cast<char *>(&idConv), 32, ba.begin());
+//    std::copy_n(reinterpret_cast<char *>(&listeningPort), 32, ba.begin() + 32);
+
+//    this->getRoot().getNetwork().writeServerTCP(9, 64, ba);
+
+    //Invite (networkmanager side) - TODO
+//    std::array<char, 2048>  ba = { 0 };
+//    std::uint32_t           uidConv = 0;
+//    char                    hostC[32] = { 0 };
+
+//    this->_root.getContact().getUser().getLogin().copy(hostC, 32);
+
+//    std::string             host(hostC);
+
+//    std::copy_n(reinterpret_cast<char *>(&uidConv), 32, ba.begin());
+//    std::copy(host.begin(), host.end(), ba.begin() + 32);
+
+//    this->getRoot().getNetwork().writeServerTCP(7, 64, ba);
+
     return (babel::Status(0, "UIManager 'startCall()' worked without error"));
 }
 
@@ -323,7 +348,7 @@ babel::Status const                                                 babel::UIMan
     if (this->_conversationList.count() != 1)
     {
         this->_conversationList.clear();
-        for (quint32 i = 0; i < friendsList->count(); i++)
+        for (int i = 0; i < friendsList->count(); i++)
             friendsList->item(i)->setSelected(false);
         this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
         mainWindow->getMessageSendField()->setEnabled(false);
@@ -332,6 +357,7 @@ babel::Status const                                                 babel::UIMan
     }
     else
         this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
+
     return (babel::Status(0, "UIManager 'hangupCall()' worked without error"));
 }
 
@@ -349,6 +375,68 @@ babel::Status const                                                 babel::UIMan
     mainWindow->getMessageSendField()->setEnabled(true);
     mainWindow->getCallButton()->setEnabled(true);
     return (babel::Status(0, "UIManager 'selectedFriendClicked()' worked without error"));
+}
+
+babel::Status const                                         babel::UIManager::removeFriend()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'removeFriend()': mainWindow was null"));
+
+    for (int i = 0; i < mainWindow->getFriendsList()->selectedItems().size(); ++i) {
+        QListWidgetItem *item = mainWindow->getFriendsList()->takeItem(mainWindow->getFriendsList()->currentRow());
+
+        std::array<char, 2048>  ba = { 0 };
+        std::string             nickname(item->data(0).toString().toStdString());
+
+        std::copy(nickname.begin(), nickname.end(), ba.begin());
+
+        this->getRoot().getNetwork().writeServerTCP(3, 32, ba);
+        delete item;
+    }
+    return (babel::Status(0, "UIManager 'removeFriend()' worked without error"));
+}
+
+babel::Status const                                         babel::UIManager::decliningCall()
+{
+    this->hideWindow("ReceiveCallDiag");
+    return (babel::Status(0, "UIManager 'decliningCall()' worked without error"));
+}
+
+babel::Status const                                         babel::UIManager::acceptingCall()
+{
+    this->hideWindow("ReceiveCallDiag");
+    return (babel::Status(0, "UIManager 'acceptingCall()' worked without error"));
+}
+
+babel::Status const                                                 babel::UIManager::updateNameCallingText(std::string const& nickname)
+{
+    ReceiveCallDiag *receiveCallDiag = dynamic_cast<ReceiveCallDiag *>(this->_windowList["ReceiveCallDiag"].get());
+
+    if (!receiveCallDiag)
+        return (babel::Status(1, "UIManager 'updateNameCallingText()': receiveCallDiag was null"));
+
+    receiveCallDiag->setNameCallingText("<html><head/><body><p><span style=\" font-size:12pt; font-weight:500;\">" +
+                                        nickname +
+                                        "</span><span style=\" font-size:12pt;\"> is calling you...</span></p></body></html>");
+
+    return (babel::Status(0, "UIManager 'updateNameCallingText()' worked without error"));
+}
+
+babel::Status const                                                 babel::UIManager::updateNameCallingText(std::string const& nicknameHost, std::vector<std::string> const& otherPeople)
+{
+    ReceiveCallDiag *receiveCallDiag = dynamic_cast<ReceiveCallDiag *>(this->_windowList["ReceiveCallDiag"].get());
+
+    if (!receiveCallDiag)
+        return (babel::Status(1, "UIManager 'updateNameCallingText()': receiveCallDiag was null"));
+
+    receiveCallDiag->setNameCallingText("<html><head/><body><p><span style=\" font-size:12pt; font-weight:500;\">" +
+                                        nicknameHost +
+                                        "</span><span style=\" font-size:12pt;\"> has invited you, along with" +
+                                        utils::join(otherPeople, ", ") + "...</span></p></body></html>");
+
+    return (babel::Status(0, "UIManager 'updateNameCallingText()' worked without error"));
 }
 
 babel::Status const                                                 babel::UIManager::saveNicknameFromSignupToLoginDiag(std::string const& nickname)

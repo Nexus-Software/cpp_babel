@@ -1,12 +1,22 @@
 #ifndef BABEL_CALL_HPP_
 # define BABEL_CALL_HPP_
 
-#include <vector>
+#include <unordered_map>
 #include <iostream>
 #include "Contact.hpp"
 #include "Status.hpp"
 
 namespace babel {
+
+    struct CallTunnel
+      {
+        CallTunnel(std::string ip, unsigned int port): ip(ip), port(port) {}
+
+        std::string         login;
+        std::string         ip;
+        unsigned int        port;
+      };
+
 	class Call
 	{
 		public:
@@ -15,21 +25,21 @@ namespace babel {
 			virtual ~Call();
 
 		private:
-			std::vector<std::string>		_participants;
-			bool							_isActive;
-			bool							_isMute;
+            std::unordered_map<std::string, babel::CallTunnel>          _participants;
+            bool                                                        _isActive;
+            bool                                                        _isMute;
 
 		public:
-			const std::vector<std::string>&		getParticipants(void) const;
-			std::vector < std::string>&			getParticipants(void);
-			const bool							getActivity(void) const;
-			const bool							isMute(void) const;
+            const std::unordered_map<std::string, babel::CallTunnel>    &getParticipants(void) const;
+            std::unordered_map<std::string, babel::CallTunnel>			&getParticipants(void);
+            const bool                                                  getActivity(void) const;
+            const bool                                                  isMute(void) const;
 
-			void								setActivity(const bool);
-			void								mute(void);
-			void								unmute(void);
-			void								reset(void);
-			const std::vector<std::string>&		updateParticipantsList(const std::vector<std::string>&);
+            void                                                        setActivity(bool const);
+            void                                                        mute(void);
+            void                                                        unmute(void);
+            void                                                        reset(void);
+            const std::unordered_map<std::string, babel::CallTunnel>    &updateParticipantsList(std::unordered_map<std::string, babel::CallTunnel> const&);
 		
 		private:
 			void setMute(const bool);

@@ -124,20 +124,6 @@ int		babel::Audio::stopStream(void)
 }
 
 /////////////////////////////////////////////
-//-----------------GETTER------------------//
-/////////////////////////////////////////////
-
-B_SAMPLE	babel::Audio::getRecord(void) const
-{
-	return this->_recordedData;
-}
-
-int		babel::Audio::getRecordSize(void) const
-{
-	return RECORD_SIZE;
-}
-
-/////////////////////////////////////////////
 //-----------------CLEANER-----------------//
 /////////////////////////////////////////////
 
@@ -152,7 +138,7 @@ void	babel::Audio::cleanRecord(void)
 
 B_SAMPLE 	babel::Audio::record()
 {
-	B_SAMPLE buffer;
+	B_SAMPLE buffer(FRAME_SIZE);
 
 	if ((this->_err = Pa_IsStreamActive(this->_stream)) != 1)
 	{
@@ -160,7 +146,7 @@ B_SAMPLE 	babel::Audio::record()
 		return {0};
 	}
 	
-	if ((this->_err = Pa_ReadStream(this->_stream, buffer.data(), RECORD_SIZE / NUM_CHANNELS)) != paNoError)
+	if ((this->_err = Pa_ReadStream(this->_stream, buffer.data(), FRAME_SIZE / NUM_CHANNELS)) != paNoError)
 	{
 		std::cerr << "Error: An error occured when recording stream: " << Pa_GetErrorText(this->_err) << std::endl;
 		return {0};
@@ -169,7 +155,7 @@ B_SAMPLE 	babel::Audio::record()
 	return buffer;
 }
 
-bool 	babel::Audio::play(B_SAMPLE audio, int size)
+bool 	babel::Audio::play(B_SAMPLE audio)
 {
 	if ((this->_err = Pa_IsStreamActive(this->_stream)) != 1)
 	{
@@ -177,7 +163,7 @@ bool 	babel::Audio::play(B_SAMPLE audio, int size)
 		return false;
 	}
 	
-	if ((this->_err = Pa_WriteStream(this->_stream, audio.data(), RECORD_SIZE / NUM_CHANNELS)) != paNoError)
+	if ((this->_err = Pa_WriteStream(this->_stream, audio.data(), FRAME_SIZE / NUM_CHANNELS)) != paNoError)
 	{
 		std::cerr << "Error: An error occured when reading stream: " << Pa_GetErrorText(this->_err) << std::endl;
 		return false;

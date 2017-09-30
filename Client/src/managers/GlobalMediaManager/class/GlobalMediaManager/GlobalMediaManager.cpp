@@ -20,9 +20,9 @@ babel::BabelClientManager& babel::GlobalMediaManager::getRoot(void) const
 }
 
 // SOUND
-bool 		babel::GlobalMediaManager::playSound(B_SAMPLE sample, int size)
+bool 		babel::GlobalMediaManager::playSound(B_SAMPLE sample)
 {
-	return this->_audioManager.playSound(sample, size);
+	return this->_audioManager.playSound(sample);
 }
 
 B_SAMPLE 	babel::GlobalMediaManager::recordSound()

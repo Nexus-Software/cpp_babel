@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
     QObject::connect(this->_ui->ActionDisconnect, SIGNAL(triggered()), this, SLOT(RedirectToLoginDiag()));
     QObject::connect(this->_ui->ActionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(this->_ui->FriendsList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(SelectedFriendClicked(QListWidgetItem *)));
+    QObject::connect(this->_ui->FriendsList, SIGNAL(customContextMenuRequested(QPoint const&)), this, SLOT(ShowContextMenu(QPoint const&)));
     QObject::connect(this->_ui->AddContactButton, SIGNAL(clicked()), this, SLOT(OpenAddContactDiag()));
     QObject::connect(this->_ui->AddToConversationButton, SIGNAL(clicked()), this, SLOT(OpenAddToConversationDiag()));
     QObject::connect(this->_ui->CallButton, SIGNAL(clicked()), this, SLOT(StartingCall()));
@@ -111,6 +112,17 @@ void                    MainWindow::SelectedFriendClicked(QListWidgetItem *selec
     this->_uiManager.selectedFriendClicked(selectedContact->data(0).toString().toStdString());
 }
 
+void                    MainWindow::ShowContextMenu(QPoint const& pos)
+{
+    QPoint  globalPos = this->_ui->FriendsList->mapToGlobal(pos);
+    QMenu   menu;
+
+    menu.addAction("Call", this, SLOT(StartingCall()));
+    menu.addAction("Remove",  this, SLOT(RemoveFriend()));
+
+    menu.exec(globalPos);
+}
+
 void                    MainWindow::OpenAddContactDiag()
 {
     this->_uiManager.showWindow("AddContactDiag");
@@ -131,4 +143,9 @@ void                    MainWindow::StartingCall()
 void                    MainWindow::HangingUpCall()
 {
     this->_uiManager.hangupCall();
+}
+
+void                    MainWindow::RemoveFriend()
+{
+    this->_uiManager.removeFriend();
 }

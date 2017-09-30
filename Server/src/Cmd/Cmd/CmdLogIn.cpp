@@ -33,9 +33,13 @@ bool babel::CmdLogIn::run(size_t tunnelId,  NetworkData & data)
     {
       if (this->_server.getAccountManager().getAccountByLogin(login).getPassword() == password)
 	{
+	  if (!this->_server.getAccountManager().login(login))
+	    {
+	      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(503, 0, {}));
+	      return false;
+	    }
 	  this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setLogin(login);
 	  this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).setIsAuth(true);
-	  this->_server.getAccountManager().getAccountByLogin(login).setIsOnline(true);
 
 	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(44, 0, {}));
 

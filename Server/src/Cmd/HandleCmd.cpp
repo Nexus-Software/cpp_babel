@@ -18,6 +18,7 @@ babel::HandleCmd::HandleCmd(babel::Server &server):
 			 {2, std::make_shared<CmdLogIn>(this->_server)},
 			 {3, std::make_shared<CmdContactDelete>(this->_server)},
 			 {4, std::make_shared<CmdContactAdd>(this->_server)},
+			 {5, std::make_shared<CmdLeave>(this->_server)},
 			 {7, std::make_shared<CmdCallInvite>(this->_server)},
 			 {9, std::make_shared<CmdCallJoin>(this->_server)}
 		 })
@@ -31,26 +32,26 @@ babel::HandleCmd::~HandleCmd()
 
 bool babel::HandleCmd::execCmd(size_t tunnelId, NetworkData & data)
 {
-  /* dataToWrite data1;
-  std::uint32_t nb = 32;
-  data1.size = sizeof(std::uint32_t);
-  data1.data = &nb;
-  this->_server.getNetworkManager().get()->write(tunnelId, data1);
-  nb = 342;
-  data1.size = sizeof(std::uint32_t);
-  data1.data = &nb;
-  this->_server.getNetworkManager().get()->write(tunnelId, data1); */
-
-  //Todo: Resend to Cmd code reponse
-
   std::unordered_map<std::uint32_t, std::shared_ptr<ICmd>>::iterator it;
 
   if ((it = this->_cmdList.find(data.code)) != this->_cmdList.end())
     {
+      try
+	{
+	  if (it->first > 2 && !this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).isAuth)
+	    {
+	      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(501, 0, {}));
+	      return false;
+	    }
+	}
+      catch (NetworkManagerException &e)
+	{
+	  this->_server.getLogInTerm().print("(HandleCMD): Tunnel id not found into", LogInTerm::LevelLog::WARNING);
+	  return false;
+	}
       (*it).second.get()->run(tunnelId, data);
-      std::cout << "CMD FOUND" << std::endl;
+      std::cout << "CMD: N:" << it->first << std::endl;
       return true;
     }
-  std::cout << "CMD NOT FOUND" << std::endl;
   return false;
 }

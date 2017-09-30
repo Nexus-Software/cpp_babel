@@ -213,6 +213,9 @@
              <layout class="QVBoxLayout" name="verticalLayout_6">
               <item>
                <widget class="QListWidget" name="FriendsList">
+                <property name="contextMenuPolicy">
+                 <enum>Qt::CustomContextMenu</enum>
+                </property>
                 <property name="dragEnabled">
                  <bool>false</bool>
                 </property>
@@ -360,7 +363,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>426</width>
-                 <height>375</height>
+                 <height>371</height>
                 </rect>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_14">
@@ -462,7 +465,7 @@
      <x>0</x>
      <y>0</y>
      <width>867</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="MenuConnections">

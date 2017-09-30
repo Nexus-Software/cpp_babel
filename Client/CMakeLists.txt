@@ -44,6 +44,9 @@ include_directories(
 	# STANDALONE
 	# ---> AUDIO
 	${APP_DIR}/src/standalone/class/Audio/
+	# ---> CODEC
+	${APP_DIR}/src/standalone/class/Codec/
+	${APP_DIR}/src/standalone/Interface/
 	# ---> CALL
 	${APP_DIR}/src/standalone/class/Call/
   # ---> CONTACT
@@ -80,6 +83,11 @@ endif()
 
 # AUDIO COMPONENTS
 find_package(Portaudio REQUIRED)
+find_package(Opus REQUIRED)
+message(${PORTAUDIO_LIBRARIES})
+message(${PORTAUDIO_INCLUDE_DIRS})
+message(${Opus_LIBRARY})
+message(${Opus_INCLUDE_DIR})
 # find_package(Opus)
 
 # QT COMPONENTS
@@ -115,7 +123,8 @@ qt5_wrap_ui(UIS_HDRS
 add_executable(${TARGET_NAME} ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
 # LIBRARIES
 target_link_libraries(${TARGET_NAME} Qt5::Widgets Qt5::Network)
-target_link_libraries(${TARGET_NAME} ${Portaudio_LIBRARY})
+target_link_libraries(${TARGET_NAME} ${PORTAUDIO_LIBRARIES})
+target_link_libraries(${TARGET_NAME} ${Opus_LIBRARY})
 
 # Windows specific build steps
 if(WIN32)

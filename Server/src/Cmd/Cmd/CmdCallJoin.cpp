@@ -32,7 +32,10 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       if (!this->_server.getCallManager().convIsExist(networkDataCSJoin.idCall) &&
 	      !this->_server.getCallManager().isAllowToJoin(networkDataCSJoin.idCall,
 							    this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login))
-	return false;
+	{
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(506, 0, {}));
+	  return false;
+	}
 
       CLIENT_CALL_STRUCT client = {0};
       NetworkDataCSJoinSuccess networkDataCSJoinSuccess = {0};
@@ -45,7 +48,7 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 	  if (it != participant.end())
 	    {
 	      (*it).second.login.copy(networkDataCSJoinSuccess.client[i].login, 32);
-	      (*it).second.ip.copy(networkDataCSJoinSuccess.client[i].ip, 15);
+	      (*it).second.ip.copy(networkDataCSJoinSuccess.client[i].ip, 16);
 	      networkDataCSJoinSuccess.client[i].port = (*it).second.port;
 	      it++;
 	    }
@@ -69,7 +72,7 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 
       NetworkDataSCJoin networkDataSCJoin;
       this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(client.login, 32);
-      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip.copy(client.ip, 15);
+      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip.copy(client.ip, 16);
       client.port = networkDataCSJoin.port;
 
       networkDataSCJoin.idCall = networkDataCSJoin.idCall;

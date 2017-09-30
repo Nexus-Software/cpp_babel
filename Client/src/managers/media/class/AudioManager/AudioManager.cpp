@@ -18,9 +18,9 @@ babel::GlobalMediaManager& babel::AudioManager::getParent() const
 	return this->_parent;
 }
 
-bool 	babel::AudioManager::playSound(B_SAMPLE sample, int size)
+bool 	babel::AudioManager::playSound(B_SAMPLE sample)
 {
-	return this->_audio.play(sample, size);
+	return this->_audio.play(sample);
 }
 
 B_SAMPLE babel::AudioManager::recordSound(void)
