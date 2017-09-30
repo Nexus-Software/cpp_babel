@@ -72,8 +72,20 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
             this->_root.getUI().updateFriendsListFromContactManager();
 		} },
 		{ 7, [&](babel::t_babelPackedData t) {
-			std::cout << "INVITE CALL(" << t.code << ")" << std::endl;
-			this->_root.getUI().showErrorDialog("This conv does not exist :(");
+            std::cout << "INVITE CALL(" << t.code << ")" << std::endl;
+            babel::t_clientContactList list = *(reinterpret_cast<babel::t_clientContactList*>(t.data.data()));
+            std::vector<std::string>    listContactStr;
+
+            for (int i = 0; i < 8; i++) {
+                if (!*(list.contacts[i].login))
+                    break;
+                listContactStr.push_back(list.contacts[i].login);
+            }
+            if (listContactStr.size() == 1)
+                this->_root.getUI().updateNameCallingText(listContactStr[0]);
+            else if (listContactStr.size() > 1)
+                this->_root.getUI().updateNameCallingText(listContactStr[0], std::vector<std::string>(listContactStr.begin() + 1, listContactStr.end()));
+            this->_root.getUI().showWindow("ReceiveCallDiag");
 		} },
 		{ 8, [&](babel::t_babelPackedData t) {
 			std::cout << "LEAVE CALL(" << t.code << ")" << std::endl;

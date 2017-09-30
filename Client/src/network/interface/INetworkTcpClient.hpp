@@ -27,7 +27,7 @@ namespace babel {
 	struct					t_clientContactList
 	{
 		t_clientContactStruct contacts[50];
-	};
+    };
 } // babel
 
 namespace babel {
