@@ -169,6 +169,25 @@ babel::Status const                                                 babel::UIMan
     return (babel::Status(0, "UIManager 'saveNicknameFromLoginToSignupDiag()' worked without error"));
 }
 
+babel::Status const                                                 babel::UIManager::updateFriendsListFromContactManager()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'updateFriendsListFromServer()': mainWindow was null"));
+
+    std::vector<babel::Contact> &contactList = this->_root.getContact().getContactList();
+    QListWidget                 *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'updateFriendsListFromServer()': friendsList was null"));
+    friendsList->clear();
+    for (auto it : contactList)
+        friendsList->addItem(it.getLogin());
+
+    return (babel::Status(0, "UIManager 'updateFriendsListFromServer()' worked without error"));
+}
+
 babel::Status const                                                 babel::UIManager::refreshGeneralInformations()
 {
     MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());

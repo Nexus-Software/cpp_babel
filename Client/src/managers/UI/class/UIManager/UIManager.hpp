@@ -7,6 +7,7 @@
 #include <array>
 #include <QApplication>
 #include "Status.hpp"
+#include "BabelClientManager.hpp"
 #include "addcontactdiag.h"
 #include "addtoconversationdiag.h"
 #include "customnotificationdiag.h"
@@ -54,6 +55,7 @@ namespace babel {
             babel::Status const                                         saveNicknameFromLoginToSignupDiag(std::string const& nickname);
 
             //MainWindow methods
+            babel::Status const                                         updateFriendsListFromContactManager();
             babel::Status const                                         refreshGeneralInformations();
             babel::Status const                                         updateFriendsListConversations();
             babel::Status const                                         refreshSelectedContact(std::string const& selectedContact, babel::UIManager::ContactInfoType const type);
