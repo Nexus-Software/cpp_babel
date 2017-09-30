@@ -174,18 +174,18 @@ babel::Status const                                                 babel::UIMan
     MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
 
     if (!mainWindow)
-        return (babel::Status(1, "UIManager 'updateFriendsListFromServer()': mainWindow was null"));
+        return (babel::Status(1, "UIManager 'updateFriendsListFromContactManager()': mainWindow was null"));
 
     std::vector<babel::Contact> &contactList = this->_root.getContact().getContactList();
     QListWidget                 *friendsList = mainWindow->getFriendsList();
 
     if (!friendsList)
-        return (babel::Status(1, "UIManager 'updateFriendsListFromServer()': friendsList was null"));
+        return (babel::Status(1, "UIManager 'updateFriendsListFromContactManager()': friendsList was null"));
     friendsList->clear();
     for (auto it : contactList)
         friendsList->addItem(QString::fromStdString(it.getLogin()));
 
-    return (babel::Status(0, "UIManager 'updateFriendsListFromServer()' worked without error"));
+    return (babel::Status(0, "UIManager 'updateFriendsListFromContactManager()' worked without error"));
 }
 
 babel::Status const                                                 babel::UIManager::refreshGeneralInformations()
