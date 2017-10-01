@@ -103,7 +103,6 @@ void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
 	    {
 	      this->_accountList.find(it)->second.getLogin().copy(networkDataSCContactList.contacts[i].login, 32);
 	      networkDataSCContactList.contacts[i].isOnline = this->_accountList.find(it)->second.getIsOnline() ? 1 : 0;
-	      std::cout << "Login: " << networkDataSCContactList.contacts[i].login << "Online:" << networkDataSCContactList.contacts[i].isOnline  << std::endl;
 	      i += 1;
 	    }
 	}
