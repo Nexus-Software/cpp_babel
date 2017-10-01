@@ -20,8 +20,16 @@ int		main(int, char **av)
       port = static_cast<unsigned int>(std::abs(std::atoi(av[1])));
     }
 
-  babel::Server	server(port);
+  try
+    {
+      babel::Server	server(port);
 
-  server.run();
+      server.run();
+    }
+  catch (...)
+    {
+      std::cout << "Error into server. Check is port is not use by other program." << std::endl;
+    }
+
   return (EXIT_SUCCESS);
 }
