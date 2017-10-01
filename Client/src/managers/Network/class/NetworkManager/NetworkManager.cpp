@@ -216,23 +216,22 @@ void    babel::NetworkManager::C_GetContactList(babel::t_babelPackedData& t)
 	std::cout << "ACTION : GET CONTACT LIST(" << t.code << ")" << std::endl;
 
 	babel::t_clientContactList list = *(reinterpret_cast<babel::t_clientContactList*>(t.data.data()));
-
-	/*std::cout << "----------- > DATA GET CONTACT LIST: ";
-	for (int i = 0; i < 2048; ++i)
-		std::cout << "[" << t.data.data()[i] << "]";
-	std::cout << std::endl;*/
-
 	std::vector<babel::Contact> listContact;
+
+    this->_root.getUI().setFriendsOnline(0);
 	int i = 0;
 	for (; i < 50; i++) {
 		if (!*(list.contacts[i].login))
 			break;
 		listContact.push_back(babel::Contact(list.contacts[i].login, list.contacts[i].isOnline));
+        if (list.contacts[i].isOnline)
+            this->_root.getUI().setFriendsOnline(this->_root.getUI().getFriendsOnline() + 1);
 		std::cout << i + 1 << ". " << list.contacts[i].login << std::endl;
 	}
 
 	this->_root.getContact().updateContactList(listContact);
 	this->_root.getUI().updateFriendsListFromContactManager();
+    this->_root.getUI().refreshGeneralInformations();
 }
 
 void    babel::NetworkManager::C_GetCallInvitation(babel::t_babelPackedData& t)

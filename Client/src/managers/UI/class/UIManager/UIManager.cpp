@@ -174,9 +174,16 @@ babel::Status const                                                 babel::UIMan
     if (!friendsList)
         return (babel::Status(1, "UIManager 'updateFriendsListFromContactManager()': friendsList was null"));
     friendsList->clear();
-    for (auto it : contactList)
-        friendsList->addItem(QString::fromStdString(it.getLogin()));
 
+    QFont                       italic;
+
+    italic.setItalic(true);
+    for (auto it : contactList)
+    {
+        friendsList->addItem(QString::fromStdString(it.getLogin()));
+        if (!it.getStatus())
+            friendsList->item(friendsList->count() - 1)->setFont(italic);
+    }
     return (babel::Status(0, "UIManager 'updateFriendsListFromContactManager()' worked without error"));
 }
 
@@ -228,12 +235,15 @@ babel::Status const                                                 babel::UIMan
     this->refreshCurrentlySelectedLabel(tmpConversationList.toVector().toStdVector());
     for (int i = 0; i < friendsListMainWin->count(); i++)
     {
-        friendsListConversations->addItem(friendsListMainWin->item(i)->data(0).toString());
-        friendsListConversations->item(i)->setCheckState(Qt::CheckState::Unchecked);
-        for (auto it : this->_conversationList)
+        if (!friendsListMainWin->item(i)->font().italic())
         {
-            if (it == friendsListConversations->item(i)->data(0).toString().toStdString())
-                friendsListConversations->item(i)->setCheckState(Qt::CheckState::Checked);
+            friendsListConversations->addItem(friendsListMainWin->item(i)->data(0).toString());
+            friendsListConversations->item(i)->setCheckState(Qt::CheckState::Unchecked);
+            for (auto it : this->_conversationList)
+            {
+                if (it == friendsListConversations->item(i)->data(0).toString().toStdString())
+                    friendsListConversations->item(i)->setCheckState(Qt::CheckState::Checked);
+            }
         }
     }
     return (babel::Status(0, "UIManager 'updateFriendsListConversations()' worked without error"));
@@ -265,32 +275,38 @@ babel::Status const                                                 babel::UIMan
                                                 selectedContact +
                                                 "</span></p><p style=\"margin: 2px\"><span style=\" font-style:italic; color:#56b921;\">Online</span></p></body></html>"));
             selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
-        break;
-    case (babel::UIManager::ContactInfoType::CALLING_WAIT):
-        selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
-                                                                    selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#ffaa00;\">\
-                                                                    Waiting..</span></p></body></html>"));
-        selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
-        break;
-    case (babel::UIManager::ContactInfoType::IN_CONVERSATION):
-        selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\" font-weight:496;\">" +
-                                             selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" \
-                                             font-style:italic; color:#4d4d4d ;\">Conversation</span></p></body></html>"));
-        selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
-        break;
-    case (babel::UIManager::ContactInfoType::IN_CALL):
-        selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
-                                                                    selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#56b921;\">\
-                                                                    In call</span></p></body></html>"));
-        selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
-        friendsList->setEnabled(false);
-        filterFriendField->setEnabled(false);
-        addContactButton->setEnabled(false);
-        break;
-    case (babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED):
-        selectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
-        selectedContactChat->setText("<html><head/><body><p><span style=\"font-style:italic; color:#4d4d4d ;\">Select someone on the left to chat with someone!</span></p></body></html>");
-        break;
+            break;
+		case (babel::UIManager::ContactInfoType::OFFLINE):
+            selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
+                                                selectedContact +
+                                                "</span></p><p style=\"margin: 2px\"><span style=\" font-style:italic; color:#cb1c16;\">Offline</span></p></body></html>"));
+            selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+            break;
+        case (babel::UIManager::ContactInfoType::CALLING_WAIT):
+            selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
+                                                                        selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#ffaa00;\">\
+                                                                        Waiting..</span></p></body></html>"));
+            selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+            break;
+        case (babel::UIManager::ContactInfoType::IN_CONVERSATION):
+            selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\" font-weight:496;\">" +
+                                                 selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" \
+                                                 font-style:italic; color:#4d4d4d ;\">Conversation</span></p></body></html>"));
+            selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+            break;
+        case (babel::UIManager::ContactInfoType::IN_CALL):
+            selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
+                                                                        selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#56b921;\">\
+                                                                        In call</span></p></body></html>"));
+            selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+            friendsList->setEnabled(false);
+            filterFriendField->setEnabled(false);
+            addContactButton->setEnabled(false);
+            break;
+        case (babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED):
+            selectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
+            selectedContactChat->setText("<html><head/><body><p><span style=\"font-style:italic; color:#4d4d4d ;\">Select someone on the left to chat with someone!</span></p></body></html>");
+            break;
     }
     return (babel::Status(0, "UIManager 'refreshSelectedContact()' worked without error"));
 }
@@ -357,8 +373,14 @@ babel::Status const                                                 babel::UIMan
 
     this->clearConversationList();
     this->appendToConversationList(contactName);
-    this->refreshSelectedContact(contactName, babel::UIManager::ContactInfoType::ONLINE);
     mainWindow->getCallButton()->setEnabled(true);
+    if (this->isSelectedContactOnline())
+        this->refreshSelectedContact(contactName, babel::UIManager::ContactInfoType::ONLINE);
+    else
+    {
+        mainWindow->getCallButton()->setEnabled(false);
+        this->refreshSelectedContact(contactName, babel::UIManager::ContactInfoType::OFFLINE);
+    }
     return (babel::Status(0, "UIManager 'selectedFriendClicked()' worked without error"));
 }
 
@@ -593,6 +615,7 @@ babel::Status const                                                 babel::UIMan
 
     if (!friendsList)
         return (babel::Status(1, "UIManager 'refreshWhenHangingUpCall()': friendsList was null"));
+
     mainWindow->getHangupButton()->setEnabled(false);
     mainWindow->getCallButton()->setEnabled(true);
     mainWindow->getAddToConversationButton()->setEnabled(true);
@@ -653,4 +676,27 @@ babel::BabelClientManager                                           &babel::UIMa
 babel::BabelClientManager const                                     &babel::UIManager::getRoot() const
 {
     return (this->_root);
+}
+
+std::uint32_t const                                                 babel::UIManager::getFriendsOnline() const
+{
+    return (this->_friendsOnline);
+}
+
+bool const                                                          babel::UIManager::isSelectedContactOnline()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (false);
+
+    QListWidget *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (false);
+
+    if (mainWindow->getFriendsList()->selectedItems().count() == 1 &&
+        !mainWindow->getFriendsList()->selectedItems()[0]->font().italic())
+       return (true);
+    return (false);
 }

@@ -119,6 +119,9 @@ void                    MainWindow::ShowContextMenu(QPoint const& pos)
     menu.addAction("Call", this, SLOT(StartingCall()));
     menu.addAction("Remove",  this, SLOT(RemoveFriend()));
 
+    if (!this->_uiManager.isSelectedContactOnline() && menu.actions().size() == 2)
+        menu.actions()[0]->setEnabled(false);
+
     menu.exec(globalPos);
 }
 

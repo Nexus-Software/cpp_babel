@@ -30,7 +30,8 @@ namespace babel {
             enum class ContactInfoType : int
             {
                 ONLINE = 0,
-                CALLING_WAIT = 1,
+                OFFLINE = 1,
+                CALLING_WAIT,
                 IN_CONVERSATION,
                 IN_CALL,
                 NO_CONTACT_SELECTED
@@ -105,12 +106,15 @@ namespace babel {
             //Getters
             babel::BabelClientManager                                   &getRoot();
             babel::BabelClientManager const                             &getRoot() const;
+            std::uint32_t const                                         getFriendsOnline() const;
+
+            bool const                                                  isSelectedContactOnline();
 
 		private:
             babel::BabelClientManager                                   &_root;
             std::unordered_map<std::string, std::shared_ptr<QWidget>>   _windowList;
 
-            quint32                                                     _friendsOnline;
+            std::uint32_t                                               _friendsOnline;
             QList<std::string>                                          _conversationList;
 	};
 }
