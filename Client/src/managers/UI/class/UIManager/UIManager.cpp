@@ -221,7 +221,7 @@ babel::Status const                                                 babel::UIMan
     QList<std::string> &tmpConversationList = addToConversationDiag->getTmpConversationList();
 
     while (friendsListConversations->count())
-        friendsListConversations->takeItem(0);
+        delete friendsListConversations->takeItem(0);
     tmpConversationList.clear();
     for (auto it : this->_conversationList)
         tmpConversationList.append(it);
