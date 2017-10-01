@@ -13,7 +13,6 @@ LoginDiag::LoginDiag(QWidget *parent, babel::UIManager &uiManager) :
     QObject::connect(this->_ui->SignupButton, SIGNAL(clicked()), this, SLOT(SwitchToSignupWindow()));
     QObject::connect(this->_ui->ConnectButton, SIGNAL(clicked()), this, SLOT(WaitingForResponse()));
     QObject::connect(this, SIGNAL(ConnectionAllowed()), this, SLOT(SwitchToMainWindow()));
-    QObject::connect(this, SIGNAL(ConnectionDenied()), this, SLOT(ShowErrorDialog()));
 }
 
 
@@ -87,8 +86,4 @@ void LoginDiag::SwitchToMainWindow() {
     this->_ui->PasswordField->setText("");
     this->_uiManager.refreshGeneralInformations();
     this->_uiManager.showWindow("MainWindow");
-}
-
-void LoginDiag::ShowErrorDialog() {
-    QMessageBox::warning(this, "Login", "Wrong nickname or the password entered was incorrect.");
 }

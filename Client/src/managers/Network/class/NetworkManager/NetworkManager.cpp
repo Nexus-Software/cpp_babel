@@ -169,31 +169,31 @@ void    babel::NetworkManager::C_SuccessLeave(babel::t_babelPackedData& t)
 void    babel::NetworkManager::C_InternalError(babel::t_babelPackedData& t)
 {
 	std::cout << "ERROR : INTERNAL ERROR (" << t.code << ")" << std::endl;
-	this->_root.getUI().showErrorDialog("Internal error: Something went wrong");
+	this->_root.getUI().showDialog("MainWindow", "Internal Error", "Something unexpected gone wrong.", babel::UIManager::DialogType::CRITICAL);
 }
 
 void    babel::NetworkManager::C_ErrorAlreadyUsed(babel::t_babelPackedData& t)
 {
 	std::cout << "ERROR : LOGIN ALREADY USED (" << t.code << ")" << std::endl;
-	this->_root.getUI().showErrorDialog("Login already in use >.<");
+	this->_root.getUI().showDialog("SignupDiag", "Signup", "Login already in use >.<", babel::UIManager::DialogType::WARNING);
 }
 
 void    babel::NetworkManager::C_ErrorWrongCreds(babel::t_babelPackedData& t)
 {
 	std::cout << "ERROR : WRONG CREDENTIALS (" << t.code << ")" << std::endl;
-	this->_root.getUI().showErrorDialog("Wrong credentials :/");
+	this->_root.getUI().showDialog("LoginDiag", "Login", "Wrong credentials :/", babel::UIManager::DialogType::WARNING);
 }
 
 void    babel::NetworkManager::C_ErrorUserNotFound(babel::t_babelPackedData& t)
 {
 	std::cout << "ERROR : USER NOT FOUND (" << t.code << ")" << std::endl;
-	this->_root.getUI().showErrorDialog("User not found :(");
+	this->_root.getUI().showDialog("MainWindow", "User not found", "User not found :(", babel::UIManager::DialogType::CRITICAL);
 }
 
 void    babel::NetworkManager::C_ConvNotFound(babel::t_babelPackedData& t)
 {
 	std::cout << "ERROR : CONV NOT FOUND (" << t.code << ")" << std::endl;
-	this->_root.getUI().showErrorDialog("This conv does not exist :(");
+	this->_root.getUI().showDialog("MainWindow", "Unknown conversation", "This conversation doesn't exist :(", babel::UIManager::DialogType::CRITICAL);
 }
 
 /////////////

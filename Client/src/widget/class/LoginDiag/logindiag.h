@@ -33,11 +33,9 @@ public slots:
     void SwitchToSignupWindow();
     void WaitingForResponse();
     void SwitchToMainWindow();
-    void ShowErrorDialog();
 
 signals:
     void ConnectionAllowed();
-    void ConnectionDenied();
 
 private:
     std::shared_ptr<Ui::LoginDiag>  _ui;
