@@ -24,7 +24,7 @@ babel::CmdCallLeave::~CmdCallLeave()
 bool babel::CmdCallLeave::run(size_t tunnelId, babel::NetworkData &data)
 {
   std::uint32_t idCall = {0};
-  std::copy_n(reinterpret_cast<const char *>(&data.data), sizeof(std::uint32_t), reinterpret_cast<char *>(&idCall));
+  std::copy_n(reinterpret_cast<char *>(&data.data), sizeof(std::uint32_t), reinterpret_cast<char *>(&idCall));
 
   try
     {
