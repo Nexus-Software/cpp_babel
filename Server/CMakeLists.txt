@@ -5,6 +5,9 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(include)
 
+# APP TARGET
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin)
 
 # INCLUDES
 include_directories(src)
