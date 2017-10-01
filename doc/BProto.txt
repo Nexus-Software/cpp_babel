@@ -1,0 +1,448 @@
+
+
+
+
+Nexus Babel Group                                             E. Allamel
+Internet-Draft                                                J. Herbaux
+Intended status: Informational                                 M. Cauvin
+Expires: April 4, 2018                                        M. Leconte
+                                                     Epitech Montpellier
+                                                        October 01, 2017
+
+
+                            Babel - Protocol
+                                 BProto
+
+Abstract
+
+   /
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on April 4, 2018.
+
+Copyright Notice
+
+   Copyright (c) 2017 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (https://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+
+
+Allamel, et al.           Expires April 4, 2018                 [Page 1]
+
+Internet-Draft                   BProto                     October 2017
+
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Server / Client . . . . . . . . . . . . . . . . . . . . . . .   2
+     2.1.  Define of type of comunication  . . . . . . . . . . . . .   2
+     2.2.  Struct of data  . . . . . . . . . . . . . . . . . . . . .   3
+       2.2.1.  CLIENT_CONTACT_STRUCT . . . . . . . . . . . . . . . .   3
+       2.2.2.  CLIENT_CALL_STRUCT  . . . . . . . . . . . . . . . . .   3
+     2.3.  Actions Client -> Server  . . . . . . . . . . . . . . . .   3
+       2.3.1.  Sign Up (1) . . . . . . . . . . . . . . . . . . . . .   3
+       2.3.2.  Log In (2)  . . . . . . . . . . . . . . . . . . . . .   3
+       2.3.3.  Del Contact (3) . . . . . . . . . . . . . . . . . . .   4
+       2.3.4.  Add Contact (4) . . . . . . . . . . . . . . . . . . .   4
+       2.3.5.  Leave (5) . . . . . . . . . . . . . . . . . . . . . .   4
+       2.3.6.  Invite Call (7) . . . . . . . . . . . . . . . . . . .   5
+       2.3.7.  Leave Call (8)  . . . . . . . . . . . . . . . . . . .   5
+       2.3.8.  Join Call (8) . . . . . . . . . . . . . . . . . . . .   5
+     2.4.  Actions Server -> Client  . . . . . . . . . . . . . . . .   6
+       2.4.1.  Invite Call (7) . . . . . . . . . . . . . . . . . . .   6
+       2.4.2.  Leave Call (8)  . . . . . . . . . . . . . . . . . . .   6
+       2.4.3.  Join Call (9) . . . . . . . . . . . . . . . . . . . .   6
+       2.4.4.  Contact List (6)  . . . . . . . . . . . . . . . . . .   7
+     2.5.  Reponses of Server  . . . . . . . . . . . . . . . . . . .   7
+   3.  Client / Client . . . . . . . . . . . . . . . . . . . . . . .   7
+     3.1.  Define of type of comunication  . . . . . . . . . . . . .   7
+     3.2.  Struct of data  . . . . . . . . . . . . . . . . . . . . .   8
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   8
+
+1.  Introduction
+
+   This RFC is for babel project in cpp.  This explain protocol of babel
+   projet(Client / Client and Client / Server).  This protocol is build
+   with one other group.
+
+2.  Server / Client
+
+2.1.  Define of type of comunication
+
+   Type: *TCP* Content of data:
+
+   o  Header :
+
+   o  Action code : unsigned int 32 bits
+
+   o  Data size : unsigned int 32 bits
+
+   o  Data :
+
+
+
+
+Allamel, et al.           Expires April 4, 2018                 [Page 2]
+
+Internet-Draft                   BProto                     October 2017
+
+
+   o  Data : size of Data size
+
+2.2.  Struct of data
+
+2.2.1.  CLIENT_CONTACT_STRUCT
+
+   o  login : char array 32
+
+   o  isOnline : unsigned int 32 bits
+
+2.2.2.  CLIENT_CALL_STRUCT
+
+   o  login : char array 32
+
+   o  ip : char array 16
+
+   o  port : unsigned int 32 bits
+
+2.3.  Actions Client -> Server
+
+2.3.1.  Sign Up (1)
+
+   Action Code : 1
+
+   Arguments :
+
+   o  login : char array 32
+
+   o  password : char array 32
+
+   Answer :
+
+   o  SUCCESS_LOGIN
+
+   o  INTERNAL_ERROR
+
+   o  LOGIN_USED
+
+2.3.2.  Log In (2)
+
+   Action Code : 2
+
+   Arguments :
+
+   o  login : char array 32
+
+   o  password : char array 32
+
+
+
+
+Allamel, et al.           Expires April 4, 2018                 [Page 3]
+
+Internet-Draft                   BProto                     October 2017
+
+
+   Answer :
+
+   o  SUCCESS_SIGNUP
+
+   o  INTERNAL_ERROR
+
+   o  LOGIN_USED
+
+   o  WRONG_CREDENTIALS
+
+2.3.3.  Del Contact (3)
+
+   Action Code : 3
+
+   Arguments :
+
+   o  login contact delete : char array 32
+
+   Answer :
+
+   o  SUCCESS_DEL
+
+   o  INTERNAL_ERROR
+
+   o  NO_SUCH_USER
+
+2.3.4.  Add Contact (4)
+
+   Action Code : 4
+
+   Arguments :
+
+   o  login contactadd : char array 32
+
+   Answer :
+
+   o  SUCCESS_ADD
+
+   o  INTERNAL_ERROR
+
+   o  NO_SUCH_USER
+
+2.3.5.  Leave (5)
+
+   Action Code : 5
+
+   Arguments :
+
+
+
+
+Allamel, et al.           Expires April 4, 2018                 [Page 4]
+
+Internet-Draft                   BProto                     October 2017
+
+
+   No arguments
+
+   Answer :
+
+   No answer
+
+2.3.6.  Invite Call (7)
+
+   Action Code : 7
+
+   Arguments :
+
+   o  uidConv : unsigned int 32 bits
+
+   o  login to add in conv : char array 32
+
+   Answer :
+
+   o  SUCCESS_INVITE
+
+   o  INTERNAL_ERROR
+
+   o  NO_SUCH_USER
+
+   o  NO_SUCH_CONV
+
+2.3.7.  Leave Call (8)
+
+   Action Code : 8
+
+   Arguments :
+
+   o  uidConv to leave : unsigned int 32 bits
+
+   Answer :
+
+   o  SUCCESS_LEAVE
+
+   o  INTERNAL_ERROR
+
+   o  NO_SUCH_CONV
+
+2.3.8.  Join Call (8)
+
+   Action Code : 8
+
+   Arguments :
+
+
+
+
+Allamel, et al.           Expires April 4, 2018                 [Page 5]
+
+Internet-Draft                   BProto                     October 2017
+
+
+   o  uidConv to join (0 for create) : unsigned int 32 bits
+
+   o  port: unsigned int 32 bits
+
+   Answer :
+
+   o  SUCCESS_JOIN
+
+   o  INTERNAL_ERROR
+
+   o  NO_SUCH_CONV
+
+2.4.  Actions Server -> Client
+
+2.4.1.  Invite Call (7)
+
+   Action Code : 7
+
+   Arguments :
+
+   o  uidConv : unsigned int 32 bits
+
+   o  list clients in conv : char array 8 of array 32
+
+   o  call owner : char array 32
+
+2.4.2.  Leave Call (8)
+
+   Action Code : 8
+
+   Arguments :
+
+   o  client who has left : char array 32
+
+2.4.3.  Join Call (9)
+
+   Action Code : 9
+
+   Arguments :
+
+   o  uidConv : unsigned int 32 bits
+
+   o  client who join : CLIENT_CALL_STRUCT
+
+
+
+
+
+
+
+
+Allamel, et al.           Expires April 4, 2018                 [Page 6]
+
+Internet-Draft                   BProto                     October 2017
+
+
+2.4.4.  Contact List (6)
+
+   Action Code : 6
+
+   Arguments :
+
+   o  contact list : CLIENT_CONTACT_STRUCT array 50
+
+2.5.  Reponses of Server
+
+   o  SUCCESS - Code: 42
+
+   o  SUCCESS_JOIN - Code: 43
+
+   o  SUCCESS_LOGIN - Code: 44
+
+   o  SUCCESS_SIGNUP - Code: 45
+
+   o  SUCCESS_DEL - Code: 46
+
+   o  SUCCESS_ADD - Code: 47
+
+   o  SUCCESS_INVITE - Code: 48
+
+   o  SUCCESS_LEAVE - Code: 49
+
+   o  INTERNAL_ERROR - Code: 501
+
+   o  LOGIN_USED - Code 502
+
+   o  WRONG_CREDENTIALS - Code 503
+
+   o  NO_SUCH_USER - Code 505
+
+   o  NO_SUCH_CONV - Code 506
+
+3.  Client / Client
+
+3.1.  Define of type of comunication
+
+   Type: *UDP* _Content of data:_
+
+   o  Data :
+
+   o
+
+      *  Data : size of data send
+
+
+
+
+Allamel, et al.           Expires April 4, 2018                 [Page 7]
+
+Internet-Draft                   BProto                     October 2017
+
+
+3.2.  Struct of data
+
+   In this part of comunication (Client / Client), only data is send.
+
+Authors' Addresses
+
+   Enguerrand Allamel
+   Epitech Montpellier
+
+   Email: enguerrand.allamel@epitech.eu
+
+
+   Jean-Sebastien Herbaux
+   Epitech Montpellier
+
+   Email: jean-sebastien.herbaux@epitech.eu
+
+
+   Maxime Cauvin
+   Epitech Montpellier
+
+   Email: maxime.cauvin@epitech.eu
+
+
+   Marc-Antoine Leconte
+   Epitech Montpellier
+
+   Email: marc-antoine.leconte@epitech.eu
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Allamel, et al.           Expires April 4, 2018                 [Page 8]
