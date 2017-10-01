@@ -23,7 +23,7 @@ babel::CmdContactDelete::~CmdContactDelete()
 
 bool babel::CmdContactDelete::run(size_t tunnelId, babel::NetworkData & data)
 {
-  std::string login(data.data.begin());
+  std::string login(data.data.data());
 
   std::cout << "Login: " << login << std::endl;
 
