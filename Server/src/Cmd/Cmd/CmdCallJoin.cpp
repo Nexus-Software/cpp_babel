@@ -42,6 +42,12 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       NetworkDataCSJoinSuccess networkDataCSJoinSuccess = {0};
       networkDataCSJoinSuccess.idCall = networkDataCSJoin.idCall;
 
+
+      this->_server.getCallManager().add(networkDataCSJoin.idCall,
+					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
+					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip,
+					 networkDataCSJoin.port);
+
       auto participant = (*this->_server.getCallManager().getCalls().find(networkDataCSJoin.idCall)).second.getParticipants();
       auto it = participant.begin();
       for (auto i = 0 ; i < 8 ; i++)
@@ -60,24 +66,17 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 	      networkDataCSJoinSuccess.client[i].port = 0;
 	    }
 	}
-
-      this->_server.getCallManager().add(networkDataCSJoin.idCall,
-					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
-					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip,
-					 networkDataCSJoin.port);
-
       std::array<char, 2048> dataSend = {0};
       std::copy_n(reinterpret_cast<char *>(&networkDataCSJoinSuccess), sizeof(NetworkDataCSJoinSuccess), dataSend.begin());
 
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(43, sizeof(NetworkDataCSJoinSuccess), dataSend));
 
       NetworkDataSCJoin networkDataSCJoin = {0};
-      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(client.login, 32);
-      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip.copy(client.ip, 16);
-      client.port = networkDataCSJoin.port;
+      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(networkDataSCJoin.client.login, 32);
+      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip.copy(networkDataSCJoin.client.ip, 16);
+      networkDataSCJoin.client.port = networkDataCSJoin.port;
 
       networkDataSCJoin.idCall = networkDataCSJoin.idCall;
-      networkDataSCJoin.client = client;
 
       std::cout << "Port recp: " << networkDataCSJoin.port << std::endl;
       std::cout << "IP send: " << networkDataSCJoin.client.ip << std::endl;
@@ -112,6 +111,10 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       NetworkDataCSJoinSuccess networkDataCSJoinSuccess = {0};
 
       networkDataCSJoinSuccess.idCall = call.getId();
+
+      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(networkDataCSJoinSuccess.client[0].login, 32);
+      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(networkDataCSJoinSuccess.client[0].ip, 16);
+      networkDataCSJoinSuccess.client[0].port = networkDataCSJoin.port;
 
       std::copy_n(reinterpret_cast<char *>(&networkDataCSJoinSuccess), sizeof(NetworkDataCSJoinSuccess), dataSend.begin());
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(43, sizeof(NetworkDataCSJoinSuccess), dataSend));
