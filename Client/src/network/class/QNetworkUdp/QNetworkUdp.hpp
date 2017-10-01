@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <QtNetwork>
+#include <mutex>
 #include <QtWidgets>
 #include <QDataStream>
 #include <QUdpSocket>

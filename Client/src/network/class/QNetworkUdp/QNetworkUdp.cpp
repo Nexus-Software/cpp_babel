@@ -18,6 +18,9 @@ bool babel::QNetworkUdp::readEvent()
 {
 	std::cout << "New UDP transmission incoming" << std::endl;
 	std::cout << "--- Bytes available: (begin)" << this->_server->bytesAvailable() << std::endl;
+
+	std::mutex lock;
+
 	while (this->_server->hasPendingDatagrams()) {
 		
 		QByteArray buffer;
@@ -26,14 +29,16 @@ bool babel::QNetworkUdp::readEvent()
 		quint16 senderPort;
 		
 		this->_server->readDatagram(buffer.data(), buffer.size(), &sender, &senderPort);
-		std::vector<unsigned char> in = *(reinterpret_cast<std::vector<unsigned char>*>(buffer.data()));
+		unsigned char* buf2 = reinterpret_cast<unsigned char*>(buffer.data());
+		std::vector<unsigned char>::size_type size = strlen((const char*)buffer);
+		std::vector<unsigned char>in(buf2, buf2 + size);
+		lock.lock();
 		EncodedData eData(in.size(), in);
 		babel::Codec codec;
 		B_SAMPLE out;
 		codec.Decode(eData, out);
 		this->_manager.getRoot().getMedia().playSound(out);
-		std::cout << "New data from " << sender.toString().toStdString() << " at port(" << senderPort << "): " << buffer.data() << std::endl;
-
+		lock.unlock();
 	}
 	std::cout << "End of UDP transmission" << std::endl;
 	return true;
@@ -47,8 +52,7 @@ bool babel::QNetworkUdp::clientWrite(const std::vector<unsigned char>& data, con
 
 	QHostAddress host(QString::fromStdString(ipHost));
 
-	std::cout << "Creation of UDP packet for " << host.toString().toStdString() << " at " << port << ": " << buffer.data() << std::endl;
-	//this->_server->writeDatagram(buffer.data(), buffer.size(), host, port);
+	this->_server->writeDatagram(buffer.data(), buffer.size(), host, port);
 	return false;
 }
 

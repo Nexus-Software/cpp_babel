@@ -57,8 +57,8 @@ void babel::AudioManager::setStreamState(bool state)
 				B_SAMPLE in = this->recordSound();
 				data = codec.Encode(in);
 				this->_parent.getRoot().getNetwork().sendRecordToCall(data.data);
-				codec.Decode(data, out);
-				this->playSound(out);
+				//codec.Decode(data, out);
+				//this->playSound(out);
 				lock.unlock();
 			}
 		});
