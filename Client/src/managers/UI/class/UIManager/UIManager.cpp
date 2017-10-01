@@ -58,7 +58,7 @@ babel::Status const                                                 babel::UIMan
     if (!friendsList)
         return (babel::Status(1, "UIManager 'addContactToFriendsList()': friendsList was null"));
     if (friendsList->count() == 50)
-        this->showErrorDialog("The friends limit has been reached (50).");
+        this->showDialog("AddContactDiag", "Friends limit reached", "The friends limit has been reached (50).", babel::UIManager::DialogType::WARNING);
     else if (contactName.length() &&
         !friendsList->findItems(QString::fromStdString(contactName), Qt::MatchExactly).count())
     friendsList->addItem(QString::fromStdString(contactName));
@@ -476,15 +476,28 @@ babel::Status const                                                 babel::UIMan
     return (babel::Status(0, "UIManager 'saveNicknameFromSignupToLoginDiag()' worked without error"));
 }
 
-babel::Status const                                                 babel::UIManager::showErrorDialog(std::string const& dataText)
+babel::Status const                                                 babel::UIManager::showDialog(std::string const& widget, std::string const& titleText, std::string const& dataText, babel::UIManager::DialogType const type)
 {
-    CustomNotificationDiag *customNotificationDiag = dynamic_cast<CustomNotificationDiag *>(this->_windowList["CustomNotificationDiag"].get());
+    QWidget *w = this->_windowList[widget].get();
 
-    if (!customNotificationDiag)
-        return (babel::Status(1, "UIManager 'showErrorDialog()': The CustomNotification dialog was null"));
-    customNotificationDiag->setDataText(QString::fromStdString(dataText));
-    this->showWindow("CustomNotificationDiag");
-    return (babel::Status(0, "UIManager 'showErrorDialog()' worked without error"));
+    if (!w)
+        return (babel::Status(1, "UIManager 'showDialog()': The widget was null or not found"));
+    switch (type)
+    {
+        case (babel::UIManager::DialogType::WARNING):
+            QMessageBox::warning(w, QString::fromStdString(titleText), QString::fromStdString(dataText));
+            break;
+        case (babel::UIManager::DialogType::CRITICAL):
+            QMessageBox::critical(w, QString::fromStdString(titleText), QString::fromStdString(dataText));
+            break;
+        case (babel::UIManager::DialogType::INFORMATION):
+            QMessageBox::information(w, QString::fromStdString(titleText), QString::fromStdString(dataText));
+            break;
+        case (babel::UIManager::DialogType::QUESTION):
+            QMessageBox::question(w, QString::fromStdString(titleText), QString::fromStdString(dataText));
+            break;
+    }
+    return (babel::Status(0, "UIManager 'showDialog()' worked without error"));
 }
 
 babel::Status const													babel::UIManager::inviteContactInConversation()

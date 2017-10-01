@@ -52,7 +52,7 @@ void                        AddToConversationDiag::RefreshFriendsInConversation(
         if (this->_tmpConversationList.count() == 8)
         {
             item->setCheckState(Qt::CheckState::Unchecked);
-            QMessageBox::warning(this, "Conversation limit", "The people limit in a conversation has been reached");
+            this->_uiManager.showDialog("AddToConversationDiag", "Conversation limit", "The contact limit number in a conversation has been reached (8).", babel::UIManager::DialogType::WARNING);
             return ;
         }
         this->_tmpConversationList.append(item->data(0).toString().toStdString());

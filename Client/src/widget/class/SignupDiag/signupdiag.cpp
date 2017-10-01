@@ -12,7 +12,7 @@ SignupDiag::SignupDiag(QWidget *parent, babel::UIManager &uiManager) :
 
     QObject::connect(this->_ui->LoginButton, SIGNAL(clicked()), this, SLOT(SwitchToLoginWindow()));
     QObject::connect(this->_ui->RegisterButton, SIGNAL(clicked()), this, SLOT(WaitingForResponse()));
-    QObject::connect(this, SIGNAL(ConnectionDenied()), this, SLOT(ShowErrorDialog()));
+    QObject::connect(this, SIGNAL(ConnectionDenied()), this, SLOT(ShowWarningDialog()));
 }
 
 SignupDiag::~SignupDiag()
@@ -98,6 +98,6 @@ void SignupDiag::SwitchToMainWindow() {
     this->_uiManager.showWindow("MainWindow");
 }
 
-void SignupDiag::ShowErrorDialog() {
-    QMessageBox::warning(this, "Signup", "The nickname you entered is already used or both passwords does not match.");
+void SignupDiag::ShowWarningDialog() {
+    this->_uiManager.showDialog("SignupDiag", "Signup", "Both passwords does not match.", babel::UIManager::DialogType::WARNING);
 }

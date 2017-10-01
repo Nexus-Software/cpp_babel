@@ -33,7 +33,7 @@ public slots:
     void SwitchToLoginWindow();
     void WaitingForResponse();
     void SwitchToMainWindow();
-    void ShowErrorDialog();
+    void ShowWarningDialog();
 
 signals:
     void ConnectionDenied();

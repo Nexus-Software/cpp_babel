@@ -49,23 +49,23 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
         } },
         { 501, [&](babel::t_babelPackedData t) {
             std::cout << "INTERNAL ERROR(" << t.code << ")" << std::endl;
-            this->_root.getUI().showErrorDialog("Internal error");
+            this->_root.getUI().showDialog("MainWindow", "Internal Error", "Something unexpected gone wrong.", babel::UIManager::DialogType::CRITICAL);
         } },
         { 502, [&](babel::t_babelPackedData t) {
-            std::cout << "SUCCESS LOGIN USED(" << t.code << ")" << std::endl;
-            this->_root.getUI().showErrorDialog("Login already in use >.<");
+            std::cout << "FAILED LOGIN USED(" << t.code << ")" << std::endl;
+            this->_root.getUI().showDialog("SignupDiag", "Signup", "Login already in use >.<", babel::UIManager::DialogType::WARNING);
         } },
         { 503, [&](babel::t_babelPackedData t) {
-            std::cout << "SUCCESS WRONG CREDENTIALS(" << t.code << ")" << std::endl;
-            this->_root.getUI().showErrorDialog("Wrong credentials :/");
+            std::cout << "FAILED WRONG CREDENTIALS(" << t.code << ")" << std::endl;
+            this->_root.getUI().showDialog("LoginDiag", "Login", "Wrong credentials :/", babel::UIManager::DialogType::WARNING);
         } },
         { 505, [&](babel::t_babelPackedData t) {
-            std::cout << "SUCCESS NO SUCH USER(" << t.code << ")" << std::endl;
-            this->_root.getUI().showErrorDialog("User not found :(");
+            std::cout << "FAILED NO SUCH USER(" << t.code << ")" << std::endl;
+            this->_root.getUI().showDialog("MainWindow", "User not found", "User not found :(", babel::UIManager::DialogType::CRITICAL);
         } },
         { 506, [&](babel::t_babelPackedData t) {
-            std::cout << "SUCCESS NO SUCH CONV(" << t.code << ")" << std::endl;
-            this->_root.getUI().showErrorDialog("This conv does not exist :(");
+            std::cout << "FAILED NO SUCH CONV(" << t.code << ")" << std::endl;
+            this->_root.getUI().showDialog("MainWindow", "Unknown conversation", "This conversation doesn't exist :(", babel::UIManager::DialogType::CRITICAL);
         } },
         { 6, [&](babel::t_babelPackedData t) {
             std::cout << "CONTACT LIST(" << t.code << ")" << std::endl;
@@ -108,12 +108,9 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
         } },
         { 8, [&](babel::t_babelPackedData t) {
             std::cout << "LEAVE CALL(" << t.code << ")" << std::endl;
-            this->_root.getUI().showErrorDialog("This conv does not exist :(");
         } },
         { 9, [&](babel::t_babelPackedData t) {
             std::cout << "JOIN CALL(" << t.code << ")" << std::endl;
-
-            this->_root.getUI().showErrorDialog("This conv does not exist :(");
         } },
     })
 {

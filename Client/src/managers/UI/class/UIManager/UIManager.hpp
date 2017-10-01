@@ -7,6 +7,7 @@
 #include <array>
 #include <QApplication>
 #include <QTcpServer>
+#include <QMessageBox>
 #include "Status.hpp"
 #include "addcontactdiag.h"
 #include "addtoconversationdiag.h"
@@ -32,6 +33,14 @@ namespace babel {
                 IN_CONVERSATION,
                 IN_CALL,
                 NO_CONTACT_SELECTED
+            };
+
+            enum class DialogType : int
+            {
+                WARNING = 0,
+                CRITICAL = 1,
+                INFORMATION,
+                QUESTION
             };
 
 		public:        
@@ -74,7 +83,7 @@ namespace babel {
             babel::Status const                                         saveNicknameFromSignupToLoginDiag(std::string const& nickname);
 
             //Miscellanous methods
-            babel::Status const                                         showErrorDialog(std::string const& dataText);
+            babel::Status const                                         showDialog(std::string const& widget, std::string const& titleText, std::string const& dataText, babel::UIManager::DialogType const type);
 
             //Network methods
             babel::Status const                                         inviteContactInConversation();
