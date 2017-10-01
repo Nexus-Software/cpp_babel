@@ -25,7 +25,7 @@ namespace babel {
 			std::shared_ptr<QUdpSocket>		_server;
 
 		public:
-			virtual bool clientWrite(babel::t_clientUdpPacket&);
+			virtual bool clientWrite(const std::string&, const std::string&, std::uint32_t);
 			virtual bool serverBind(std::uint32_t);
 
 		public slots:

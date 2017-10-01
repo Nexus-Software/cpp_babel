@@ -53,6 +53,12 @@ namespace babel {
         std::uint32_t       idConv;
         t_clientCallStruct  client;
     };
+
+	struct					t_clientCallAcceptCall
+	{
+		std::uint32_t		idconv;
+		std::uint32_t		port;
+	};
 } // babel
 
 namespace babel {

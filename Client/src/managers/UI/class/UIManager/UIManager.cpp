@@ -306,12 +306,12 @@ babel::Status const                                                 babel::UIMan
     tcpSocket.listen(QHostAddress::LocalHost);
     listeningPort = tcpSocket.serverPort();
     tcpSocket.close();
-	//TODO:  ADD SERVER BINDING this->_root.getNetwork().getNetworkUdp()->
+	std::cout << "Client " << this->_root.getContact().getUser().getLogin() << " is listening on port " << listeningPort << std::endl;
+	t_clientCallAcceptCall t;
+	t.idconv = idConv;
+	t.port = listeningPort;
 
-    std::copy_n(reinterpret_cast<char *>(&idConv), 32, ba.begin());
-    std::copy_n(reinterpret_cast<char *>(&listeningPort), 32, ba.begin() + 32);
-
-    std::cout << "listeningport: " << listeningPort << std::endl;
+	std::copy_n(reinterpret_cast<char *>(&t), sizeof(t), ba.data());
 
     this->getRoot().getCall().setOwner(true);
     this->getRoot().getNetwork().writeServerTCP(9, 64, ba);
@@ -420,13 +420,17 @@ babel::Status const                                         babel::UIManager::ac
     std::uint32_t                   listeningPort = 0;
     QTcpServer                      tcpSocket;
 
-    tcpSocket.listen(QHostAddress::LocalHost);
+    tcpSocket.listen(QHostAddress::LocalHost, 0);
     listeningPort = tcpSocket.serverPort();
     tcpSocket.close();
+	this->_root.getNetwork().getNetworkUdp()->serverBind(listeningPort);
+	std::cout << "Client " << this->_root.getContact().getUser().getLogin() << " is listening on port " << listeningPort << std::endl;
+	t_clientCallAcceptCall t;
+	t.idconv = idConv;
+	t.port = listeningPort;
 
-    std::copy_n(reinterpret_cast<char *>(&idConv), 32, ba.begin());
-    std::copy_n(reinterpret_cast<char *>(&listeningPort), 32, ba.begin() + 32);
-
+	std::copy_n(reinterpret_cast<char *>(&t), sizeof(t), ba.data());
+  
     this->getRoot().getCall().setOwner(false);
     this->getRoot().getNetwork().writeServerTCP(9, 64, ba);
 
