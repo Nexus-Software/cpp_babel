@@ -472,8 +472,6 @@
     <property name="title">
      <string>Connections</string>
     </property>
-    <addaction name="ActionDisconnect"/>
-    <addaction name="separator"/>
     <addaction name="ActionQuit"/>
    </widget>
    <widget class="QMenu" name="MenuTools">
@@ -523,14 +521,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
-   </property>
-  </action>
-  <action name="ActionDisconnect">
-   <property name="text">
-    <string>Disconnect</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+D</string>
    </property>
   </action>
  </widget>

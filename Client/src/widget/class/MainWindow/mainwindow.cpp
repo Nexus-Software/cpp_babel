@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent, babel::UIManager &uiManager) :
     this->_ui->WindowSplitter->setSizes(sizes);
 
     QObject::connect(this->_ui->FilterFriendField, SIGNAL(textChanged(QString const&)), this, SLOT(FilterFriendsList(QString const&)));
-    QObject::connect(this->_ui->ActionDisconnect, SIGNAL(triggered()), this, SLOT(RedirectToLoginDiag()));
     QObject::connect(this->_ui->ActionQuit, SIGNAL(triggered()), qApp, SLOT(quit()));
     QObject::connect(this->_ui->FriendsList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(SelectedFriendClicked(QListWidgetItem *)));
     QObject::connect(this->_ui->FriendsList, SIGNAL(customContextMenuRequested(QPoint const&)), this, SLOT(ShowContextMenu(QPoint const&)));
@@ -68,6 +67,21 @@ QPushButton             *MainWindow::getHangupButton()
     return (this->_ui->HangupButton);
 }
 
+QPushButton             *MainWindow::getAddToConversationButton()
+{
+    return (this->_ui->AddToConversationButton);
+}
+
+QLineEdit               *MainWindow::getFilterFriendField()
+{
+    return (this->_ui->FilterFriendField);
+}
+
+QPushButton             *MainWindow::getAddContactButton()
+{
+    return (this->_ui->AddContactButton);
+}
+
 void                    MainWindow::FilterFriendsList(QString const& filterText)
 {
     QList<QListWidgetItem *> filteredList = this->_ui->FriendsList->findItems(filterText, Qt::MatchContains);
@@ -92,21 +106,6 @@ void                    MainWindow::FilterFriendsList(QString const& filterText)
     }
 }
 
-void                    MainWindow::RedirectToLoginDiag()
-{
-    QList<QListWidgetItem *> selectedItems = this->_ui->FriendsList->selectedItems();
-
-    this->_uiManager.hideWindow("MainWindow");
-    while (this->_ui->FriendsList->count())
-        this->_ui->FriendsList->takeItem(0);
-    this->_ui->SelectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
-    this->_ui->SelectedContactChat->setText("<html><head/><body><p><span style=\"font-style:italic; color:#4d4d4d ;\">Select someone on the left to chat with someone!</span></p></body></html>");
-    this->_ui->MessageSendField->setEnabled(false);
-    this->_ui->MessageSendButton->setEnabled(false);
-    this->_ui->FilterFriendField->setText("");
-    this->_uiManager.showWindow("LoginDiag");
-}
-
 void                    MainWindow::SelectedFriendClicked(QListWidgetItem *selectedContact)
 {
     this->_uiManager.selectedFriendClicked(selectedContact->data(0).toString().toStdString());
@@ -117,8 +116,11 @@ void                    MainWindow::ShowContextMenu(QPoint const& pos)
     QPoint  globalPos = this->_ui->FriendsList->mapToGlobal(pos);
     QMenu   menu;
 
-    menu.addAction("Call", this, SLOT(StartingCall()));
+    menu.addAction("Call", this, SLOT(ContextStartingCall()));
     menu.addAction("Remove",  this, SLOT(RemoveFriend()));
+
+    if (!this->_uiManager.isSelectedContactOnline() && menu.actions().size() == 2)
+        menu.actions()[0]->setEnabled(false);
 
     menu.exec(globalPos);
 }
@@ -138,6 +140,11 @@ void                    MainWindow::OpenAddToConversationDiag()
 void                    MainWindow::StartingCall()
 {
     this->_uiManager.startCall();
+}
+
+void                    MainWindow::ContextStartingCall()
+{
+    this->_uiManager.contextStartingCall();
 }
 
 void                    MainWindow::HangingUpCall()

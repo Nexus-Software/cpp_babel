@@ -4,13 +4,14 @@
 #include <unordered_map>
 #include <memory>
 #include <list>
+#include <algorithm>
 #include <array>
 #include <QApplication>
-#include <QUdpSocket>
+#include <QTcpServer>
+#include <QMessageBox>
 #include "Status.hpp"
 #include "addcontactdiag.h"
 #include "addtoconversationdiag.h"
-#include "customnotificationdiag.h"
 #include "logindiag.h"
 #include "mainwindow.h"
 #include "receivecalldiag.h"
@@ -28,10 +29,19 @@ namespace babel {
             enum class ContactInfoType : int
             {
                 ONLINE = 0,
-                CALLING_WAIT = 1,
+                OFFLINE = 1,
+                CALLING_WAIT,
                 IN_CONVERSATION,
                 IN_CALL,
                 NO_CONTACT_SELECTED
+            };
+
+            enum class DialogType : int
+            {
+                WARNING = 0,
+                CRITICAL = 1,
+                INFORMATION,
+                QUESTION
             };
 
 		public:        
@@ -63,6 +73,7 @@ namespace babel {
             babel::Status const                                         hangupCall();
             babel::Status const                                         selectedFriendClicked(std::string const& contactName);
             babel::Status const                                         removeFriend();
+            babel::Status const                                         contextStartingCall();
 
             //ReceiveCallDiag methods
             babel::Status const                                         decliningCall();
@@ -74,7 +85,15 @@ namespace babel {
             babel::Status const                                         saveNicknameFromSignupToLoginDiag(std::string const& nickname);
 
             //Miscellanous methods
-            babel::Status const                                         showErrorDialog(std::string const& dataText);
+            babel::Status const                                         showDialog(std::string const& widget, std::string const& titleText, std::string const& dataText, babel::UIManager::DialogType const type);
+
+            //Network methods
+            babel::Status const                                         inviteContactInConversation();
+            babel::Status const                                         inviteToCall(std::string const& nickname);
+            babel::Status const                                         refreshStatusWhenReceivingCall();
+            babel::Status const                                         refreshWhenJoiningCall();
+            babel::Status const                                         refreshWhenHangingUpCall();
+            babel::Status const                                         refreshWhenSomeoneLeavingCall();
 
             //Setters
             void                                                        setFriendsOnline(uint32_t const friendsOnline);
@@ -87,12 +106,15 @@ namespace babel {
             //Getters
             babel::BabelClientManager                                   &getRoot();
             babel::BabelClientManager const                             &getRoot() const;
+            std::uint32_t const                                         getFriendsOnline() const;
+
+            bool const                                                  isSelectedContactOnline();
 
 		private:
             babel::BabelClientManager                                   &_root;
             std::unordered_map<std::string, std::shared_ptr<QWidget>>   _windowList;
 
-            quint32                                                     _friendsOnline;
+            std::uint32_t                                               _friendsOnline;
             QList<std::string>                                          _conversationList;
 	};
 }

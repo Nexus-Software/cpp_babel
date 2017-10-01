@@ -24,6 +24,7 @@ struct                        EncodedData
 			for (unsigned int i = 0; i < other.data.size(); ++i)
 				 this->data.push_back(other.data.at(i));
 			}
+		return *this;
 		}
 	};
 

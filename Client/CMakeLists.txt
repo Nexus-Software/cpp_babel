@@ -10,10 +10,10 @@ include_directories(
 	# NETWORK
 	${APP_DIR}/src/network/interface/
 	${APP_DIR}/src/network/class/QNetworkTcpClient/
+	${APP_DIR}/src/network/class/QNetworkUdp/
      # DIALOG
     ${APP_DIR}/src/widget/class/AddContactDiag/
     ${APP_DIR}/src/widget/class/AddToConversationDiag/
-    ${APP_DIR}/src/widget/class/CustomNotificationDiag/
     ${APP_DIR}/src/widget/class/LoginDiag/
     ${APP_DIR}/src/widget/class/MainWindow/
     ${APP_DIR}/src/widget/class/ReceiveCallDiag/
@@ -70,14 +70,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake_modules")
-set(BIN_MSVC_PATH "C:/Qt/Qt5.9.1/5.9.1/msvc2015/bin")
+set(BIN_MSVC_PATH "C:/Qt/5.9.1/msvc2015/bin")
 # APP TARGET
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${PROJECT_SOURCE_DIR}/bin)
 
 # Windows specific build steps
 if(WIN32)
-	set(CMAKE_PREFIX_PATH C:/Qt/Qt5.9.1/5.9.1/msvc2015/lib/cmake)
+	set(CMAKE_PREFIX_PATH C:/Qt/5.9.1/msvc2015/lib/cmake)
 endif()
 
 if (UNIX AND NOT APPLE)
@@ -122,7 +122,6 @@ qt5_wrap_ui(UIS_HDRS
     src/widget/class/ReceiveCallDiag/receivecalldiag.ui
     src/widget/class/SignupDiag/signupdiag.ui
     src/widget/class/AddContactDiag/addcontactdiag.ui
-    src/widget/class/CustomNotificationDiag/customnotificationdiag.ui
     src/widget/class/AddToConversationDiag/addtoconversationdiag.ui
 )
 
