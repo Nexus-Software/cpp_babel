@@ -68,7 +68,7 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       std::array<char, 2048> dataSend = {0};
       std::copy_n(reinterpret_cast<const char *>(&networkDataCSJoinSuccess), sizeof(NetworkDataCSJoinSuccess), dataSend.begin());
 
-      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(44, sizeof(NetworkDataCSJoinSuccess), dataSend));
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(43, sizeof(NetworkDataCSJoinSuccess), dataSend));
 
       NetworkDataSCJoin networkDataSCJoin;
       this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(client.login, 32);
@@ -91,19 +91,25 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
   else
     {
       auto call = this->_server.getCallManager().create();
+
       std::array<char, 2048> dataSend = {0};
 
-      this->_server.getCallManager().add(call.getId(),
-					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
-					 this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip,
-					 networkDataCSJoin.port);
+      std::cout << "Call ID JOIN: " << call.getId() << std::endl;
+      if (!this->_server.getCallManager().add(call.getId(),
+					      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
+					      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip,
+					      networkDataCSJoin.port))
+	{
+	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(501, 0, {}));
+	  return false;
+	}
 
       NetworkDataCSJoinSuccess networkDataCSJoinSuccess;
 
       networkDataCSJoinSuccess.idCall = call.getId();
 
       std::copy_n(reinterpret_cast<const char *>(&networkDataCSJoinSuccess), sizeof(NetworkDataCSJoinSuccess), dataSend.begin());
-      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(44, sizeof(NetworkDataCSJoinSuccess), dataSend));
+      this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(43, sizeof(NetworkDataCSJoinSuccess), dataSend));
       return true;
     }
 }

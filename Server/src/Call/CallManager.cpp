@@ -32,7 +32,7 @@ bool babel::CallManager::add(size_t idCall, std::string login, std::string ip, u
 {
   if (!this->convIsExist(idCall))
     return false;
-  (*this->_calls.find(idCall)).second.add(login, CallTunnel(ip, port));
+  (*this->_calls.find(idCall)).second.add(login, CallTunnel(ip, port, login));
   return true;
 }
 
@@ -64,7 +64,7 @@ bool babel::CallManager::convIsExist(size_t idCall)
 
 babel::Call babel::CallManager::create()
 {
-  size_t minId = 0;
+  size_t minId = 1;
   for (auto it = this->_calls.begin() ; it != this->_calls.end() ; it++)
     {
       if ((*it).first == minId)
@@ -73,7 +73,9 @@ babel::Call babel::CallManager::create()
 	  it = this->_calls.begin();
 	}
     }
-  return babel::Call(minId);
+  auto call = babel::Call(minId);
+  this->_calls.insert(std::pair<size_t, Call>(minId, call));
+  return call;
 }
 
 bool babel::CallManager::finish(size_t idCall)
