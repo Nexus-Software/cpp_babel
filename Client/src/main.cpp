@@ -2,6 +2,12 @@
 
 int main(int argc, char **argv)
 {
-	babel::BabelClientManager babel(argc, argv);
-	return babel.run();
+	try {
+		babel::BabelClientManager babel(argc, argv);
+		return babel.run();
+	}
+	catch (...) {
+		return (0);
+	}
+	
 }
