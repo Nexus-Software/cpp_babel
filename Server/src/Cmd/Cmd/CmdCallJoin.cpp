@@ -73,10 +73,10 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       networkDataSCJoin.idCall = networkDataCSJoin.idCall;
       networkDataSCJoin.client = client;
 
-      std::cout << "Port send: " << networkDataCSJoin.port << std::endl;
-      std::cout << "IP: " << networkDataSCJoin.client.ip << std::endl;
-      std::cout << "IP: " << networkDataSCJoin.client.port << std::endl;
-      std::cout << "Login: " << networkDataSCJoin.client.login << std::endl;
+      std::cout << "Port recp: " << networkDataCSJoin.port << std::endl;
+      std::cout << "IP send: " << networkDataSCJoin.client.ip << std::endl;
+      std::cout << "Port send: " << networkDataSCJoin.client.port << std::endl;
+      std::cout << "Login send: " << networkDataSCJoin.client.login << std::endl;
       dataSend.fill(0);
       std::copy_n(reinterpret_cast<const char *>(&networkDataSCJoin), sizeof(NetworkDataSCJoin), dataSend.begin());
 
