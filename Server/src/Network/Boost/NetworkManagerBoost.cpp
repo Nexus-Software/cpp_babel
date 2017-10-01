@@ -39,7 +39,7 @@ bool babel::NetworkManagerBoost::write(size_t tunnelId, NetworkData data)
   catch (std::out_of_range)
 
     {
-      throw NetworkException("(Boost): Tunnel not found for write (ID:" + std::to_string(tunnelId) + ")");
+      throw NetworkManagerException("(Boost): Tunnel not found for write (ID:" + std::to_string(tunnelId) + ")");
     }
 }
 
@@ -62,7 +62,7 @@ bool babel::NetworkManagerBoost::write(std::string login, NetworkData data)
   catch (std::out_of_range)
 
     {
-      throw NetworkException("(Boost): Tunnel not found for write (ID:" + login + ")");
+      throw NetworkManagerException("(Boost): Tunnel not found for write (ID:" + login + ")");
     }
 }
 
@@ -97,7 +97,7 @@ babel::TunnelInfo & babel::NetworkManagerBoost::getTunnelInfoByTunnelId(const si
   auto it = this->_tunnelInfo.find(tunnelId);
   if (it != this->_tunnelInfo.end())
     return (*it).second;
-  throw NetworkException("(Boost): Tunnel not found (ID: " + std::to_string(tunnelId) + ")");
+  throw NetworkManagerException("(Boost): Tunnel not found (ID: " + std::to_string(tunnelId) + ")");
 }
 
 void babel::NetworkManagerBoost::setIpForTunnelId(size_t tunnelId, const std::string & ip)
@@ -108,7 +108,7 @@ void babel::NetworkManagerBoost::setIpForTunnelId(size_t tunnelId, const std::st
       (*it).second.ip = ip;
       return ;
     }
-  throw NetworkException("(Boost): Tunnel not found (ID: " + std::to_string(tunnelId) + ")");
+  throw NetworkManagerException("(Boost): Tunnel not found (ID: " + std::to_string(tunnelId) + ")");
 }
 
 void babel::NetworkManagerBoost::closeTunnel(size_t tunnelId)
@@ -135,6 +135,6 @@ const size_t babel::NetworkManagerBoost::getTunnelIdByLogin(const std::string lo
       if (it->second.login.compare(login) == 0)
 	return it->first;
     }
-  throw NetworkException("(Boost): Tunnel not found (Login: " + login + ")");
+  throw NetworkManagerException("(Boost): Tunnel not found (Login: " + login + ")");
 }
 
