@@ -2,6 +2,7 @@
 #define I_NETWORK_UDP_CLIENT_HPP
 
 #include <vector>
+#include "stdint.h"
 
 #pragma pack(push, 1)
 
@@ -29,7 +30,9 @@ namespace babel {
 		virtual ~INetworkUdp(void) {}
 
 	public:
-		virtual bool write(babel::t_clientUdpPacket&) = 0;
+		virtual bool clientWrite(babel::t_clientUdpPacket&) = 0;
+		virtual bool serverBind(std::uint32_t) = 0;
+
 	};
 } // babel
 

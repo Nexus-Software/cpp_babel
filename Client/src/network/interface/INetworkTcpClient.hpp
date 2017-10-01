@@ -47,6 +47,12 @@ namespace babel {
 		std::uint32_t		idCall;
 		char				loginInvite[32];
 	};
+
+	struct                  t_clientCallJoin
+    {
+        std::uint32_t       idConv;
+        t_clientCallStruct  client;
+    };
 } // babel
 
 namespace babel {

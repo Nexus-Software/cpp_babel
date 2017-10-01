@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <memory>
 #include <list>
+#include <algorithm>
 #include <array>
 #include <QApplication>
 #include <QTcpServer>

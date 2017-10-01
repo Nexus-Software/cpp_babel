@@ -22,9 +22,15 @@ namespace babel {
 		private:
 			NetworkManager&					_manager;
 			std::shared_ptr<QUdpSocket>		_socket;
+			std::shared_ptr<QUdpSocket>		_server;
 
 		public:
-			virtual bool write(babel::t_clientUdpPacket&);
+			virtual bool clientWrite(babel::t_clientUdpPacket&);
+			virtual bool serverBind(std::uint32_t);
+
+		public slots:
+			bool readEvent(void);
+			bool displayError(QAbstractSocket::SocketError socketError);
 
 	};
 }

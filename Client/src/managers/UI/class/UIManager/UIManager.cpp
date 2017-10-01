@@ -306,6 +306,7 @@ babel::Status const                                                 babel::UIMan
     tcpSocket.listen(QHostAddress::LocalHost);
     listeningPort = tcpSocket.serverPort();
     tcpSocket.close();
+	//TODO:  ADD SERVER BINDING this->_root.getNetwork().getNetworkUdp()->
 
     std::copy_n(reinterpret_cast<char *>(&idConv), 32, ba.begin());
     std::copy_n(reinterpret_cast<char *>(&listeningPort), 32, ba.begin() + 32);
