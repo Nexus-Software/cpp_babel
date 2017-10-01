@@ -120,6 +120,9 @@ void    babel::NetworkManager::C_SuccessJoin(babel::t_babelPackedData& t)
 		std::cout << "------------- I'm the owner, about to invite others to the calls" << std::endl;
 		this->_root.getUI().inviteContactInConversation();
     } else {
+        this->_root.getUI().clearConversationList();
+        for (auto it : listContact)
+            this->_root.getUI().appendToConversationList(it.login);
         this->_root.getUI().refreshWhenJoiningCall();
     }
  
@@ -213,6 +216,11 @@ void    babel::NetworkManager::C_GetContactList(babel::t_babelPackedData& t)
 
 	babel::t_clientContactList list = *(reinterpret_cast<babel::t_clientContactList*>(t.data.data()));
 
+	/*std::cout << "----------- > DATA GET CONTACT LIST: ";
+	for (int i = 0; i < 2048; ++i)
+		std::cout << "[" << t.data.data()[i] << "]";
+	std::cout << std::endl;*/
+
 	std::vector<babel::Contact> listContact;
 	int i = 0;
 	for (; i < 50; i++) {
@@ -262,6 +270,18 @@ void    babel::NetworkManager::C_GetCallInvitation(babel::t_babelPackedData& t)
 void    babel::NetworkManager::C_NotifyLeaveCall(babel::t_babelPackedData& t)
 {
 	std::cout << "NOTIFICATION : USER HAS LEAVE CALL (" << t.code << ")" << std::endl;
+
+	char                    clientLeft[32];
+
+	std::copy_n(t.data.data(), 32, clientLeft);
+
+    if (!(*(clientLeft)))
+        return;
+
+    std::cout << "-------> USER LEFT: " << clientLeft << std::endl;
+
+    this->_root.getUI().removeToConversationlist(clientLeft);
+    this->_root.getUI().refreshWhenSomeoneLeavingCall();
 }
 
 void    babel::NetworkManager::C_NotifyUserJoinConv(babel::t_babelPackedData& t)
