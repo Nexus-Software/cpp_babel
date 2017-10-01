@@ -35,20 +35,19 @@ bool babel::QNetworkUdp::clientWrite(const std::string& data, const std::string&
 {
 	QByteArray buffer;
 	buffer.resize(data.size());
-	QHostAddress host;
+	QHostAddress host(QString::fromStdString(ipHost));
 	quint16 senderPort = port;
 
-	host.setAddress(QString::fromStdString(ipHost));	
 	buffer = data.data();
-	std::cout << "Creation of UDP packet for " << host.toString().toStdString() << " at " << senderPort << ": " << buffer.data() << std::endl;
-	this->_server->writeDatagram(buffer.data(), host, senderPort);
+	std::cout << "Creation of UDP packet for " << host.toIPv4Address() << " at " << senderPort << ": " << buffer.data() << std::endl;
+	this->_server->writeDatagram(buffer.data(), buffer.size(), host, senderPort);
 	return false;
 }
 
 bool babel::QNetworkUdp::serverBind(std::uint32_t port)
 {
 	this->_server->close();
-	this->_server->bind(QHostAddress::AnyIPv4, port, QUdpSocket::ShareAddress);
+	this->_server->bind(QHostAddress::AnyIPv4, port);
 	return true;
 }
 
