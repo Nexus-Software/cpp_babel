@@ -102,13 +102,13 @@ void babel::AccountManager::sendContactList(size_t tunnelId, std::string login)
 	  for (auto it : this->_accountList.find(login)->second.getContactList())
 	    {
 	      this->_accountList.find(it)->second.getLogin().copy(networkDataSCContactList.contacts[i].login, 32);
-	      networkDataSCContactList.contacts[i].isOnline = this->_accountList.find(it)->second.getIsOnline();
-	      std::cout << "Login: " << networkDataSCContactList.contacts[i].login << std::endl;
+	      networkDataSCContactList.contacts[i].isOnline = this->_accountList.find(it)->second.getIsOnline() ? 1 : 0;
+	      std::cout << "Login: " << networkDataSCContactList.contacts[i].login << "Online:" << networkDataSCContactList.contacts[i].isOnline  << std::endl;
 	      i += 1;
 	    }
 	}
       std::array<char, 2048> dataSend = {0};
-      std::copy_n(reinterpret_cast<const char *>(&networkDataSCContactList), sizeof(NetworkDataSCContactList), dataSend.begin());
+      std::copy_n(reinterpret_cast<char *>(&networkDataSCContactList), sizeof(NetworkDataSCContactList), dataSend.data());
 
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(6, sizeof(networkDataSCContactList), dataSend));
     }
@@ -156,10 +156,10 @@ bool babel::AccountManager::leave(std::string login)
 	return false;
       account.setIsOnline(false);
       auto contactList = this->getAccountByLogin(login).getContactList();
-      for (auto it = contactList.begin() ; it != contactList.end() ; it++)
+      for (auto it : contactList)
 	{
-	  if (this->getAccountByLogin(*it).getIsOnline())
-	    this->sendContactList(this->_server.getNetworkManager().get()->getTunnelIdByLogin(login), *it);
+ 	  if (this->getAccountByLogin(it).getIsOnline())
+	    this->sendContactList(this->_server.getNetworkManager().get()->getTunnelIdByLogin(it), it);
 	}
       return true;
     }

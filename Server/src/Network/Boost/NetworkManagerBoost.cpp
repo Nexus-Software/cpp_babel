@@ -54,13 +54,12 @@ bool babel::NetworkManagerBoost::write(std::string login, NetworkData data)
 	    break ;
 	}
       if (it == this->_tunnelInfo.end())
-	throw NetworkException("(Boost): Tunnel not found for write (Login:" + login + ")");
+	throw NetworkManagerException("(Boost): Tunnel not found for write (Login:" + login + ")");
       auto tu = this->_tunnelList.at((*it).first).get();
       tu->write(data);
       return true;
     }
   catch (std::out_of_range)
-
     {
       throw NetworkManagerException("(Boost): Tunnel not found for write (ID:" + login + ")");
     }
