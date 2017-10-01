@@ -15,13 +15,14 @@ namespace babel {
 namespace babel {
 	class QNetworkUdp : public QWidget, public INetworkUdp
 	{
+		Q_OBJECT
+
 		public:
 			QNetworkUdp(NetworkManager&);
 			~QNetworkUdp();
 
 		private:
 			NetworkManager&					_manager;
-			std::shared_ptr<QUdpSocket>		_socket;
 			std::shared_ptr<QUdpSocket>		_server;
 
 		public:

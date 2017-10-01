@@ -4,11 +4,10 @@
 babel::QNetworkUdp::QNetworkUdp(NetworkManager& ancestor)
 	:
 	_manager(ancestor),
-	_socket(std::make_shared<QUdpSocket>()),
 	_server(std::make_shared<QUdpSocket>())
 {
 	QObject::connect(this->_server.get(), SIGNAL(readyRead()), this, SLOT(readEvent()));
-	QObject::connect(this->_socket.get(), QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &QNetworkUdp::displayError);
+	QObject::connect(this->_server.get(), QOverload<QAbstractSocket::SocketError>::of(&QAbstractSocket::error), this, &QNetworkUdp::displayError);
 }
 
 babel::QNetworkUdp::~QNetworkUdp()
@@ -18,7 +17,7 @@ babel::QNetworkUdp::~QNetworkUdp()
 bool babel::QNetworkUdp::readEvent()
 {
 	std::cout << "New UDP transmission incoming" << std::endl;
-	std::cout << "--- Bytes available: (begin)" << this->_socket->bytesAvailable() << std::endl;
+	std::cout << "--- Bytes available: (begin)" << this->_server->bytesAvailable() << std::endl;
 	while (this->_server->hasPendingDatagrams()) {
 		QByteArray buffer;
 		buffer.resize(this->_server->pendingDatagramSize());
@@ -37,12 +36,12 @@ bool babel::QNetworkUdp::clientWrite(const std::string& data, const std::string&
 	QByteArray buffer;
 	buffer.resize(data.size());
 	QHostAddress host;
-	quint16 senderPort;
+	quint16 senderPort = port;
 
 	host.setAddress(QString::fromStdString(ipHost));	
 	buffer = data.data();
-	std::cout << "Creation of UDP packet for " << ipHost << " at " << port << ": " << buffer.data() << std::endl;
-	this->_socket->writeDatagram(buffer.data(), host, port);
+	std::cout << "Creation of UDP packet for " << host.toString().toStdString() << " at " << senderPort << ": " << buffer.data() << std::endl;
+	this->_server->writeDatagram(buffer.data(), host, senderPort);
 	return false;
 }
 
@@ -65,7 +64,7 @@ bool babel::QNetworkUdp::displayError(QAbstractSocket::SocketError socketError)
 			QMessageBox::information(this, tr("Fortune Client"), tr("The connection was refused by the peer. Make sure the fortune server is running, and check that the host name and port settings are correct."));
 			break;
 		default:
-			QMessageBox::information(this, tr("Fortune Client"), tr("The following error occurred: %1.").arg(this->_socket->errorString()));
+			QMessageBox::information(this, tr("Fortune Client"), tr("The following error occurred: %1.").arg(this->_server->errorString()));
 	}
 	return true;
 }
