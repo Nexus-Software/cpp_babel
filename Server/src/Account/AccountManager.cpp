@@ -131,6 +131,7 @@ bool babel::AccountManager::login(std::string login)
       auto contactList = this->getAccountByLogin(login).getContactList();
       for (auto it = contactList.begin() ; it != contactList.end() ; it++)
 	{
+	  std::cout << "Login teqt; " << *it << std::endl;
 	  if (this->getAccountByLogin(*it).getIsOnline())
 	    this->sendContactList(this->_server.getNetworkManager().get()->getTunnelIdByLogin(login), *it);
 	}
