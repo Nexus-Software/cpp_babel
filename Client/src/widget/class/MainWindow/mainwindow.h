@@ -43,6 +43,7 @@ public slots:
     void OpenAddContactDiag();
     void OpenAddToConversationDiag();
     void StartingCall();
+    void ContextStartingCall();
     void HangingUpCall();
     void RemoveFriend();
 

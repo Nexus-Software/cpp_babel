@@ -14,7 +14,6 @@ include_directories(
      # DIALOG
     ${APP_DIR}/src/widget/class/AddContactDiag/
     ${APP_DIR}/src/widget/class/AddToConversationDiag/
-    ${APP_DIR}/src/widget/class/CustomNotificationDiag/
     ${APP_DIR}/src/widget/class/LoginDiag/
     ${APP_DIR}/src/widget/class/MainWindow/
     ${APP_DIR}/src/widget/class/ReceiveCallDiag/
@@ -115,7 +114,6 @@ qt5_wrap_ui(UIS_HDRS
     src/widget/class/ReceiveCallDiag/receivecalldiag.ui
     src/widget/class/SignupDiag/signupdiag.ui
     src/widget/class/AddContactDiag/addcontactdiag.ui
-    src/widget/class/CustomNotificationDiag/customnotificationdiag.ui
     src/widget/class/AddToConversationDiag/addtoconversationdiag.ui
 )
 

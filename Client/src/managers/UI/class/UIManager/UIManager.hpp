@@ -12,7 +12,6 @@
 #include "Status.hpp"
 #include "addcontactdiag.h"
 #include "addtoconversationdiag.h"
-#include "customnotificationdiag.h"
 #include "logindiag.h"
 #include "mainwindow.h"
 #include "receivecalldiag.h"
@@ -74,6 +73,7 @@ namespace babel {
             babel::Status const                                         hangupCall();
             babel::Status const                                         selectedFriendClicked(std::string const& contactName);
             babel::Status const                                         removeFriend();
+            babel::Status const                                         contextStartingCall();
 
             //ReceiveCallDiag methods
             babel::Status const                                         decliningCall();

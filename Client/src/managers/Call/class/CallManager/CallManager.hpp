@@ -32,11 +32,10 @@ namespace babel {
 		public:
             const babel::Status                     leaveCall(void);
             const babel::Status                     addNewParticipant(const babel::CallTunnel&);
-			void babel::CallManager::updateCurrentCallParticipants(const std::unordered_map<std::string, babel::CallTunnel>&);
+
+            void                                    updateCurrentCallParticipants(const std::unordered_map<std::string, babel::CallTunnel>&);
 			void									resetCurrentCall(void);
-			void									removeParticipant(const std::string&);
-
-
+            void									removeParticipant(const std::string&);
 	};
 }
 
