@@ -17,7 +17,7 @@ babel::LogInTerm::LogInTerm()
 		  {LevelLog::INFO,        [&](const std::string) { std::cout << "[INFO]: "; }},
 		  {LevelLog::SUCCESS,     [&](const std::string) { std::cout << "[SUCCESS]: "; }},
 		  {LevelLog::WARNING,     [&](const std::string) { std::cout << "[WARNING]: "; }},
-		  {LevelLog::ERROR,       [&](const std::string) { std::cout << "[ERROR]: "; }},
+		  {LevelLog::ERROR_S,     [&](const std::string) { std::cout << "[ERROR]: "; }},
 		  {LevelLog::FATAL_ERROR, [&](const std::string) { std::cout << "[FATAL_ERROR] [SERVER HALT NOW]: "; }}};
 }
 

@@ -61,7 +61,7 @@ void babel::NetworkTcpServerBoost::handle_accept(NetworkTcpServerTunnelBoost::po
     }
   else
     {
-      this->_server.getLogInTerm().print("TCP Server (Boost): " + error.message(), LogInTerm::LevelLog::ERROR);
+      this->_server.getLogInTerm().print("TCP Server (Boost): " + error.message(), LogInTerm::LevelLog::ERROR_S);
     }
   this->waitClient();
 }

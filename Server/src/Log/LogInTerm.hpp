@@ -35,7 +35,7 @@ namespace babel {
       INFO 		= 1,
       SUCCESS		= 2,
       WARNING		= 3,
-      ERROR		= 4,
+      ERROR_S		= 4,
       FATAL_ERROR	= 5
     };
 
