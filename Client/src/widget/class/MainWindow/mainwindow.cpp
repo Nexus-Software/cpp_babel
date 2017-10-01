@@ -116,7 +116,7 @@ void                    MainWindow::ShowContextMenu(QPoint const& pos)
     QPoint  globalPos = this->_ui->FriendsList->mapToGlobal(pos);
     QMenu   menu;
 
-    menu.addAction("Call", this, SLOT(StartingCall()));
+    menu.addAction("Call", this, SLOT(ContextStartingCall()));
     menu.addAction("Remove",  this, SLOT(RemoveFriend()));
 
     if (!this->_uiManager.isSelectedContactOnline() && menu.actions().size() == 2)
@@ -140,6 +140,11 @@ void                    MainWindow::OpenAddToConversationDiag()
 void                    MainWindow::StartingCall()
 {
     this->_uiManager.startCall();
+}
+
+void                    MainWindow::ContextStartingCall()
+{
+    this->_uiManager.contextStartingCall();
 }
 
 void                    MainWindow::HangingUpCall()

@@ -1,5 +1,5 @@
 #ifndef BABEL_CODEC_HPP_
-# define BABEL_CODEC_HPPç
+# define BABEL_CODEC_HPP_
 
 #include "ICodec.hpp"
 

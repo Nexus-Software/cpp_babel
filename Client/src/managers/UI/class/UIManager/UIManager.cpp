@@ -7,7 +7,6 @@ babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
     _windowList({
         {"AddContactDiag", std::make_shared<AddContactDiag>(nullptr, *this)},
         {"AddToConversationDiag", std::make_shared<AddToConversationDiag>(nullptr, *this)},
-        {"CustomNotificationDiag", std::make_shared<CustomNotificationDiag>(nullptr, *this)},
         {"LoginDiag", std::make_shared<LoginDiag>(nullptr, *this)},
         {"MainWindow", std::make_shared<MainWindow>(nullptr, *this)},
         {"ReceiveCallDiag", std::make_shared<ReceiveCallDiag>(nullptr, *this)},
@@ -72,8 +71,13 @@ babel::Status const                                                 babel::UIMan
     if (!addContactDiag)
         return (babel::Status(1, "UIManager 'closeContactWindow()': addContactDiag was null"));
 
+    QLineEdit            *searchNameField = addContactDiag->getSearchNameField();
+
+    if (!searchNameField)
+        return (babel::Status(1, "UIManager 'closeContactWindow()': searchNameField was null"));
+
     this->hideWindow("AddContactDiag");
-    addContactDiag->getSearchNameField()->setText("");
+    searchNameField->setText("");
     return (babel::Status(0, "UIManager 'closeContactWindow()' worked without error"));
 }
 
@@ -88,6 +92,7 @@ babel::Status const                                                 babel::UIMan
 
     if (!currentlySelectedLabel)
         return (babel::Status(1, "UIManager 'refreshCurrentlySelectedLabel()': currentlySelectedLabel was null"));
+
     if (!listSelected.empty())
     {
         currentlySelectedLabel->setText("<html><head/><body><p>Currently selected:<span style=\" font-weight:600;\">");
@@ -157,6 +162,7 @@ babel::Status const                                                 babel::UIMan
 
     if (!nicknameField)
         return (babel::Status(1, "UIManager 'saveNicknameFromLoginToSignupDiag()': The NicknameField widget was null"));
+
     nicknameField->setText(QString::fromStdString(nickname));
     return (babel::Status(0, "UIManager 'saveNicknameFromLoginToSignupDiag()' worked without error"));
 }
@@ -313,14 +319,21 @@ babel::Status const                                                 babel::UIMan
 
 babel::Status const                                                 babel::UIManager::startCall()
 {
-    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+    MainWindow  *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
 
     if (!mainWindow)
         return (babel::Status(1, "UIManager 'startCall()': mainWindow was null"));
 
-    mainWindow->getCallButton()->setEnabled(false);
-    mainWindow->getAddToConversationButton()->setEnabled(false);
-    mainWindow->getHangupButton()->setEnabled(true);
+    QPushButton *callButton = mainWindow->getCallButton();
+    QPushButton *addToConversationButton = mainWindow->getAddToConversationButton();
+    QPushButton *hangupButton = mainWindow->getHangupButton();
+
+    if (!callButton || !addToConversationButton || !hangupButton)
+        return (babel::Status(1, "UIManager 'startCall()': A widget was null"));
+
+    callButton->setEnabled(false);
+    addToConversationButton->setEnabled(false);
+    hangupButton->setEnabled(true);
 
     this->refreshSelectedContact("Nobody yet.", babel::UIManager::ContactInfoType::IN_CALL);
 
@@ -371,14 +384,19 @@ babel::Status const                                                 babel::UIMan
     if (!mainWindow)
         return (babel::Status(1, "UIManager 'selectedFriendClicked()': mainWindow was null"));
 
+    QPushButton *callButton = mainWindow->getCallButton();
+
+    if (!callButton)
+        return (babel::Status(1, "UIManager 'startCall()': callButton was null"));
+
     this->clearConversationList();
     this->appendToConversationList(contactName);
-    mainWindow->getCallButton()->setEnabled(true);
+    callButton->setEnabled(true);
     if (this->isSelectedContactOnline())
         this->refreshSelectedContact(contactName, babel::UIManager::ContactInfoType::ONLINE);
     else
     {
-        mainWindow->getCallButton()->setEnabled(false);
+        callButton->setEnabled(false);
         this->refreshSelectedContact(contactName, babel::UIManager::ContactInfoType::OFFLINE);
     }
     return (babel::Status(0, "UIManager 'selectedFriendClicked()' worked without error"));
@@ -391,8 +409,13 @@ babel::Status const                                         babel::UIManager::re
     if (!mainWindow)
         return (babel::Status(1, "UIManager 'removeFriend()': mainWindow was null"));
 
-    for (int i = 0; i < mainWindow->getFriendsList()->selectedItems().size(); ++i) {
-        QListWidgetItem *item = mainWindow->getFriendsList()->takeItem(mainWindow->getFriendsList()->currentRow());
+    QListWidget *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'removeFriend()': friendsList was null"));
+
+    for (int i = 0; i < friendsList->selectedItems().size(); ++i) {
+        QListWidgetItem *item = friendsList->takeItem(friendsList->currentRow());
 
         std::array<char, 2048>  ba = { 0 };
         std::string             nickname(item->data(0).toString().toStdString());
@@ -402,7 +425,26 @@ babel::Status const                                         babel::UIManager::re
         this->getRoot().getNetwork().writeServerTCP(3, 32, ba);
         delete item;
     }
+    this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
     return (babel::Status(0, "UIManager 'removeFriend()' worked without error"));
+}
+
+
+babel::Status const                                         babel::UIManager::contextStartingCall()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'contextStartingCall()': mainWindow was null"));
+
+    QListWidget *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'contextStartingCall()': friendsList was null"));
+
+    this->selectedFriendClicked(friendsList->selectedItems()[0]->data(0).toString().toStdString());
+    this->startCall();
+    return (babel::Status(0, "UIManager 'contextStartingCall()' worked without error"));
 }
 
 babel::Status const                                         babel::UIManager::decliningCall()
@@ -413,14 +455,17 @@ babel::Status const                                         babel::UIManager::de
         return (babel::Status(1, "UIManager 'removeFriend()': mainWindow was null"));
 
     QListWidget *friendsList = mainWindow->getFriendsList();
+    QPushButton *callButton = mainWindow->getCallButton();
+    QPushButton *addToConversationButton = mainWindow->getAddToConversationButton();
+    QPushButton *hangupButton = mainWindow->getHangupButton();
 
-    if (!friendsList)
-        return (babel::Status(1, "UIManager 'addContactToFriendsList()': friendsList was null"));
+    if (!callButton || !addToConversationButton || !hangupButton || !friendsList)
+        return (babel::Status(1, "UIManager 'decliningCall()': A widget was null"));
 
-    mainWindow->getHangupButton()->setEnabled(false);
-    mainWindow->getCallButton()->setEnabled(true);
-    mainWindow->getAddToConversationButton()->setEnabled(true);
-    std::cout << "---------------> length of conversationlist: " << this->_conversationList.count() << std::endl;
+    hangupButton->setEnabled(false);
+    callButton->setEnabled(true);
+    addToConversationButton->setEnabled(true);
+
     if (this->_conversationList.length() == 1)
         this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
     else if (this->_conversationList.length() > 1)
@@ -428,7 +473,7 @@ babel::Status const                                         babel::UIManager::de
         this->_conversationList.clear();
         for (int i = 0; i < friendsList->count(); i++)
             friendsList->item(i)->setSelected(false);
-        mainWindow->getCallButton()->setEnabled(false);
+        callButton->setEnabled(false);
         this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
     }
     this->hideWindow("ReceiveCallDiag");
@@ -455,8 +500,8 @@ babel::Status const                                         babel::UIManager::ac
     tcpSocket.listen(QHostAddress::LocalHost, 0);
     listeningPort = tcpSocket.serverPort();
     tcpSocket.close();
-	this->_root.getNetwork().getNetworkUdp()->serverBind(listeningPort);
-	std::cout << "Client " << this->_root.getContact().getUser().getLogin() << " is listening on port " << listeningPort << std::endl;
+    this->_root.getNetwork().getNetworkUdp()->serverBind(listeningPort);
+
 	t_clientCallAcceptCall t;
 	t.idconv = idConv;
 	t.port = listeningPort;
@@ -575,12 +620,14 @@ babel::Status const                                                 babel::UIMan
 
 
     QListWidget *friendsList = mainWindow->getFriendsList();
+    QPushButton *addToConversationButton = mainWindow->getAddToConversationButton();
+    QPushButton *callButton = mainWindow->getCallButton();
 
-    if (!friendsList)
-        return (babel::Status(1, "UIManager 'refreshStatusWhenReceivingCall()': friendsList was null"));
+    if (!friendsList || !addToConversationButton || !callButton)
+        return (babel::Status(1, "UIManager 'refreshStatusWhenReceivingCall()': A widget was null"));
 
-    mainWindow->getAddToConversationButton()->setEnabled(false);
-    mainWindow->getCallButton()->setEnabled(false);
+    addToConversationButton->setEnabled(false);
+    callButton->setEnabled(false);
     if (this->_conversationList.length() == 1)
     {
         for (int i = 0; i < friendsList->count(); i++)
@@ -612,21 +659,24 @@ babel::Status const                                                 babel::UIMan
         return (babel::Status(1, "UIManager 'refreshWhenHangingUpCall()': mainWindow was null"));
 
     QListWidget *friendsList = mainWindow->getFriendsList();
+    QPushButton *callButton = mainWindow->getCallButton();
+    QPushButton *addToConversationButton = mainWindow->getAddToConversationButton();
+    QPushButton *hangupButton = mainWindow->getHangupButton();
 
-    if (!friendsList)
-        return (babel::Status(1, "UIManager 'refreshWhenHangingUpCall()': friendsList was null"));
+    if (!callButton || !addToConversationButton || !hangupButton || !friendsList)
+        return (babel::Status(1, "UIManager 'refreshWhenHangingUpCall()': A widget was null"));
 
-    mainWindow->getHangupButton()->setEnabled(false);
-    mainWindow->getCallButton()->setEnabled(true);
-    mainWindow->getAddToConversationButton()->setEnabled(true);
+    hangupButton->setEnabled(false);
+    callButton->setEnabled(true);
+    addToConversationButton->setEnabled(true);
     if (this->_conversationList.count() != 1)
     {
         this->_conversationList.clear();
         for (int i = 0; i < friendsList->count(); i++)
             friendsList->item(i)->setSelected(false);
         this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
-        mainWindow->getCallButton()->setEnabled(false);
-        mainWindow->getAddToConversationButton()->setEnabled(true);
+        callButton->setEnabled(false);
+        addToConversationButton->setEnabled(true);
     }
     else
         this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
@@ -695,8 +745,8 @@ bool const                                                          babel::UIMan
     if (!friendsList)
         return (false);
 
-    if (mainWindow->getFriendsList()->selectedItems().count() == 1 &&
-        !mainWindow->getFriendsList()->selectedItems()[0]->font().italic())
+    if (friendsList->selectedItems().count() == 1 &&
+        !friendsList->selectedItems()[0]->font().italic())
        return (true);
     return (false);
 }
