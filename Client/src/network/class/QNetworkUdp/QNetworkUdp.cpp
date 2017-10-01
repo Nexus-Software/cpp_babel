@@ -35,19 +35,18 @@ bool babel::QNetworkUdp::clientWrite(const std::string& data, const std::string&
 {
 	QByteArray buffer;
 	buffer.resize(data.size());
-	QHostAddress host(QString::fromStdString(ipHost));
-	quint16 senderPort = port;
-
 	buffer = data.data();
-	std::cout << "Creation of UDP packet for " << host.toIPv4Address() << " at " << senderPort << ": " << buffer.data() << std::endl;
-	this->_server->writeDatagram(buffer.data(), buffer.size(), host, senderPort);
+
+	QHostAddress host(QString::fromStdString(ipHost));
+
+	std::cout << "Creation of UDP packet for " << host.toString().toStdString() << " at " << port << ": " << buffer.data() << std::endl;
+	this->_server->writeDatagram(buffer.data(), buffer.size(), host, port);
 	return false;
 }
 
 bool babel::QNetworkUdp::serverBind(std::uint32_t port)
 {
-	this->_server->close();
-	this->_server->bind(QHostAddress::AnyIPv4, port);
+	this->_server->bind(QHostAddress::Any, port, QUdpSocket::ReuseAddressHint | QAbstractSocket::ShareAddress);
 	return true;
 }
 
@@ -57,13 +56,13 @@ bool babel::QNetworkUdp::displayError(QAbstractSocket::SocketError socketError)
 		case QAbstractSocket::RemoteHostClosedError:
 			break;
 		case QAbstractSocket::HostNotFoundError:
-			QMessageBox::information(this, tr("Fortune Client"), tr("The host was not found. Please check the host name and port settings."));
+			QMessageBox::information(this, tr("UDP"), tr("The host was not found. Please check the host name and port settings."));
 			break;
 		case QAbstractSocket::ConnectionRefusedError:
-			QMessageBox::information(this, tr("Fortune Client"), tr("The connection was refused by the peer. Make sure the fortune server is running, and check that the host name and port settings are correct."));
+			QMessageBox::information(this, tr("UDP"), tr("The connection was refused by the peer. Make sure the fortune server is running, and check that the host name and port settings are correct."));
 			break;
 		default:
-			QMessageBox::information(this, tr("Fortune Client"), tr("The following error occurred: %1.").arg(this->_server->errorString()));
+			QMessageBox::information(this, tr("UDP"), tr("The following error occurred: %1.").arg(this->_server->errorString()));
 	}
 	return true;
 }

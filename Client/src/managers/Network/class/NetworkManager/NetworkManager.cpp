@@ -112,8 +112,9 @@ void    babel::NetworkManager::C_SuccessJoin(babel::t_babelPackedData& t)
 		if (!*(list.clients[i].login))
 			break;
 		listContact.push_back(list.clients[i]);
-		this->getNetworkUdp()->clientWrite(std::string(list.clients[i].login), std::string(list.clients[i].ip), list.clients[i].port);
 		std::cout << "------------- Client " << i + 1 << ". " << list.clients[i].login << " / " << list.clients[i].ip << " / " << list.clients[i].port << std::endl;
+		if (std::string(list.clients[i].login) != this->_root.getContact().getUser().getLogin())
+			this->getNetworkUdp()->clientWrite(std::string(list.clients[i].login), std::string(list.clients[i].ip), list.clients[i].port);
 	}
 
 	if (this->_root.getCall().isOwner()) {

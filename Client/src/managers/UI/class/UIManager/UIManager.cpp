@@ -316,6 +316,7 @@ babel::Status const                                                 babel::UIMan
     tcpSocket.listen(QHostAddress::LocalHost);
     listeningPort = tcpSocket.serverPort();
     tcpSocket.close();
+	this->_root.getNetwork().getNetworkUdp()->serverBind(listeningPort);
 	std::cout << "Client " << this->_root.getContact().getUser().getLogin() << " is listening on port " << listeningPort << std::endl;
 	t_clientCallAcceptCall t;
 	t.idconv = idConv;
