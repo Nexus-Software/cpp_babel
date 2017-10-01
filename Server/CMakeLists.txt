@@ -17,7 +17,7 @@ file(GLOB_RECURSE SOURCE_FILES src/*.cpp)
 
 set(Boost_USE_STATIC_LIBS   OFF)
 set(Boost_USE_MULTITHREADED ON)
-set(Boost_USE_STATIC_RUNTIME OFF)
+
 
 find_package(Boost 1.57.0 COMPONENTS system filesystem thread REQUIRED)
 
@@ -38,3 +38,9 @@ add_executable(Server ${SOURCE_FILES})
 
 target_compile_definitions(Server PRIVATE -DBOOST_ALL_NO_LIB -DBOOST_ALL_DYN_LINK)
 target_link_libraries(Server ${Boost_LIBRARIES})
+
+# Windows specific build steps
+if(WIN32)
+    file(GLOB_RECURSE DLL_LIB_FILES ${PROJECT_SOURCE_DIR}/lib/Win/*.dll)
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${DLL_LIB_FILES} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endif()
