@@ -140,17 +140,9 @@ babel::Status const                                                 babel::UIMan
         }
     }
     if (this->_conversationList.length() >= 1)
-    {
-        messageSendButton->setEnabled(true);
-        messageSendField->setEnabled(true);
         callButton->setEnabled(true);
-    }
     else
-    {
-        messageSendButton->setEnabled(false);
-        messageSendField->setEnabled(false);
         callButton->setEnabled(false);
-    }
     return (babel::Status(0, "UIManager 'refreshNewDataConversation()' worked without error"));
 }
 
@@ -272,7 +264,7 @@ babel::Status const                                                 babel::UIMan
         selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
                                                                     selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#ffaa00;\">\
                                                                     Waiting..</span></p></body></html>"));
-        //selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+        selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
         break;
     case (babel::UIManager::ContactInfoType::IN_CONVERSATION):
         selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\" font-weight:496;\">" +
@@ -284,7 +276,7 @@ babel::Status const                                                 babel::UIMan
         selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
                                                                     selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#56b921;\">\
                                                                     In call</span></p></body></html>"));
-        //selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#56b921;\">Chat empty :(</span></p></body></html>");
+        selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#56b921;\">Chat empty :(</span></p></body></html>");
         break;
     case (babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED):
         selectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
@@ -302,6 +294,7 @@ babel::Status const                                                 babel::UIMan
         return (babel::Status(1, "UIManager 'startCall()': mainWindow was null"));
 
     mainWindow->getCallButton()->setEnabled(false);
+    mainWindow->getAddToConversationButton()->setEnabled(false);
     mainWindow->getHangupButton()->setEnabled(true);
     this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::CALLING_WAIT);
 
@@ -338,15 +331,15 @@ babel::Status const                                                 babel::UIMan
         return (babel::Status(1, "UIManager 'hangupCall()': friendsList was null"));
     mainWindow->getHangupButton()->setEnabled(false);
     mainWindow->getCallButton()->setEnabled(true);
+    mainWindow->getAddToConversationButton()->setEnabled(true);
     if (this->_conversationList.count() != 1)
     {
         this->_conversationList.clear();
         for (int i = 0; i < friendsList->count(); i++)
             friendsList->item(i)->setSelected(false);
         this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
-        mainWindow->getMessageSendField()->setEnabled(false);
-        mainWindow->getMessageSendButton()->setEnabled(false);
         mainWindow->getCallButton()->setEnabled(false);
+        mainWindow->getAddToConversationButton()->setEnabled(true);
     }
     else
         this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
@@ -364,8 +357,6 @@ babel::Status const                                                 babel::UIMan
     this->clearConversationList();
     this->appendToConversationList(contactName);
     this->refreshSelectedContact(contactName, babel::UIManager::ContactInfoType::ONLINE);
-    mainWindow->getMessageSendButton()->setEnabled(true);
-    mainWindow->getMessageSendField()->setEnabled(true);
     mainWindow->getCallButton()->setEnabled(true);
     return (babel::Status(0, "UIManager 'selectedFriendClicked()' worked without error"));
 }
@@ -393,6 +384,30 @@ babel::Status const                                         babel::UIManager::re
 
 babel::Status const                                         babel::UIManager::decliningCall()
 {
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'removeFriend()': mainWindow was null"));
+
+    QListWidget *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'addContactToFriendsList()': friendsList was null"));
+
+    mainWindow->getHangupButton()->setEnabled(false);
+    mainWindow->getCallButton()->setEnabled(true);
+    mainWindow->getAddToConversationButton()->setEnabled(true);
+    std::cout << "---------------> length of conversationlist: " << this->_conversationList.count() << std::endl;
+    if (this->_conversationList.length() == 1)
+        this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
+    else if (this->_conversationList.length() > 1)
+    {
+        this->_conversationList.clear();
+        for (int i = 0; i < friendsList->count(); i++)
+            friendsList->item(i)->setSelected(false);
+        mainWindow->getCallButton()->setEnabled(false);
+        this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
+    }
     this->hideWindow("ReceiveCallDiag");
     return (babel::Status(0, "UIManager 'decliningCall()' worked without error"));
 }
@@ -424,7 +439,6 @@ babel::Status const                                                 babel::UIMan
     if (!receiveCallDiag)
         return (babel::Status(1, "UIManager 'updateNameCallingText()': receiveCallDiag was null"));
 
-	std::cout << "updatenamecallingtext 1 !!" << std::endl;
     receiveCallDiag->setNameCallingText("<html><head/><body><p><span style=\" font-size:12pt; font-weight:500;\">" +
                                         nickname +
                                         "</span><span style=\" font-size:12pt;\"> is calling you...</span></p></body></html>");
@@ -439,11 +453,10 @@ babel::Status const                                                 babel::UIMan
     if (!receiveCallDiag)
         return (babel::Status(1, "UIManager 'updateNameCallingText()': receiveCallDiag was null"));
 
-	std::cout << "updatenamecallingtext 2 !!" << std::endl;
-    receiveCallDiag->setNameCallingText("<html><head/><body><p><span style=\" font-size:12pt; font-weight:500;\">" +
-                                        nicknameHost +
-                                        "</span><span style=\" font-size:12pt;\"> has invited you, along with" +
-                                        utils::join(otherPeople, ", ") + "...</span></p></body></html>");
+    receiveCallDiag->setNameCallingText("<html><head/><body><p><span style=\" font-size:12pt; font-weight:500;\">" + nicknameHost +
+                                        "</span><span style=\" font-size:12pt;\"> has invited you, along with </span><span style=\" font-size:12pt; font-weight:500;\">" +
+                                        utils::join(otherPeople, ", ") +
+                                        "</span><span style=\" font-size:12pt;\">...</span></p></body></html>");
 
     return (babel::Status(0, "UIManager 'updateNameCallingText()' worked without error"));
 }
@@ -497,6 +510,39 @@ babel::Status const                                                 babel::UIMan
     this->getRoot().getNetwork().writeServerTCP(7, 64, ba);
 
     return (babel::Status(0, "UIManager 'inviteToCall()' worked without error"));
+}
+
+
+babel::Status const                                                 babel::UIManager::refreshStatusWhenReceivingCall()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'refreshStatusWhenReceivingCall()': mainWindow was null"));
+
+
+    QListWidget *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'refreshStatusWhenReceivingCall()': friendsList was null"));
+
+    mainWindow->getAddToConversationButton()->setEnabled(false);
+    mainWindow->getCallButton()->setEnabled(false);
+    if (this->_conversationList.length() == 1)
+    {
+        for (int i = 0; i < friendsList->count(); i++)
+        {
+            for (auto it : this->_conversationList)
+                friendsList->item(i)->setSelected(friendsList->item(i)->data(0).toString().toStdString() == it);
+        }
+    }
+    else if (this->_conversationList.length() > 1)
+    {
+        for (int i = 0; i < friendsList->count(); i++)
+            friendsList->item(i)->setSelected(false);
+    }
+    this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::CALLING_WAIT);
+    return (babel::Status(0, "UIManager 'refreshStatusWhenReceivingCall()' worked without error"));
 }
 
 void                                                                babel::UIManager::setFriendsOnline(uint32_t const friendsOnline)

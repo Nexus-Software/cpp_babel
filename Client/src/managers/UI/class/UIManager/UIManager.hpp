@@ -79,6 +79,7 @@ namespace babel {
             //Network methods
             babel::Status const                                         inviteContactInConversation();
             babel::Status const                                         inviteToCall(std::string const& nickname);
+            babel::Status const                                         refreshStatusWhenReceivingCall();
 
             //Setters
             void                                                        setFriendsOnline(uint32_t const friendsOnline);

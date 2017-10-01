@@ -32,10 +32,10 @@ public:
     QLineEdit           *getMessageSendField();
     QPushButton         *getCallButton();
     QPushButton         *getHangupButton();
+    QPushButton         *getAddToConversationButton();
 
 public slots:
     void FilterFriendsList(QString const& filterText);
-    void RedirectToLoginDiag();
     void SelectedFriendClicked(QListWidgetItem *selectedContact);
     void ShowContextMenu(QPoint const& pos);
     void OpenAddContactDiag();
