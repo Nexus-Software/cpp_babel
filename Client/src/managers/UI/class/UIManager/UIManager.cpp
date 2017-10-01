@@ -600,6 +600,16 @@ babel::Status const                                                 babel::UIMan
     return (babel::Status(0, "UIManager 'refreshWhenHangingUpCall()' worked without error"));
 }
 
+
+babel::Status const                                                 babel::UIManager::refreshWhenSomeoneLeavingCall()
+{
+    if (!this->_conversationList.isEmpty())
+        this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::IN_CALL);
+    else
+        this->refreshSelectedContact("Nobody yet.", babel::UIManager::ContactInfoType::IN_CALL);
+    return (babel::Status(0, "UIManager 'refreshWhenSomeoneLeavingCall()' worked without error"));
+}
+
 void                                                                babel::UIManager::setFriendsOnline(uint32_t const friendsOnline)
 {
     this->_friendsOnline = friendsOnline;

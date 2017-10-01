@@ -92,6 +92,7 @@ namespace babel {
             babel::Status const                                         refreshStatusWhenReceivingCall();
             babel::Status const                                         refreshWhenJoiningCall();
             babel::Status const                                         refreshWhenHangingUpCall();
+            babel::Status const                                         refreshWhenSomeoneLeavingCall();
 
             //Setters
             void                                                        setFriendsOnline(uint32_t const friendsOnline);
