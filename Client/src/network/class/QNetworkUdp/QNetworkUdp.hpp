@@ -26,13 +26,11 @@ namespace babel {
 			std::shared_ptr<QUdpSocket>		_server;
 
 		public:
-			virtual bool clientWrite(const std::string&, const std::string&, std::uint32_t);
+			virtual bool clientWrite(const std::vector<unsigned char>&, const std::string&, std::uint32_t);
 			virtual bool serverBind(std::uint32_t);
 
 		public slots:
 			bool readEvent(void);
-			bool displayError(QAbstractSocket::SocketError socketError);
-
 	};
 }
 

@@ -42,33 +42,28 @@ babel::Call & babel::CallManager::getCurrentCall(void)
 	return this->_currentCall;
 }
 
-const babel::Status babel::CallManager::addNewParticipant(const std::string &)
+const babel::Status	babel::CallManager::addNewParticipant(const babel::CallTunnel& usr)
 {
-	// TODO: network call to add a new participant to the call
+	auto list = this->_currentCall.getParticipants();
+	list.insert(std::pair<std::string, babel::CallTunnel>(usr.login, usr));
+	this->updateCurrentCallParticipants(list);
+	std::cout << "CALL MANAGER: New participant joined the call: " << usr.login << " (" << usr.ip << ":" << usr.port << ")" << std::endl;
 	return babel::Status(0, "New participant added");
 }
 
 const babel::Status babel::CallManager::leaveCall(void)
 {
-    // TODO: Encapsulate this in network call (handlecmd)
 	this->resetCurrentCall();
-	// __________________________________________________
 	return babel::Status(0, "Call ended");
 }
 
-const babel::Status babel::CallManager::joinCall(const std::unordered_map<std::string, babel::CallTunnel>& list)
+void babel::CallManager::updateCurrentCallParticipants(const std::unordered_map<std::string, babel::CallTunnel>& prs)
 {
-	// TODO: Encapsulate this in network call
-	this->_currentCall.updateParticipantsList(list);
-	this->_currentCall.setActivity(true);
-	// _________________________________________
-	return babel::Status(0, "Call joined");
-}
-
-const std::unordered_map<std::string, babel::CallTunnel>& babel::CallManager::updateCurrentCallParticipants(void)
-{
-	// TODO : Netork call 'server.getParticipantForCall()'
-	return this->_currentCall.getParticipants();
+	std::cout << "CALL MANAGER: Updating participant list:" << std::endl;
+	for (auto it : prs) {
+		std::cout << "--> " << it.second.login << " [" << it.second.ip << ":" << it.second.port << "]" << std::endl;
+	}
+	this->_currentCall.updateParticipantsList(prs);
 }
 
 void babel::CallManager::resetCurrentCall(void)

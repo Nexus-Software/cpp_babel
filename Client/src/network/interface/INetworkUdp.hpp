@@ -11,7 +11,7 @@ namespace babel {
 		virtual ~INetworkUdp(void) {}
 
 	public:
-		virtual bool clientWrite(const std::string&, const std::string&, std::uint32_t) = 0;
+		virtual bool clientWrite(const std::vector<unsigned char>&, const std::string&, std::uint32_t) = 0;
 		virtual bool serverBind(std::uint32_t) = 0;
 
 	};

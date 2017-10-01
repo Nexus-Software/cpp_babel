@@ -28,6 +28,7 @@ namespace babel {
 			bool 		encodeSound(void);
 			bool 		decodeSound(void);
 			void 		setAudioStreamState(bool);
+			void		infRecord(void);
 
 
 	};

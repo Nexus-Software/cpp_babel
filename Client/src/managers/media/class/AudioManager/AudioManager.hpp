@@ -1,6 +1,8 @@
 #ifndef BABEL_AUDIOMANAGER_HPP_
 # define BABEL_AUDIOMANAGER_HPP_
 
+#include <thread>
+#include "Codec.hpp"
 #include "Audio.hpp"
 
 namespace babel {
@@ -15,8 +17,10 @@ namespace babel {
 			~AudioManager();
 
 		private:
-			babel::GlobalMediaManager& 	_parent;
-			babel::Audio				_audio;
+			babel::GlobalMediaManager& 		_parent;
+			babel::Audio					_audio;
+			bool							_run;
+			std::shared_ptr<std::thread>	_thread;
 
 		public:
 			babel::GlobalMediaManager&	getParent(void) const;

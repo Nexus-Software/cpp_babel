@@ -1,6 +1,6 @@
 #include <iostream>
 #include "NetworkManager.hpp"
-#include "babelClientManager.hpp"
+#include "BabelClientManager.hpp"
 
 babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 :
@@ -60,6 +60,16 @@ std::shared_ptr<babel::INetworkUdp> babel::NetworkManager::getNetworkUdp(void)
 	return this->_networkUdp;
 }
 
+void babel::NetworkManager::sendRecordToCall(const std::vector<unsigned char>& data)
+{
+	auto list = this->_root.getCall().getCurrentCall().getParticipants();
+	for (auto it : list) {
+		auto item = it.second;
+		if (item.login != this->_root.getContact().getUser().getLogin())
+			this->_networkUdp->clientWrite(data, item.ip, item.port);
+	}
+}
+
 void babel::NetworkManager::handleCmd(babel::t_babelPackedData& t)
 {
 	if (!this->_cmds[t.code])
@@ -102,7 +112,7 @@ void    babel::NetworkManager::C_SuccessJoin(babel::t_babelPackedData& t)
 	std::cout << "SUCCESS : JOIN (" << t.code << ")" << std::endl;
 
 	babel::t_clientCallJoinList list = *(reinterpret_cast<babel::t_clientCallJoinList*>(t.data.data()));
-	std::vector<t_clientCallStruct> listContact;
+	std::unordered_map<std::string, babel::CallTunnel> listContact;
 
 	this->_root.getCall().getCurrentCall().setIdConv(list.idConv);
 
@@ -111,11 +121,11 @@ void    babel::NetworkManager::C_SuccessJoin(babel::t_babelPackedData& t)
 	for (; i < 50; i++) {
 		if (!*(list.clients[i].login))
 			break;
-		listContact.push_back(list.clients[i]);
+		listContact.insert(std::pair<std::string, babel::CallTunnel>(std::string(list.clients[i].login), babel::CallTunnel(list.clients[i].login, list.clients[i].ip, list.clients[i].port)));
 		std::cout << "------------- Client " << i + 1 << ". " << list.clients[i].login << " / " << list.clients[i].ip << " / " << list.clients[i].port << std::endl;
-		if (std::string(list.clients[i].login) != this->_root.getContact().getUser().getLogin())
-			this->getNetworkUdp()->clientWrite(std::string(list.clients[i].login), std::string(list.clients[i].ip), list.clients[i].port);
 	}
+
+	this->_root.getCall().updateCurrentCallParticipants(listContact);
 
 	if (this->_root.getCall().isOwner()) {
 		std::cout << "------------- I'm the owner, about to invite others to the calls" << std::endl;
@@ -123,10 +133,11 @@ void    babel::NetworkManager::C_SuccessJoin(babel::t_babelPackedData& t)
     } else {
         this->_root.getUI().clearConversationList();
         for (auto it : listContact)
-            this->_root.getUI().appendToConversationList(it.login);
+            this->_root.getUI().appendToConversationList(it.first);
         this->_root.getUI().refreshWhenJoiningCall();
     }
  
+	this->_root.getMedia().setAudioStreamState(true);
 }
 
 void    babel::NetworkManager::C_SuccessLogin(babel::t_babelPackedData& t)
@@ -166,6 +177,7 @@ void    babel::NetworkManager::C_SuccessInvite(babel::t_babelPackedData& t)
 void    babel::NetworkManager::C_SuccessLeave(babel::t_babelPackedData& t)
 {
 	std::cout << "SUCCESS : LEAVE (" << t.code << ")" << std::endl;
+	this->_root.getMedia().setAudioStreamState(false);
     this->_root.getUI().refreshWhenHangingUpCall();
 }
 
@@ -295,6 +307,7 @@ void    babel::NetworkManager::C_NotifyUserJoinConv(babel::t_babelPackedData& t)
     if (!(*(join.client.login)))
 		return;
 
+	this->_root.getCall().addNewParticipant(babel::CallTunnel(client.login, client.ip, client.port));
     this->_root.getUI().appendToConversationList(client.login);
     this->_root.getUI().refreshWhenJoiningCall();
 
