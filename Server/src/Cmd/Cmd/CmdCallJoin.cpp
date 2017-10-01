@@ -27,6 +27,7 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
   NetworkDataCSJoin networkDataCSJoin = {0};
   std::copy_n(data.data.data(), sizeof(NetworkDataCSJoin), reinterpret_cast<char *>(&networkDataCSJoin));
 
+  std::cout << "Port rec: " << networkDataCSJoin.port << std::endl;
   if (networkDataCSJoin.idCall != 0)
     {
       if (!this->_server.getCallManager().convIsExist(networkDataCSJoin.idCall) &&
@@ -52,12 +53,6 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 	      networkDataCSJoinSuccess.client[i].port = (*it).second.port;
 	      it++;
 	    }
-	  else
-	    {
-	      networkDataCSJoinSuccess.client[i].login[0] = '\0';
-	      networkDataCSJoinSuccess.client[i].ip[0] = '\0';
-	      networkDataCSJoinSuccess.client[i].port = 0;
-	    }
 	}
 
       this->_server.getCallManager().add(networkDataCSJoin.idCall,
@@ -78,6 +73,10 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       networkDataSCJoin.idCall = networkDataCSJoin.idCall;
       networkDataSCJoin.client = client;
 
+      std::cout << "Port send: " << networkDataCSJoin.port << std::endl;
+      std::cout << "IP: " << networkDataSCJoin.client.ip << std::endl;
+      std::cout << "IP: " << networkDataSCJoin.client.port << std::endl;
+      std::cout << "Login: " << networkDataSCJoin.client.login << std::endl;
       dataSend.fill(0);
       std::copy_n(reinterpret_cast<const char *>(&networkDataSCJoin), sizeof(NetworkDataSCJoin), dataSend.begin());
 
