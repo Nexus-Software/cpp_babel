@@ -28,11 +28,16 @@ namespace babel {
             std::unordered_map<std::string, babel::CallTunnel>          _participants;
             bool                                                        _isActive;
             bool                                                        _isMute;
+            std::uint32_t                                               _idConv;
 
 		public:
+            void                                                        setIdConv(std::uint32_t const idConv);
+
             const std::unordered_map<std::string, babel::CallTunnel>    &getParticipants(void) const;
             std::unordered_map<std::string, babel::CallTunnel>			&getParticipants(void);
             const bool                                                  getActivity(void) const;
+            const std::uint32_t                                         &getIdConv(void) const;
+
             const bool                                                  isMute(void) const;
 
             void                                                        setActivity(bool const);

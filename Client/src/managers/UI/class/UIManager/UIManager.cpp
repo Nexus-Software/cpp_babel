@@ -305,29 +305,22 @@ babel::Status const                                                 babel::UIMan
     mainWindow->getHangupButton()->setEnabled(true);
     this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::CALLING_WAIT);
 
-    //Create a roomcall - TODO
-//    std::array<char, 2048>          ba = { 0 };
-//    std::uint32_t                   idConv = 0;
-//    std::uint32_t                   listeningPort;
+    std::array<char, 2048>          ba = { 0 };
+    std::uint32_t                   idConv = 0;
+    std::uint32_t                   listeningPort = 0;
+    QTcpServer                      tcpSocket;
 
-//    std::copy_n(reinterpret_cast<char *>(&idConv), 32, ba.begin());
-//    std::copy_n(reinterpret_cast<char *>(&listeningPort), 32, ba.begin() + 32);
+    tcpSocket.listen(QHostAddress::LocalHost);
+    listeningPort = tcpSocket.serverPort();
+    tcpSocket.close();
 
-//    this->getRoot().getNetwork().writeServerTCP(9, 64, ba);
+    std::copy_n(reinterpret_cast<char *>(&idConv), 32, ba.begin());
+    std::copy_n(reinterpret_cast<char *>(&listeningPort), 32, ba.begin() + 32);
 
-    //Invite (networkmanager side) - TODO
-//    std::array<char, 2048>  ba = { 0 };
-//    std::uint32_t           uidConv = 0;
-//    char                    hostC[32] = { 0 };
+    std::cout << "listeningport: " << listeningPort << std::endl;
 
-//    this->_root.getContact().getUser().getLogin().copy(hostC, 32);
-
-//    std::string             host(hostC);
-
-//    std::copy_n(reinterpret_cast<char *>(&uidConv), 32, ba.begin());
-//    std::copy(host.begin(), host.end(), ba.begin() + 32);
-
-//    this->getRoot().getNetwork().writeServerTCP(7, 64, ba);
+    this->getRoot().getCall().setOwner(true);
+    this->getRoot().getNetwork().writeServerTCP(9, 64, ba);
 
     return (babel::Status(0, "UIManager 'startCall()' worked without error"));
 }
@@ -406,7 +399,21 @@ babel::Status const                                         babel::UIManager::de
 
 babel::Status const                                         babel::UIManager::acceptingCall()
 {
-    this->hideWindow("ReceiveCallDiag");
+    std::array<char, 2048>          ba = { 0 };
+    std::uint32_t                   idConv = this->_root.getCall().getCurrentCall().getIdConv();
+    std::uint32_t                   listeningPort = 0;
+    QTcpServer                      tcpSocket;
+
+    tcpSocket.listen(QHostAddress::LocalHost);
+    listeningPort = tcpSocket.serverPort();
+    tcpSocket.close();
+
+    std::copy_n(reinterpret_cast<char *>(&idConv), 32, ba.begin());
+    std::copy_n(reinterpret_cast<char *>(&listeningPort), 32, ba.begin() + 32);
+
+    this->getRoot().getCall().setOwner(false);
+    this->getRoot().getNetwork().writeServerTCP(9, 64, ba);
+
     return (babel::Status(0, "UIManager 'acceptingCall()' worked without error"));
 }
 
@@ -417,6 +424,7 @@ babel::Status const                                                 babel::UIMan
     if (!receiveCallDiag)
         return (babel::Status(1, "UIManager 'updateNameCallingText()': receiveCallDiag was null"));
 
+	std::cout << "updatenamecallingtext 1 !!" << std::endl;
     receiveCallDiag->setNameCallingText("<html><head/><body><p><span style=\" font-size:12pt; font-weight:500;\">" +
                                         nickname +
                                         "</span><span style=\" font-size:12pt;\"> is calling you...</span></p></body></html>");
@@ -431,6 +439,7 @@ babel::Status const                                                 babel::UIMan
     if (!receiveCallDiag)
         return (babel::Status(1, "UIManager 'updateNameCallingText()': receiveCallDiag was null"));
 
+	std::cout << "updatenamecallingtext 2 !!" << std::endl;
     receiveCallDiag->setNameCallingText("<html><head/><body><p><span style=\" font-size:12pt; font-weight:500;\">" +
                                         nicknameHost +
                                         "</span><span style=\" font-size:12pt;\"> has invited you, along with" +
@@ -463,6 +472,31 @@ babel::Status const                                                 babel::UIMan
     customNotificationDiag->setDataText(QString::fromStdString(dataText));
     this->showWindow("CustomNotificationDiag");
     return (babel::Status(0, "UIManager 'showErrorDialog()' worked without error"));
+}
+
+babel::Status const													babel::UIManager::inviteContactInConversation()
+{
+    for (auto it : this->_conversationList)
+        this->inviteToCall(it);
+	return (babel::Status(0, "UIManager 'inviteContactInConversation()' worked without error"));
+}
+
+babel::Status const                                                 babel::UIManager::inviteToCall(std::string const& nickname)
+{
+	std::array<char, 2048>  ba = { 0 };
+	babel::t_clientCallInvite	t = {0};
+
+	t.idCall = this->_root.getCall().getCurrentcall().getIdConv();
+
+	std::cout << "--------- INVITE IDCONV: " << t.idCall << std::endl;
+
+	nickname.copy(t.loginInvite, 32);
+
+	std::copy_n(reinterpret_cast<const char *>(&t), sizeof(t), ba.begin());
+
+    this->getRoot().getNetwork().writeServerTCP(7, 64, ba);
+
+    return (babel::Status(0, "UIManager 'inviteToCall()' worked without error"));
 }
 
 void                                                                babel::UIManager::setFriendsOnline(uint32_t const friendsOnline)

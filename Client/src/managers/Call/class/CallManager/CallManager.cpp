@@ -12,6 +12,11 @@ babel::CallManager::~CallManager()
 	std::cout << "Call manager destructed" << std::endl;
 }
 
+const bool&     babel::CallManager::isOwner(void) const
+{
+    return this->_isOwner;
+}
+
 babel::BabelClientManager& babel::CallManager::getRoot(void)
 {
 	return this->_root;
@@ -25,6 +30,11 @@ const babel::BabelClientManager& babel::CallManager::getRoot(void) const
 const babel::Call & babel::CallManager::getCurrentcall(void) const
 {
 	return this->_currentCall;
+}
+
+void babel::CallManager::setOwner(const bool owner)
+{
+    this->_isOwner = owner;
 }
 
 babel::Call & babel::CallManager::getCurrentCall(void)

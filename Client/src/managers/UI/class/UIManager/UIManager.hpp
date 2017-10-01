@@ -6,7 +6,7 @@
 #include <list>
 #include <array>
 #include <QApplication>
-#include <QUdpSocket>
+#include <QTcpServer>
 #include "Status.hpp"
 #include "addcontactdiag.h"
 #include "addtoconversationdiag.h"
@@ -75,6 +75,10 @@ namespace babel {
 
             //Miscellanous methods
             babel::Status const                                         showErrorDialog(std::string const& dataText);
+
+            //Network methods
+            babel::Status const                                         inviteContactInConversation();
+            babel::Status const                                         inviteToCall(std::string const& nickname);
 
             //Setters
             void                                                        setFriendsOnline(uint32_t const friendsOnline);

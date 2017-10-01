@@ -3,7 +3,8 @@
 babel::Call::Call()
 	:
 	_isActive(false),
-	_isMute(false)
+    _isMute(false),
+    _idConv(0)
 {
 	std::cout << "Call created" << std::endl;
 }
@@ -12,7 +13,8 @@ babel::Call::Call(const babel::Call & item)
 	:
 	_participants(item.getParticipants()),
 	_isActive(item.getActivity()),
-	_isMute(item.isMute())
+    _isMute(item.isMute()),
+    _idConv(0)
 {
 
 }
@@ -20,6 +22,11 @@ babel::Call::Call(const babel::Call & item)
 babel::Call::~Call()
 {
 	std::cout << "Call destructed" << std::endl;
+}
+
+void                                                        babel::Call::setIdConv(const uint32_t idConv)
+{
+    this->_idConv = idConv;
 }
 
 const std::unordered_map<std::string, babel::CallTunnel>& babel::Call::getParticipants(void) const
@@ -35,6 +42,11 @@ std::unordered_map<std::string, babel::CallTunnel>& babel::Call::getParticipants
 const bool babel::Call::getActivity(void) const
 {
 	return this->_isActive;
+}
+
+const std::uint32_t                                         &babel::Call::getIdConv(void) const
+{
+    return (this->_idConv);
 }
 
 const bool babel::Call::isMute(void) const

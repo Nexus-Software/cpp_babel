@@ -12,8 +12,16 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 			std::cout << "SUCCESS (" << t.code << ")" << std::endl;
 		}},
 		{ 43, [&](babel::t_babelPackedData t) {
-			std::cout << "SUCCESS JOIN (" << t.code << ")" << std::endl;
-		} },
+            std::cout << "SUCCESS JOIN (" << t.code << ")" << std::endl;
+            babel::t_clientCallJoinList list = *(reinterpret_cast<babel::t_clientCallJoinList*>(t.data.data()));
+
+            this->_root.getCall().getCurrentCall().setIdConv(list.idConv);
+
+			std::cout << "--------- SUCCESS JOIN IDCONV: " << list.idConv << std::endl;
+
+            if (this->_root.getCall().isOwner())
+                this->_root.getUI().inviteContactInConversation();
+        } },
 		{ 44, [&](babel::t_babelPackedData t) {
 			std::cout << "SUCCESS LOGIN (" << t.code << ")" << std::endl;
 			this->_root.getUI().hideWindow("LoginDiag");
@@ -34,6 +42,7 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 		} },
 		{ 48, [&](babel::t_babelPackedData t) {
 			std::cout << "SUCCESS INVITE (" << t.code << ")" << std::endl;
+
 		} },
 		{ 49, [&](babel::t_babelPackedData t) {
 			std::cout << "SUCCESS LEAVE (" << t.code << ")" << std::endl;
@@ -74,18 +83,24 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 		} },
 		{ 7, [&](babel::t_babelPackedData t) {
             std::cout << "INVITE CALL(" << t.code << ")" << std::endl;
-            babel::t_clientContactList list = *(reinterpret_cast<babel::t_clientContactList*>(t.data.data()));
+
+            babel::t_clientCallInviteList list = *(reinterpret_cast<babel::t_clientCallInviteList*>(t.data.data()));
             std::vector<std::string>    listContactStr;
 
+			std::cout << "-----> IdConv:" << list.idConv << std::endl;
+			std::cout << "-----> Begin get data receivecalldiag !" << std::endl;
             for (int i = 0; i < 8; i++) {
-                if (!*(list.contacts[i].login))
+                if (!*(list.clients[i]))
                     break;
-                listContactStr.push_back(list.contacts[i].login);
+				std::cout << "----------> " << list.clients[i] << std::endl;
+                listContactStr.push_back(list.clients[i]);
             }
+			std::cout << "-----> End get data receivecalldiag !" << std::endl;
             if (listContactStr.size() == 1)
                 this->_root.getUI().updateNameCallingText(listContactStr[0]);
             else if (listContactStr.size() > 1)
                 this->_root.getUI().updateNameCallingText(listContactStr[0], std::vector<std::string>(listContactStr.begin() + 1, listContactStr.end()));
+            this->_root.getCall().getCurrentCall().setIdConv(list.idConv);
             this->_root.getUI().showWindow("ReceiveCallDiag");
 		} },
 		{ 8, [&](babel::t_babelPackedData t) {

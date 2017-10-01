@@ -28,6 +28,25 @@ namespace babel {
 	{
 		t_clientContactStruct contacts[50];
     };
+
+    struct                  t_clientCallJoinList
+    {
+        std::uint32_t       idConv;
+        t_clientCallStruct  clients[8];
+    };
+
+    struct                  t_clientCallInviteList
+    {
+        std::uint32_t       idConv;
+        char                clients[8][32];
+        char                owner[32];
+    };
+
+	struct					t_clientCallInvite
+	{
+		std::uint32_t		idCall;
+		char				loginInvite[32];
+	};
 } // babel
 
 namespace babel {
