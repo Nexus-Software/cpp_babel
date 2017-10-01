@@ -32,9 +32,28 @@ namespace babel {
 			babel::BabelClientManager& getRoot(void) const;
 			const std::shared_ptr<INetworkTcpClient> getNetworkTcp(void) const;
 			std::shared_ptr<INetworkTcpClient> getNetworkTcp(void);
+			const std::shared_ptr<INetworkUdp> getNetworkUdp(void) const;
+			std::shared_ptr<INetworkUdp> getNetworkUdp(void);
 			void handleCmd(babel::t_babelPackedData&);
 			void writeServerTCP(babel::t_babelPackedData&);
 			void writeServerTCP(std::uint32_t, std::uint32_t, std::array<char, 2048>);
+			void C_Success(babel::t_babelPackedData & t);
+			void C_SuccessJoin(babel::t_babelPackedData & t);
+			void C_SuccessLogin(babel::t_babelPackedData & t);
+			void C_SuccessSignUp(babel::t_babelPackedData & t);
+			void C_SuccessDel(babel::t_babelPackedData & t);
+			void C_SuccessAdd(babel::t_babelPackedData & t);
+			void C_SuccessInvite(babel::t_babelPackedData & t);
+			void C_SuccessLeave(babel::t_babelPackedData & t);
+			void C_InternalError(babel::t_babelPackedData & t);
+			void C_ErrorAlreadyUsed(babel::t_babelPackedData & t);
+			void C_ErrorWrongCreds(babel::t_babelPackedData & t);
+			void C_ErrorUserNotFound(babel::t_babelPackedData & t);
+			void C_ConvNotFound(babel::t_babelPackedData & t);
+			void C_GetContactList(babel::t_babelPackedData & t);
+			void C_GetCallInvitation(babel::t_babelPackedData & t);
+			void C_NotifyLeaveCall(babel::t_babelPackedData & t);
+			void C_NotifyUserJoinConv(babel::t_babelPackedData & t);
 	};
 }
 
