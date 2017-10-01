@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Call</string>
   </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout" stretch="3,2">

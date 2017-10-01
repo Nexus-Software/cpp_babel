@@ -33,6 +33,8 @@ public:
     QPushButton         *getCallButton();
     QPushButton         *getHangupButton();
     QPushButton         *getAddToConversationButton();
+    QLineEdit           *getFilterFriendField();
+    QPushButton         *getAddContactButton();
 
 public slots:
     void FilterFriendsList(QString const& filterText);

@@ -72,6 +72,16 @@ QPushButton             *MainWindow::getAddToConversationButton()
     return (this->_ui->AddToConversationButton);
 }
 
+QLineEdit               *MainWindow::getFilterFriendField()
+{
+    return (this->_ui->FilterFriendField);
+}
+
+QPushButton             *MainWindow::getAddContactButton()
+{
+    return (this->_ui->AddContactButton);
+}
+
 void                    MainWindow::FilterFriendsList(QString const& filterText)
 {
     QList<QListWidgetItem *> filteredList = this->_ui->FriendsList->findItems(filterText, Qt::MatchContains);

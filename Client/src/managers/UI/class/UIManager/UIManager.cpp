@@ -248,10 +248,16 @@ babel::Status const                                                 babel::UIMan
 
     QLabel              *selectedContactInformations = mainWindow->getSelectedContactInformations();
     QLabel              *selectedContactChat = mainWindow->getSelectedContactChat();
+    QListWidget         *friendsList = mainWindow->getFriendsList();
+    QLineEdit           *filterFriendField = mainWindow->getFilterFriendField();
+    QPushButton         *addContactButton = mainWindow->getAddContactButton();
 
-    if (!selectedContactInformations || !selectedContactChat)
+    if (!selectedContactInformations || !selectedContactChat || !friendsList || !filterFriendField || !addContactButton)
         return (babel::Status(1, "UIManager 'refreshSelectedContact()': A widget was null"));
 
+    friendsList->setEnabled(true);
+    filterFriendField->setEnabled(true);
+    addContactButton->setEnabled(true);
     switch (type)
     {
         case (babel::UIManager::ContactInfoType::ONLINE):
@@ -277,6 +283,9 @@ babel::Status const                                                 babel::UIMan
                                                                     selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#56b921;\">\
                                                                     In call</span></p></body></html>"));
         selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
+        friendsList->setEnabled(false);
+        filterFriendField->setEnabled(false);
+        addContactButton->setEnabled(false);
         break;
     case (babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED):
         selectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
