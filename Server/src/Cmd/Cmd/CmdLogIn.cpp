@@ -24,8 +24,8 @@ babel::CmdLogIn::~CmdLogIn()
 
 bool babel::CmdLogIn::run(size_t tunnelId,  NetworkData & data)
 {
-  std::string login(data.data.begin());
-  std::string password(data.data.begin() + 32);
+  std::string login(data.data.begin(), data.data.begin() + 32);
+  std::string password(data.data.begin() + 32, data.data.begin() + 64);
 
   std::cout << "Login: " << login << " - Password: " << password << std::endl;
 

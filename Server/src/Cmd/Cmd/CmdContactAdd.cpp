@@ -23,7 +23,7 @@ babel::CmdContactAdd::~CmdContactAdd()
 
 bool babel::CmdContactAdd::run(size_t tunnelId, babel::NetworkData & data)
 {
-  std::string login(data.data.begin());
+  std::string login(data.data.begin(), data.data.begin() + 32);
 
   std::cout << "Login: " << login << std::endl;
 
