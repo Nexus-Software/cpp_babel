@@ -112,6 +112,7 @@ void    babel::NetworkManager::C_SuccessJoin(babel::t_babelPackedData& t)
 		if (!*(list.clients[i].login))
 			break;
 		listContact.push_back(list.clients[i]);
+		this->getNetworkUdp()->clientWrite(std::string(list.clients[i].login), std::string(list.clients[i].ip), list.clients[i].port);
 		std::cout << "------------- Client " << i + 1 << ". " << list.clients[i].login << " / " << list.clients[i].ip << " / " << list.clients[i].port << std::endl;
 	}
 
@@ -269,9 +270,8 @@ void    babel::NetworkManager::C_NotifyUserJoinConv(babel::t_babelPackedData& t)
 
 	babel::t_clientCallJoin	join	= *(reinterpret_cast<babel::t_clientCallJoin*>(t.data.data()));
 	t_clientCallStruct		client	= join.client;
-	
-	std::cout << " ----- > client:" << join.client.login << " ip: " << join.client.ip << std::endl;
-	if (!((join.client.login)))
+
+    if (!(*(join.client.login)))
 		return;
 
     this->_root.getUI().appendToConversationList(client.login);
