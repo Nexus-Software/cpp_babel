@@ -25,7 +25,7 @@ babel::CmdCallJoin::~CmdCallJoin()
 bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 {
   NetworkDataCSJoin networkDataCSJoin = {0};
-  std::copy_n(reinterpret_cast<char *>(&data.data), sizeof(NetworkDataCSJoin), reinterpret_cast<char *>(&networkDataCSJoin));
+  std::copy_n(data.data.data(), sizeof(NetworkDataCSJoin), reinterpret_cast<char *>(&networkDataCSJoin));
 
   if (networkDataCSJoin.idCall != 0)
     {

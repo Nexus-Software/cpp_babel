@@ -24,7 +24,7 @@ babel::CmdCallInvite::~CmdCallInvite()
 bool babel::CmdCallInvite::run(size_t tunnelId, babel::NetworkData &data)
 {
   NetworkDataCSInvite networkDataCSInvite = {0};
-  std::copy_n(reinterpret_cast<const char *>(&data.data), sizeof(NetworkDataCSInvite), reinterpret_cast<char *>(&networkDataCSInvite));
+  std::copy_n(data.data.data(), sizeof(NetworkDataCSInvite), reinterpret_cast<char *>(&networkDataCSInvite));
 
   try
     {
