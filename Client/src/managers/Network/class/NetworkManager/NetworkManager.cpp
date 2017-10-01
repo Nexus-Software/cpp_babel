@@ -1,6 +1,6 @@
 #include <iostream>
 #include "NetworkManager.hpp"
-#include "babelClientManager.hpp"
+#include "BabelClientManager.hpp"
 
 babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 :
