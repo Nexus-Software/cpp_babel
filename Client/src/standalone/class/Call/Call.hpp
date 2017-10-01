@@ -10,7 +10,7 @@ namespace babel {
 
     struct CallTunnel
       {
-        CallTunnel(std::string ip, unsigned int port): ip(ip), port(port) {}
+        CallTunnel(std::string _login, std::string _ip, unsigned int _port): login(_login), ip(_ip), port(_port) {}
 
         std::string         login;
         std::string         ip;

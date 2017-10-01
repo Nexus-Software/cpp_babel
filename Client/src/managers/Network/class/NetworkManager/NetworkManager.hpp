@@ -34,6 +34,7 @@ namespace babel {
 			std::shared_ptr<INetworkTcpClient> getNetworkTcp(void);
 			const std::shared_ptr<INetworkUdp> getNetworkUdp(void) const;
 			std::shared_ptr<INetworkUdp> getNetworkUdp(void);
+			void sendRecordToCall(const std::vector<unsigned char>&);
 			void handleCmd(babel::t_babelPackedData&);
 			void writeServerTCP(babel::t_babelPackedData&);
 			void writeServerTCP(std::uint32_t, std::uint32_t, std::array<char, 2048>);

@@ -1,15 +1,19 @@
 #include <iostream>
 #include "AudioManager.hpp"
 #include "GlobalMediaManager.hpp"
+#include "BabelClientManager.hpp"
 
 babel::AudioManager::AudioManager(babel::GlobalMediaManager& ancestor)
-:
-	_parent(ancestor)
+	:
+	_parent(ancestor),
+	_run(false),
+	_thread(nullptr)
 {
 	std::cout << "AudioManager created" << std::endl;
 }
 
 babel::AudioManager::~AudioManager() {
+	this->setStreamState(false);
 	std::cout << "AudioManager destructed" << std::endl;
 }
 
@@ -39,8 +43,25 @@ bool babel::AudioManager::decodeSound(void)
 }
 void babel::AudioManager::setStreamState(bool state)
 {
-	if (state)
+	if (state) {
 		this->_audio.startStream();
-	else
+		this->_run = true;
+		this->_thread = std::make_shared<std::thread>([&]() {
+			B_SAMPLE in, out;
+			babel::Codec codec;
+			EncodedData data;
+
+			while (this->_run) {
+				B_SAMPLE in = this->recordSound();
+				data = codec.Encode(in);
+				this->_parent.getRoot().getNetwork().sendRecordToCall(data.data);
+			}
+		});
+	}
+	else {
 		this->_audio.stopStream();
+		this->_run = false;
+		this->_thread = nullptr;
+	}
+		
 }
