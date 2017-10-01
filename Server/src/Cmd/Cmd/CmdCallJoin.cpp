@@ -65,7 +65,7 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(43, sizeof(NetworkDataCSJoinSuccess), dataSend));
 
-      NetworkDataSCJoin networkDataSCJoin;
+      NetworkDataSCJoin networkDataSCJoin = {0};
       this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(client.login, 32);
       this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip.copy(client.ip, 16);
       client.port = networkDataCSJoin.port;
@@ -80,10 +80,10 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
       dataSend.fill(0);
       std::copy_n(reinterpret_cast<const char *>(&networkDataSCJoin), sizeof(NetworkDataSCJoin), dataSend.begin());
 
-      for (auto it : participant)
+      for (auto ite : participant)
 	{
-	  if (it.second.login.compare(this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login) != 0)
-	    this->_server.getNetworkManager().get()->write(it.first, NetworkData(9, sizeof(NetworkDataSCJoin), dataSend));
+	  if (ite.second.login.compare(this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login) != 0)
+	    this->_server.getNetworkManager().get()->write(ite.first, NetworkData(9, sizeof(NetworkDataSCJoin), dataSend));
 	}
       return true;
     }
