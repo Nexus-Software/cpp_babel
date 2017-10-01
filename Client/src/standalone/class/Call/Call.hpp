@@ -45,6 +45,7 @@ namespace babel {
             void                                                        unmute(void);
             void                                                        reset(void);
             const std::unordered_map<std::string, babel::CallTunnel>    &updateParticipantsList(std::unordered_map<std::string, babel::CallTunnel> const&);
+			void														removeParticipants(const std::string&);
 		
 		private:
 			void setMute(const bool);

@@ -82,6 +82,11 @@ const std::unordered_map<std::string, babel::CallTunnel>& babel::Call::updatePar
 	return this->_participants;
 }
 
+void babel::Call::removeParticipants(const std::string & login)
+{
+	this->_participants.erase(login);
+}
+
 void babel::Call::setMute(const bool mute)
 {
 	this->_isMute = mute;

@@ -2,6 +2,8 @@
 # define BABEL_AUDIOMANAGER_HPP_
 
 #include <thread>
+#include <mutex>
+#include <atomic>
 #include "Codec.hpp"
 #include "Audio.hpp"
 
@@ -19,7 +21,7 @@ namespace babel {
 		private:
 			babel::GlobalMediaManager& 		_parent;
 			babel::Audio					_audio;
-			bool							_run;
+			std::atomic_bool				_run;
 			std::shared_ptr<std::thread>	_thread;
 
 		public:
