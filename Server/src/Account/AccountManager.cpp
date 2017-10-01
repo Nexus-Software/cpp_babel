@@ -129,11 +129,10 @@ bool babel::AccountManager::login(std::string login)
 	return false;
       account.setIsOnline(true);
       auto contactList = this->getAccountByLogin(login).getContactList();
-      for (auto it = contactList.begin() ; it != contactList.end() ; it++)
+      for (auto it : contactList)
 	{
-	  std::cout << "Login teqt; " << *it << std::endl;
-	  if (this->getAccountByLogin(*it).getIsOnline())
-	    this->sendContactList(this->_server.getNetworkManager().get()->getTunnelIdByLogin(login), *it);
+	  if (this->getAccountByLogin(it).getIsOnline())
+	    this->sendContactList(this->_server.getNetworkManager().get()->getTunnelIdByLogin(it), it);
 	}
       return true;
     }
