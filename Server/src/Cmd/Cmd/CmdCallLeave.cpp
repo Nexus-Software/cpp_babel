@@ -39,7 +39,10 @@ bool babel::CmdCallLeave::run(size_t tunnelId, babel::NetworkData &data)
 	  this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(49, 0, {}));
 
 	  std::array<char, 2048> dataLoginLeave = {0};
-	  this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(dataLoginLeave.begin(), 32);
+	  char loginLeave[32] = {0};
+	  this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login.copy(loginLeave, 32);
+	  std::copy_n(reinterpret_cast<const char *>(&loginLeave), 32, dataLoginLeave.begin());
+
 	  auto participant = this->_server.getCallManager().getCalls().find(idCall)->second.getParticipants();
 	  for (auto it : participant)
 	    {
