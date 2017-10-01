@@ -27,7 +27,6 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
   NetworkDataCSJoin networkDataCSJoin = {0};
   std::copy_n(data.data.data(), sizeof(NetworkDataCSJoin), reinterpret_cast<char *>(&networkDataCSJoin));
 
-  std::cout << "Port rec: " << networkDataCSJoin.port << std::endl;
   if (networkDataCSJoin.idCall != 0)
     {
       if (!this->_server.getCallManager().convIsExist(networkDataCSJoin.idCall) &&
@@ -78,17 +77,20 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 
       networkDataSCJoin.idCall = networkDataCSJoin.idCall;
 
-      std::cout << "Port recp: " << networkDataCSJoin.port << std::endl;
-      std::cout << "IP send: " << networkDataSCJoin.client.ip << std::endl;
-      std::cout << "Port send: " << networkDataSCJoin.client.port << std::endl;
-      std::cout << "Login send: " << networkDataSCJoin.client.login << std::endl;
       dataSend.fill(0);
       std::copy_n(reinterpret_cast<char *>(&networkDataSCJoin), sizeof(NetworkDataSCJoin), dataSend.begin());
 
       for (auto ite : participant)
 	{
-	  if (ite.second.login.compare(this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login) != 0)
-	    this->_server.getNetworkManager().get()->write(ite.first, NetworkData(9, sizeof(NetworkDataSCJoin), dataSend));
+	  try
+	    {
+	      if (ite.second.login.compare(this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login) != 0)
+		this->_server.getNetworkManager().get()->write(ite.first, NetworkData(9, sizeof(NetworkDataSCJoin), dataSend));
+	    }
+	  catch (NetworkManagerException)
+	    {
+	      continue;
+	    }
 	}
       return true;
     }
@@ -98,7 +100,6 @@ bool babel::CmdCallJoin::run(size_t tunnelId, babel::NetworkData & data)
 
       std::array<char, 2048> dataSend = {0};
 
-      std::cout << "Call ID JOIN: " << call.getId() << std::endl;
       if (!this->_server.getCallManager().add(call.getId(),
 					      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).login,
 					      this->_server.getNetworkManager().get()->getTunnelInfoByTunnelId(tunnelId).ip,

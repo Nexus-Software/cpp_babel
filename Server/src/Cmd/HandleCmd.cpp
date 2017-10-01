@@ -51,7 +51,6 @@ bool babel::HandleCmd::execCmd(size_t tunnelId, NetworkData & data)
 	  return false;
 	}
       (*it).second.get()->run(tunnelId, data);
-      std::cout << "CMD: N:" << it->first << std::endl;
       return true;
     }
   return false;

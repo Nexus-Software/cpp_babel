@@ -25,8 +25,6 @@ bool babel::CmdSignUp::run(size_t tunnelId,  NetworkData & data)
   std::string login(data.data.data());
   std::string password(data.data.data() + 32);
 
-  std::cout << "Login: " << login << " - Password: " << password << std::endl;
-
   if (!this->_server.getAccountManager().add(login, password))
     {
       try
