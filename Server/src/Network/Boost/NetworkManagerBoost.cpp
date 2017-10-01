@@ -120,7 +120,7 @@ void babel::NetworkManagerBoost::closeTunnel(size_t tunnelId)
     {
       this->_server.getAccountManager().leave(this->_tunnelInfo.find(tunnelId)->second.login);
     }
-  catch (AccountManagerException &e)
+  catch (AccountManagerException)
     {
     }
   this->_tunnelInfo.erase(this->_tunnelInfo.find(tunnelId));
