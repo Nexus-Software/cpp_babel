@@ -24,8 +24,8 @@ babel::CmdLogIn::~CmdLogIn()
 
 bool babel::CmdLogIn::run(size_t tunnelId,  NetworkData & data)
 {
-  std::string login(data.data.begin());
-  std::string password(data.data.begin() + 32);
+  std::string login(data.data.data());
+  std::string password(data.data.data() + 32);
 
   std::cout << "Login: " << login << " - Password: " << password << std::endl;
 
@@ -49,7 +49,7 @@ bool babel::CmdLogIn::run(size_t tunnelId,  NetworkData & data)
 	  return true;
 	}
     }
-  catch (AccountManagerException &e)
+  catch (AccountManagerException)
     {
     }
   this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(503, 0, {}));

@@ -40,7 +40,7 @@ namespace babel
   struct NetworkDataCSJoin
   {
     std::uint32_t 	idCall;
-    unsigned int	port;
+    std::uint32_t	port;
   };
 
   struct NetworkDataSCJoin

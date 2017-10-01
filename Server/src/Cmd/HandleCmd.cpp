@@ -45,7 +45,7 @@ bool babel::HandleCmd::execCmd(size_t tunnelId, NetworkData & data)
 	      return false;
 	    }
 	}
-      catch (NetworkManagerException &e)
+      catch (NetworkManagerException)
 	{
 	  this->_server.getLogInTerm().print("(HandleCMD): Tunnel id not found into", LogInTerm::LevelLog::WARNING);
 	  return false;

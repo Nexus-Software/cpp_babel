@@ -23,7 +23,7 @@ babel::CmdContactAdd::~CmdContactAdd()
 
 bool babel::CmdContactAdd::run(size_t tunnelId, babel::NetworkData & data)
 {
-  std::string login(data.data.begin());
+  std::string login(data.data.data());
 
   std::cout << "Login: " << login << std::endl;
 
@@ -54,12 +54,12 @@ bool babel::CmdContactAdd::run(size_t tunnelId, babel::NetworkData & data)
 	}
       return true;
     }
-  catch (AccountManagerException & e)
+  catch (AccountManagerException)
     {
       this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(505, 0, {}));
       return false;
     }
-  catch (NetworkManagerException &e)
+  catch (NetworkManagerException)
     {
       return false;
     }

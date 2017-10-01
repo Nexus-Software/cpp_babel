@@ -14,6 +14,8 @@
 #include <memory>
 #include <iostream>
 #include <unordered_map>
+#include <functional>
+#include <string>
 
 namespace babel {
   struct EnumClassHash
@@ -29,12 +31,12 @@ namespace babel {
   {
    public:
     enum class LevelLog {
-      DEFAULT 	= 0,
-      INFO 	= 1,
-      SUCCESS,
-      WARNING,
-      ERROR,
-      FATAL_ERROR
+      DEFAULT 		= 0,
+      INFO 		= 1,
+      SUCCESS		= 2,
+      WARNING		= 3,
+      ERROR_S		= 4,
+      FATAL_ERROR	= 5
     };
 
    private:

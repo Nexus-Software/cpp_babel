@@ -14,6 +14,8 @@
 #include <iostream>
 #include <unordered_map>
 #include <memory>
+#include <string>
+#include <array>
 #include "Error/Errors.hpp"
 #include "Account/AccountManager.hpp"
 #include "BabelNetworkMacro.hpp"
