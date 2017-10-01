@@ -276,7 +276,7 @@ babel::Status const                                                 babel::UIMan
         selectedContactInformations->setText(QString::fromStdString("<html><head/><body><p style=\"margin:2px\"><span style=\"font-weight:500;\">" +
                                                                     selectedContact + "</span></p><p style=\"margin:2px\"><span style=\" font-style:italic; color:#56b921;\">\
                                                                     In call</span></p></body></html>"));
-        selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#56b921;\">Chat empty :(</span></p></body></html>");
+        selectedContactChat->setText("<html><head/><body><p><span style=\" font-style:italic; color:#4d4d4d;\">Chat empty :(</span></p></body></html>");
         break;
     case (babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED):
         selectedContactInformations->setText("<html><head/><body><p><span style=\"font-style:italic;color:#4d4d4d ;\">No contact selected</span></p></body></html>");
@@ -296,7 +296,8 @@ babel::Status const                                                 babel::UIMan
     mainWindow->getCallButton()->setEnabled(false);
     mainWindow->getAddToConversationButton()->setEnabled(false);
     mainWindow->getHangupButton()->setEnabled(true);
-    this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::CALLING_WAIT);
+
+    this->refreshSelectedContact("Nobody yet.", babel::UIManager::ContactInfoType::IN_CALL);
 
     std::array<char, 2048>          ba = { 0 };
     std::uint32_t                   idConv = 0;
@@ -321,29 +322,18 @@ babel::Status const                                                 babel::UIMan
 
 babel::Status const                                                 babel::UIManager::hangupCall()
 {
-    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+    std::array<char, 2048>          ba = { 0 };
+    std::uint32_t                   idConv = this->_root.getCall().getCurrentCall().getIdConv();
+	std::uint32_t                   listeningPort = 0;
+    QTcpServer                      tcpSocket;
 
-    if (!mainWindow)
-        return (babel::Status(1, "UIManager 'hangupCall()': mainWindow was null"));
+    tcpSocket.listen(QHostAddress::LocalHost);
+    listeningPort = tcpSocket.serverPort();
+    tcpSocket.close();
 
-    QListWidget *friendsList = mainWindow->getFriendsList();
+    std::copy_n(reinterpret_cast<char *>(&idConv), 32, ba.begin());
 
-    if (!friendsList)
-        return (babel::Status(1, "UIManager 'hangupCall()': friendsList was null"));
-    mainWindow->getHangupButton()->setEnabled(false);
-    mainWindow->getCallButton()->setEnabled(true);
-    mainWindow->getAddToConversationButton()->setEnabled(true);
-    if (this->_conversationList.count() != 1)
-    {
-        this->_conversationList.clear();
-        for (int i = 0; i < friendsList->count(); i++)
-            friendsList->item(i)->setSelected(false);
-        this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
-        mainWindow->getCallButton()->setEnabled(false);
-        mainWindow->getAddToConversationButton()->setEnabled(true);
-    }
-    else
-        this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
+    this->getRoot().getNetwork().writeServerTCP(8, 32, ba);
 
     return (babel::Status(0, "UIManager 'hangupCall()' worked without error"));
 }
@@ -415,6 +405,16 @@ babel::Status const                                         babel::UIManager::de
 
 babel::Status const                                         babel::UIManager::acceptingCall()
 {
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'acceptingCall()': mainWindow was null"));
+
+    QPushButton *hangupButton = mainWindow->getHangupButton();
+
+    if (!hangupButton)
+        return (babel::Status(1, "UIManager 'acceptingCall()': hangupButton was null"));
+
     std::array<char, 2048>          ba = { 0 };
     std::uint32_t                   idConv = this->_root.getCall().getCurrentCall().getIdConv();
     std::uint32_t                   listeningPort = 0;
@@ -430,6 +430,8 @@ babel::Status const                                         babel::UIManager::ac
     this->getRoot().getCall().setOwner(false);
     this->getRoot().getNetwork().writeServerTCP(9, 64, ba);
 
+    hangupButton->setEnabled(true);
+    this->hideWindow("ReceiveCallDiag");
     return (babel::Status(0, "UIManager 'acceptingCall()' worked without error"));
 }
 
@@ -505,6 +507,7 @@ babel::Status const													babel::UIManager::inviteContactInConversation()
 {
     for (auto it : this->_conversationList)
         this->inviteToCall(it);
+    this->clearConversationList();
 	return (babel::Status(0, "UIManager 'inviteContactInConversation()' worked without error"));
 }
 
@@ -557,6 +560,40 @@ babel::Status const                                                 babel::UIMan
     }
     this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::CALLING_WAIT);
     return (babel::Status(0, "UIManager 'refreshStatusWhenReceivingCall()' worked without error"));
+}
+
+babel::Status const                                                 babel::UIManager::refreshWhenJoiningCall()
+{
+    this->refreshSelectedContact(utils::join(this->_conversationList.toVector().toStdVector(), ", "), babel::UIManager::ContactInfoType::IN_CALL);
+    return (babel::Status(0, "UIManager 'refreshWhenJoiningCall()' worked without error"));
+}
+
+babel::Status const                                                 babel::UIManager::refreshWhenHangingUpCall()
+{
+    MainWindow *mainWindow = dynamic_cast<MainWindow *>(this->_windowList["MainWindow"].get());
+
+    if (!mainWindow)
+        return (babel::Status(1, "UIManager 'refreshWhenHangingUpCall()': mainWindow was null"));
+
+    QListWidget *friendsList = mainWindow->getFriendsList();
+
+    if (!friendsList)
+        return (babel::Status(1, "UIManager 'refreshWhenHangingUpCall()': friendsList was null"));
+    mainWindow->getHangupButton()->setEnabled(false);
+    mainWindow->getCallButton()->setEnabled(true);
+    mainWindow->getAddToConversationButton()->setEnabled(true);
+    if (this->_conversationList.count() != 1)
+    {
+        this->_conversationList.clear();
+        for (int i = 0; i < friendsList->count(); i++)
+            friendsList->item(i)->setSelected(false);
+        this->refreshSelectedContact("", babel::UIManager::ContactInfoType::NO_CONTACT_SELECTED);
+        mainWindow->getCallButton()->setEnabled(false);
+        mainWindow->getAddToConversationButton()->setEnabled(true);
+    }
+    else
+        this->refreshSelectedContact(this->_conversationList[0], babel::UIManager::ContactInfoType::ONLINE);
+    return (babel::Status(0, "UIManager 'refreshWhenHangingUpCall()' worked without error"));
 }
 
 void                                                                babel::UIManager::setFriendsOnline(uint32_t const friendsOnline)

@@ -118,7 +118,9 @@ void    babel::NetworkManager::C_SuccessJoin(babel::t_babelPackedData& t)
 	if (this->_root.getCall().isOwner()) {
 		std::cout << "------------- I'm the owner, about to invite others to the calls" << std::endl;
 		this->_root.getUI().inviteContactInConversation();
-	}
+    } else {
+        this->_root.getUI().refreshWhenJoiningCall();
+    }
  
 }
 
@@ -153,11 +155,13 @@ void    babel::NetworkManager::C_SuccessAdd(babel::t_babelPackedData& t)
 void    babel::NetworkManager::C_SuccessInvite(babel::t_babelPackedData& t)
 {
 	std::cout << "SUCCESS : INVITE (" << t.code << ")" << std::endl;
+    this->_root.getUI().refreshSelectedContact("Nobody yet.", babel::UIManager::ContactInfoType::IN_CALL);
 }
 
 void    babel::NetworkManager::C_SuccessLeave(babel::t_babelPackedData& t)
 {
 	std::cout << "SUCCESS : LEAVE (" << t.code << ")" << std::endl;
+    this->_root.getUI().refreshWhenHangingUpCall();
 }
 
 ////////////
@@ -266,8 +270,12 @@ void    babel::NetworkManager::C_NotifyUserJoinConv(babel::t_babelPackedData& t)
 	babel::t_clientCallJoin	join	= *(reinterpret_cast<babel::t_clientCallJoin*>(t.data.data()));
 	t_clientCallStruct		client	= join.client;
 	
-	if (*(join.client.login))
+	std::cout << " ----- > client:" << join.client.login << " ip: " << join.client.ip << std::endl;
+	if (!((join.client.login)))
 		return;
+
+    this->_root.getUI().appendToConversationList(client.login);
+    this->_root.getUI().refreshWhenJoiningCall();
 
 	std::cout << "------------- User informations: " << client.login << " / " << client.ip << " / " << client.port << std::endl;
 }

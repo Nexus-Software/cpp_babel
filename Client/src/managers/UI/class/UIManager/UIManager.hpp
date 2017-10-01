@@ -90,6 +90,8 @@ namespace babel {
             babel::Status const                                         inviteContactInConversation();
             babel::Status const                                         inviteToCall(std::string const& nickname);
             babel::Status const                                         refreshStatusWhenReceivingCall();
+            babel::Status const                                         refreshWhenJoiningCall();
+            babel::Status const                                         refreshWhenHangingUpCall();
 
             //Setters
             void                                                        setFriendsOnline(uint32_t const friendsOnline);
