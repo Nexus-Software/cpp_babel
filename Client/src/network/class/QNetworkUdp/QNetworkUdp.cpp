@@ -16,8 +16,6 @@ babel::QNetworkUdp::~QNetworkUdp()
 
 bool babel::QNetworkUdp::readEvent()
 {
-	std::cout << "New UDP transmission incoming" << std::endl;
-	std::cout << "--- Bytes available: (begin)" << this->_server->bytesAvailable() << std::endl;
 
 	std::mutex lock;
 
@@ -40,7 +38,6 @@ bool babel::QNetworkUdp::readEvent()
 		this->_manager.getRoot().getMedia().playSound(out);
 		lock.unlock();
 	}
-	std::cout << "End of UDP transmission" << std::endl;
 	return true;
 }
 

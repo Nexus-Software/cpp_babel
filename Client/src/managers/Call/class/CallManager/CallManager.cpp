@@ -4,12 +4,12 @@ babel::CallManager::CallManager(babel::BabelClientManager& ancestor)
 	:
 	_root(ancestor)
 {
-	std::cout << "Call manager created" << std::endl;
+	
 }
 
 babel::CallManager::~CallManager()
 {
-	std::cout << "Call manager destructed" << std::endl;
+	
 }
 
 const bool&     babel::CallManager::isOwner(void) const
@@ -47,7 +47,6 @@ const babel::Status	babel::CallManager::addNewParticipant(const babel::CallTunne
 	auto list = this->_currentCall.getParticipants();
 	list.insert(std::pair<std::string, babel::CallTunnel>(usr.login, usr));
 	this->updateCurrentCallParticipants(list);
-	std::cout << "CALL MANAGER: New participant joined the call: " << usr.login << " (" << usr.ip << ":" << usr.port << ")" << std::endl;
 	return babel::Status(0, "New participant added");
 }
 
@@ -59,10 +58,6 @@ const babel::Status babel::CallManager::leaveCall(void)
 
 void babel::CallManager::updateCurrentCallParticipants(const std::unordered_map<std::string, babel::CallTunnel>& prs)
 {
-	std::cout << "CALL MANAGER: Updating participant list:" << std::endl;
-	for (auto it : prs) {
-		std::cout << "--> " << it.second.login << " [" << it.second.ip << ":" << it.second.port << "]" << std::endl;
-	}
 	this->_currentCall.updateParticipantsList(prs);
 }
 

@@ -14,11 +14,11 @@ babel::UIManager::UIManager(babel::BabelClientManager& ancestor)
     }),
     _friendsOnline(0)
 {
-	std::cout << "UIManager created" << std::endl;
+	
 }
 
 babel::UIManager::~UIManager() {
-	std::cout << "UIManager destructed" << std::endl;
+	
 }
 
 babel::Status const                                                 babel::UIManager::showWindow(std::string const& windowName)
@@ -598,8 +598,6 @@ babel::Status const                                                 babel::UIMan
 	babel::t_clientCallInvite	t = {0};
 
 	t.idCall = this->_root.getCall().getCurrentcall().getIdConv();
-
-	std::cout << "--------- INVITE IDCONV: " << t.idCall << std::endl;
 
 	nickname.copy(t.loginInvite, 32);
 

@@ -6,12 +6,12 @@ babel::ContactManager::ContactManager(babel::BabelClientManager& ancestor)
 :
 	_root(ancestor)
 {
-	std::cout << "ContactManager created" << std::endl;
+	
 }
 
 babel::ContactManager::~ContactManager()
 {
-	std::cout << "ContactManager destructed" << std::endl;
+	
 }
 
 const babel::BabelClientManager & babel::ContactManager::getRoot() const

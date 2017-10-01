@@ -6,7 +6,7 @@ babel::Call::Call()
     _isMute(false),
     _idConv(0)
 {
-	std::cout << "Call created" << std::endl;
+	
 }
 
 babel::Call::Call(const babel::Call & item)
@@ -21,7 +21,7 @@ babel::Call::Call(const babel::Call & item)
 
 babel::Call::~Call()
 {
-	std::cout << "Call destructed" << std::endl;
+	
 }
 
 void                                                        babel::Call::setIdConv(const uint32_t idConv)
@@ -95,7 +95,7 @@ void babel::Call::setMute(const bool mute)
 std::ostream& operator<<(std::ostream& os, const babel::Call& cl)
 {
 	unsigned int psize = cl.getParticipants().size();
-	std::cout << "There is " << psize << " particpants in the call:" << std::endl;
+	
 	for (auto it : cl.getParticipants())
 	{
         std::cout << it.second.login << std::endl;

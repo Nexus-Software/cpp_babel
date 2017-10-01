@@ -12,11 +12,11 @@ babel::BabelClientManager::BabelClientManager(int argc, char **argv)
     _argc(argc),
     _argv(argv)
 {
-	std::cout << "BabelClientManager created" << std::endl;
+	
 }
 
 babel::BabelClientManager::~BabelClientManager() {
-	std::cout << "BabelClientManager destructed" << std::endl;
+	
 }
 
 const babel::GlobalMediaManager & babel::BabelClientManager::getMedia(void) const

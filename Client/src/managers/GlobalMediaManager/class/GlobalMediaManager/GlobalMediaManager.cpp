@@ -7,11 +7,11 @@ babel::GlobalMediaManager::GlobalMediaManager(babel::BabelClientManager& ancesto
 	_root(ancestor),
 	_audioManager(*this)
 {
-	std::cout << "GlobalMediaManager created" << std::endl;
+	
 }
 
 babel::GlobalMediaManager::~GlobalMediaManager() {
-	std::cout << "GlobalMediaManager destructed" << std::endl;
+	
 }
 
 babel::BabelClientManager& babel::GlobalMediaManager::getRoot(void) const

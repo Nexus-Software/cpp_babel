@@ -17,12 +17,11 @@ babel::QNetworkTcpClient::QNetworkTcpClient(babel::NetworkManager& manager)
 
 babel::QNetworkTcpClient::~QNetworkTcpClient()
 {
-	std::cout << "QNetworkTcpClient destructed" << std::endl;
+
 }
 
 bool babel::QNetworkTcpClient::connectToTcpHost(const std::string& ip, int port)
 {
-	std::cout << "Connection to the host at " << ip << ":" << port << std::endl;
 	this->_socket->abort();
 	this->_socket->connectToHost(QString::fromStdString(ip), port);
 	return true;
@@ -30,7 +29,6 @@ bool babel::QNetworkTcpClient::connectToTcpHost(const std::string& ip, int port)
 
 bool babel::QNetworkTcpClient::disconnect()
 {
-	std::cout << "About to disconnect from the host" << std::endl;
     this->_socket->disconnectFromHost();
 	return true;
 }
@@ -55,12 +53,9 @@ bool babel::QNetworkTcpClient::connected()
 
 bool babel::QNetworkTcpClient::readEvent()
 {
-	std::cout << "New TCP transmission incoming" << std::endl;
-	std::cout << "--- Bytes available: (begin)" << this->_socket->bytesAvailable() << std::endl;
 	while (this->_socket->bytesAvailable() >= sizeof(babel::t_babelPackedData)) {
 		this->_manager.handleCmd(*(reinterpret_cast<babel::t_babelPackedData*>(this->_socket->read(sizeof(babel::t_babelPackedData)).data())));
 	}
-	std::cout << "End of TCP transmission" << std::endl;
 	return true;
 }
 

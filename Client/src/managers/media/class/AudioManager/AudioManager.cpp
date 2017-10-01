@@ -9,12 +9,12 @@ babel::AudioManager::AudioManager(babel::GlobalMediaManager& ancestor)
 	_run(false),
 	_thread(nullptr)
 {
-	std::cout << "AudioManager created" << std::endl;
+	
 }
 
 babel::AudioManager::~AudioManager() {
 	this->setStreamState(false);
-	std::cout << "AudioManager destructed" << std::endl;
+	
 }
 
 babel::GlobalMediaManager& babel::AudioManager::getParent() const

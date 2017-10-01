@@ -27,12 +27,10 @@ babel::NetworkManager::NetworkManager(babel::BabelClientManager& ancestor)
 		{9, [&](babel::t_babelPackedData t) {	this->C_NotifyUserJoinConv(t);	}}
 	})
 {
-	std::cout << "NetworkManager created" << std::endl;
 	this->_networkTcp->connectToTcpHost(IP_MAIN_SERVER, SERVER_PORT);
 }
 
 babel::NetworkManager::~NetworkManager() {
-	std::cout << "NetworkManager destructed" << std::endl;
 }
 
 babel::BabelClientManager& babel::NetworkManager::getRoot() const
@@ -75,7 +73,6 @@ void babel::NetworkManager::handleCmd(babel::t_babelPackedData& t)
 	if (!this->_cmds[t.code])
 		return;
 	this->_cmds[t.code](t);
-	std::cout << t.code << " - " << t.size << std::endl;
 }
 
 void babel::NetworkManager::writeServerTCP(babel::t_babelPackedData& t)
