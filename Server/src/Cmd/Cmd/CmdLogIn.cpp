@@ -49,7 +49,7 @@ bool babel::CmdLogIn::run(size_t tunnelId,  NetworkData & data)
 	  return true;
 	}
     }
-  catch (AccountManagerException &e)
+  catch (AccountManagerException)
     {
     }
   this->_server.getNetworkManager().get()->write(tunnelId, NetworkData(503, 0, {}));
