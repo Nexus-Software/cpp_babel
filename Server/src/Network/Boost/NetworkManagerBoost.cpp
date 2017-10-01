@@ -50,7 +50,7 @@ bool babel::NetworkManagerBoost::write(std::string login, NetworkData data)
       auto it = this->_tunnelInfo.begin();
       for (; it != this->_tunnelInfo.end() ; it++)
 	{
-	  if ((*it).second.login.compare((login)))
+	  if ((*it).second.login.compare((login)) == 0)
 	    break ;
 	}
       if (it == this->_tunnelInfo.end())
