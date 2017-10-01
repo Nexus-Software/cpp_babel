@@ -177,6 +177,7 @@ void    babel::NetworkManager::C_SuccessInvite(babel::t_babelPackedData& t)
 void    babel::NetworkManager::C_SuccessLeave(babel::t_babelPackedData& t)
 {
 	std::cout << "SUCCESS : LEAVE (" << t.code << ")" << std::endl;
+	this->_root.getCall().resetCurrentCall();
 	this->_root.getMedia().setAudioStreamState(false);
     this->_root.getUI().refreshWhenHangingUpCall();
 }
@@ -291,7 +292,7 @@ void    babel::NetworkManager::C_NotifyLeaveCall(babel::t_babelPackedData& t)
         return;
 
     std::cout << "-------> USER LEFT: " << clientLeft << std::endl;
-
+	this->_root.getCall().removeParticipant(std::string(clientLeft));
     this->_root.getUI().removeToConversationlist(clientLeft);
     this->_root.getUI().refreshWhenSomeoneLeavingCall();
 }

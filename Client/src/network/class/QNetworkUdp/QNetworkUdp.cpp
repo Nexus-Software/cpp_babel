@@ -48,7 +48,7 @@ bool babel::QNetworkUdp::clientWrite(const std::vector<unsigned char>& data, con
 	QHostAddress host(QString::fromStdString(ipHost));
 
 	std::cout << "Creation of UDP packet for " << host.toString().toStdString() << " at " << port << ": " << buffer.data() << std::endl;
-	this->_server->writeDatagram(buffer.data(), buffer.size(), host, port);
+	//this->_server->writeDatagram(buffer.data(), buffer.size(), host, port);
 	return false;
 }
 

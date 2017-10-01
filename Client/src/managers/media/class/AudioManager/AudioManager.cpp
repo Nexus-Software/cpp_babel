@@ -50,18 +50,27 @@ void babel::AudioManager::setStreamState(bool state)
 			B_SAMPLE in, out;
 			babel::Codec codec;
 			EncodedData data;
+			std::mutex lock;
 
 			while (this->_run) {
+				lock.lock();
 				B_SAMPLE in = this->recordSound();
 				data = codec.Encode(in);
 				this->_parent.getRoot().getNetwork().sendRecordToCall(data.data);
+				codec.Decode(data, out);
+				this->playSound(out);
+				lock.unlock();
 			}
 		});
 	}
 	else {
-		this->_audio.stopStream();
 		this->_run = false;
-		this->_thread = nullptr;
+		if (this->_thread) {
+			this->_thread->join();
+			this->_thread.reset();
+		}
+			
+		this->_audio.stopStream();
 	}
 		
 }

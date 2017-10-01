@@ -70,3 +70,8 @@ void babel::CallManager::resetCurrentCall(void)
 {
 	this->_currentCall.reset();
 }
+
+void babel::CallManager::removeParticipant(const std::string & login)
+{
+	this->_currentCall.removeParticipants(login);
+}
