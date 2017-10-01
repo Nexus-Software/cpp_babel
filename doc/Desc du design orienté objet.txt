@@ -1,0 +1,412 @@
+﻿Description of the project’s oriented-object design
+
+
+
+
+INTRODUCTION
+
+
+This document’s goal is to describe the oriented-object design of this project. The file contain any informations on possible implémentations in the project.
+
+
+First, you should know that this project is thought for being as a plug-in system. There are many reason why. Firstable, in order to be as clean as possible, this system permit a separation between the different tasks in the project. Then, it allows to add easily new features. And finally, it simplify the program’s fonctionnement.
+
+
+In Fact, this project has a particular architecture. Actually, all the modules got a reference to the main core, that permit to access to the other modules. And then, all the managers interacts between them. For example, in the server, the command handler, after recognizing a command, can access to the appropriate function which is situated in one of the modules own by the core.
+
+
+All the manager are like bidimensional gateway, linking standalone class with the main core.
+________________
+### BabelClientManager ###
+
+
+This class, babel::BabelClientManager, is the main core of the client application. It Contains different modules which represent the différents composants of this project. Here are these différents modules and the class they use :
+
+
+IManager
+
+
+→ MediaManager
+* AudioManager
+* TextManager
+* VideoManager
+→ NetworkManager
+* INetworkTcpClient
+* INetworkUdpClient
+* NetworkUdpClient
+→ babel::UIManager
+→ babel::ContactManager
+* babel::Contact
+→ babel::CallManager
+* babel::Call
+________________
+/////////////////////////////////////
+// MEDIAMANAGER //
+/////////////////////////////////////
+
+
+   * Description
+
+
+The class babel::GlobalMediaManager is a module that permit the handle of all the different medias. It contain a babel::AudioManager. The class babel::AudioManager manage the sound.
+
+
+
+
+   * Utility
+
+
+This manager is used for getting record and play sound. It also use to encode and decode the sound.
+
+
+
+
+   * Why is it good
+
+
+This manager is thought for owning différent média, like sound, video and text. However, we choose to only implement the sound. But this structure allow to easily add a new media.
+
+
+
+
+   * Example of extension
+
+
+If you want to add a new Media Manager (video for example), you just have to create your class and add it into the GlobalMediaManager. 
+________________
+
+
+////////////////////////////////////////////
+// NETWORKMANAGER //
+////////////////////////////////////////////
+
+
+   * Description
+
+
+This class, babel::NetworkManager, contains all the different commands and a babel::INetworkTcpClient. 
+
+
+
+
+   * Utility
+
+
+This manager is used for handle the different commands, read and right, from ant to the server. It Manage the different inputs and outputs.
+
+
+
+
+   * Why is it good
+
+
+With this design, we can manage different types of network. We can change the lib which manage the network in creating another class which inherits from the interface babel::INetworkTcpClient.
+
+
+
+
+________________
+
+
+/////////////////////////////
+// UIMANAGER //
+/////////////////////////////
+
+
+   * Description
+
+
+The babel::UIManager class is a class that interacts with Qt Objects.
+
+
+
+
+   * Utility
+
+
+This class is the manager of the user’s interface. This manager is close to the user’s layer and it is the only class that interacts with the UI Main Window and multiples others Dialogs and Modals.
+
+
+
+
+   * Why is it good
+
+
+UI Dialogs can’t access to private UIManager variables, so instead of UI Dialogs trying to get data informations from the UIManager, the UIManager here acts as a “parent” and these UI actions are done within functions contained in the UIManager. This allows to call methods into childrens from its parent UIManager, it established a certain hierarchy in these methods calls.
+
+
+
+
+________________
+
+
+/////////////////////////////////////////////
+// CONTACTMANAGER //
+/////////////////////////////////////////////
+
+
+   * Description
+
+
+This class, babel::ContactManager, contains a std::vector of babel::Contact, representing all the contact of the user, and another babel::Contact, representing the user. The babel::Contact class contain the status and the login of the user. 
+
+
+
+
+   * Utility
+
+
+This class is though as a data bank. It regroupe all the user’s informations in one place, and all the managers can dig in it at any moment.
+
+
+
+
+   * Why is it good
+
+
+It centralize data and it permit to add easily new information about users.
+
+
+
+
+   * Example of extension
+
+
+If we want to save the users in a file when the server is shut down, we just have to add two new functions. We will call them saveUsers() and loadUsers(). The first one write an std::unordered_map of babel::Account into a file and the second read into a file and extract the data to return a std::unordered_map of babel::Account. We just have to call these two functions, saveUsers() in the constructor, and loadUsers() the destructor, and here we are !! Now we can save and load the user list, which is useful if the server shut down.
+
+
+
+
+________________
+
+
+///////////////////////////////////////
+//  CALLMANAGER  //
+///////////////////////////////////////
+
+
+   * Description
+
+
+This class, babel::callManager, is a place where the call is contain. It contain a babel::Call which contain the ip and the port of the call’s host machine. It’s like a data bank, stocking information on the current call.
+
+
+
+
+   * Utility
+
+
+This class permit to the other manager to have an access to the current call.
+
+
+
+
+   * Why is it good
+
+
+This design ease the call functionalities in regrouping all the call’s information in one place. It avoid all the manager to have a reference to the call.
+
+
+
+
+   * Example of extension
+
+
+In the very sulfurous case that you want to permit the user to participate to several call at the same moment, it could be possible. You will have to replace the babel::Call by a std:vector of babel::Call.
+
+
+________________
+
+
+### Server ###
+
+
+The main goal of the server is to be a hub with different services link between them. The server regroup different modules.
+Here are these modules and the class they contain and use.
+
+
+→ babel::AccountManager : contacts gestion
+   * babel::Account
+→ babel::CallManager : calls gestion
+   * babel::Call
+→ Loginterm : display of informations helping for the debug
+→ babel::HandleCmd : commands recognition and gestion
+   * babel::ICmd
+→ NetworkManager : inputs and outputs gestion
+
+
+
+
+________________
+
+
+////////////////////////////////////////////////
+// ACCOUNT MANAGER //
+///////////////////////////////////////////////
+
+
+   * Description
+
+
+This class, babel::AccountManager, contains a std::unordered_map containing all the contact. The list associate a std::string (representing the name of the contact) to a babel::Account (which contain the name, the password, and his own contact list).
+
+
+
+
+   * Utility
+
+
+This class manage the different user’s account. Permit to add, delete and access to contacts. It’s a data bank.
+
+
+
+
+   * Why is it good
+
+
+This system allow to easily manipulate users because all the notions of conflict between existent and nonexistent users are handled in this class. The presence of the std::string in the std::unordered_map make the research of the user very easy. Moreover, in case of adding new  functionalities, it’s pretty easy to add it.
+
+
+
+
+   * Example of extension
+
+
+If we want to save the users in a file when the server is shut down, we just have to add two new functions. We will call them saveUsers() and loadUsers(). The first one write an std::unordered_map of babel::Account into a file and the second read into a file and extract the data to return a std::unordered_map of babel::Account. We just have to call these two functions, saveUsers() in the constructor, and loadUsers() the destructor, and here we are !! Now we can save and load the user list, which is useful if the server shut down.
+
+
+________________
+
+
+/////////////////////////////////////
+// CALLMANAGER //
+/////////////////////////////////////
+
+
+   * Description
+
+
+This class, babel::CallManager,  contains two std::unordered_map. One contains all the calls invitation (represent by std::string), and the second contains all the existing call (represent by babel::Call). There are accessibles from their ID. The class babel::Call contains an id, ip, port and login. The class babel::CallManager permit to manage the calls in creating and deleting these calls. It also permit to add, invite and remove contacts to call.
+
+
+
+
+   * Utility
+
+
+This class is use for manage the calls and the invitation to calls.
+
+
+
+
+   * Why is it good
+
+
+With the encapsulation of the calls, it permit a greater manipulation, and it also permit to list différents call. The presence of the std::unordered_map of string permit to avoid creating call in case of call denie.
+
+
+   * Example of extension
+
+
+If you wanna transform the babel in a game (and i hope you fun) you’ve got to write the function you want and implement it in the method babel::CallManager::create().
+________________
+
+
+//////////////////////////////
+// LOGINTERM //
+//////////////////////////////
+
+
+   * Description
+
+
+This class, babel::LogInTerm got an std::unordered_map that contains all the different types of error message according their value. The values are represented thanks to a enum, babel::LevelLog.
+ 
+
+
+   * Utility
+
+
+This class is used for helping in debug and allow to follow the execution of the program through the success or error messages.
+
+
+
+
+   * Why is it good
+
+
+It permit to have easily a look on the debug and help in interpreting the values return by the functions. And you also can activate this signification or not, in order to reduce the chat size.
+
+
+
+
+   * Example of extension
+
+
+In case of the add of a new error message, you just have to add a new value and a new signification in the list.
+
+
+________________
+
+
+////////////////////////////////////////////
+// HANDLECOMMAND //
+////////////////////////////////////////////
+
+
+   * Description
+
+
+This class, babel::HandleCmd Stock all the différent possible commands and all the function corresponding. It contains a std::unordered_map regrouping babel::ICmd according their id.
+
+
+
+
+   * Utility
+
+
+This  class analyse the differents command and react with the right comportment.
+
+
+
+
+   * Why  is it good
+
+
+This solution is good because it permit a separation between the other functionalities of the main core. All the command inherits from babel::ICmd, so it permit a great diversity of command, and easy ways to implement new commands.
+
+
+
+
+   * Example of extension
+
+
+If we want to add a new command, we just have to create a new class, and make it inherits from babel::ICmd. Then, we can add this element in the list of commands and link it to an custom id. When a command will come with the new id, it will call our new command.
+
+
+________________
+
+
+///////////////////////////////////////////////
+// NETWORKMANAGER //
+///////////////////////////////////////////////
+
+
+   * Description
+
+
+This class babel::INetworkManager is the manager of the inputs and the outputs in the network. Actually, the network manager is babel::NetworkManagerBoost. It contain a list of the tunnel and a list of the info’s tunnel.
+
+
+   * Utility
+
+
+This class manage the different tunnels and permit write and read in the tunnels, and permit to close and open them too.
+
+
+
+
+   * Why is it good
+
+
+This interface was made in order to allow the change of the librairie which manage the network.
