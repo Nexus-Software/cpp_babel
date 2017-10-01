@@ -80,7 +80,15 @@ if(WIN32)
 	set(CMAKE_PREFIX_PATH C:/Qt/Qt5.9.1/5.9.1/msvc2015/lib/cmake)
 endif()
 
+if (UNIX AND NOT APPLE)
+	set(CMAKE_PREFIX_PATH $ENV{HOME}/Qt/5.9.1/gcc_64)
+endif()
+
 # AUDIO COMPONENTS
+if (UNIX AND NOT APPLE)
+	set(Portaudio_DIR cmake_modules)
+endif()
+
 find_package(Portaudio REQUIRED)
 find_package(Opus REQUIRED)
 message(${PORTAUDIO_LIBRARIES})
