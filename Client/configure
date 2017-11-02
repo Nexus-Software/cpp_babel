@@ -3,7 +3,7 @@
 echo "Install QT"
 sudo apt install qt-sdk
 
-echo "CMake"
+echo "CMake run"
 cd build
 cmake ..
 

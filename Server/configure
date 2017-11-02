@@ -3,7 +3,7 @@
 echo "Install Boost"
 sudo apt-get install libboost-dev
 
-echo "CMake"
+echo "CMake run"
 cd build
 cmake ..
 
