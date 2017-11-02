@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: cpp
 compiler: g++
-script: cd Client && ./configure && make -C build && cd ../Server && ./configure && make -C build
+script: cd Client && ./configure && make -C build && cd ./../Server && ./configure && make -C build
 install: export CXX="g++-5"
 addons:
   apt:
