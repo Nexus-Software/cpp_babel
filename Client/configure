@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo "Install PortAudio"
+sudo apt-get install libportaudio-dev
+
 echo "Install QT"
 sudo apt install qt-sdk
 
