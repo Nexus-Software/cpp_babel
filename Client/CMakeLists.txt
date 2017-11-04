@@ -129,6 +129,7 @@ qt5_wrap_ui(UIS_HDRS
 add_executable(${TARGET_NAME} ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${HEADER_CLIENT_FILES_HPP} ${SOURCE_CLIENT_FILES_H} ${SOURCE_CLIENT_FILES_HPP} ${UIS_HDRS})
 # LIBRARIES
 target_link_libraries(${TARGET_NAME} Qt5::Widgets Qt5::Network)
+message(${PORTAUDIO_LIBRARIES})
 target_link_libraries(${TARGET_NAME} ${PORTAUDIO_LIBRARIES})
 message(${Opus_LIBRARY})
 target_link_libraries(${TARGET_NAME} ${Opus_LIBRARY})
