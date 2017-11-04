@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
+echo "Install Compile Tools"
+sudo apt-get install g++ cmake
+
 echo "Install PortAudio"
+sudo apt-get install pkg-config
 sudo apt-get install libportaudio-dev
+sudo apt-get install portaudio19-dev
 
 echo "Install QT"
 sudo apt install qt-sdk
