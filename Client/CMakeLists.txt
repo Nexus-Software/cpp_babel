@@ -130,6 +130,7 @@ add_executable(${TARGET_NAME} ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${
 # LIBRARIES
 target_link_libraries(${TARGET_NAME} Qt5::Widgets Qt5::Network)
 target_link_libraries(${TARGET_NAME} ${PORTAUDIO_LIBRARIES})
+message(${Opus_LIBRARY})
 target_link_libraries(${TARGET_NAME} ${Opus_LIBRARY})
 
 # Windows specific build steps
