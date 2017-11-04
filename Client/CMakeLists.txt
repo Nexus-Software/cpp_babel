@@ -91,10 +91,10 @@ endif()
 
 find_package(Portaudio REQUIRED)
 find_package(Opus REQUIRED)
-message(${PORTAUDIO_LIBRARIES})
-message(${PORTAUDIO_INCLUDE_DIRS})
-message(${Opus_LIBRARY})
-message(${Opus_INCLUDE_DIR})
+#message(${PORTAUDIO_LIBRARIES})
+#message(${PORTAUDIO_INCLUDE_DIRS})
+#message(${Opus_LIBRARY})
+#message(${Opus_INCLUDE_DIR})
 # find_package(Opus)
 
 # QT COMPONENTS
