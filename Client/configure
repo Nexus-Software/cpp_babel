@@ -16,6 +16,7 @@ sudo apt-get -qy install qt59-meta-minimal
 
 echo "CMake run"
 cd build
+export CMAKE_PREFIX_PATH=/opt/qt59/bin
 cmake ..
 
 echo "Done configure"
