@@ -9,7 +9,7 @@ sudo apt-get install libportaudio-dev
 sudo apt-get install portaudio19-dev
 
 echo "Install QT 5.9"
-sudo add-apt-repository ppa:beineri/opt-qt591-xenial
+sudo add-apt-repository ppa:beineri/opt-qt591-xenial -y
 sudo apt-get update
 sudo apt install qt59-meta-full
 export QMAKE=/opt/qt59/bin/qmake
