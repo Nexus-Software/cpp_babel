@@ -16,6 +16,6 @@ export QMAKE=/opt/qt59/bin/qmake
 
 echo "CMake run"
 cd build
-cmake ..
+cmake .. -DCMAKE_PREFIX_PATH=/opt/qt59/
 
 echo "Done configure"
