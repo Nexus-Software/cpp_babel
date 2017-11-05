@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 2.8.11)
 project(Server)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -19,10 +19,10 @@ set(Boost_USE_STATIC_LIBS   OFF)
 set(Boost_USE_MULTITHREADED ON)
 
 
-find_package(Boost 1.57.0 COMPONENTS system filesystem thread REQUIRED)
+find_package(Boost 1.54.0 COMPONENTS system filesystem thread REQUIRED)
 
 if(NOT Boost_FOUND)
-    message("Boost >= 1.57.0 is needed for build")
+    message("Boost >= 1.54.0 is needed for build")
     return()
 endif()
 

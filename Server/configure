@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+echo "Install Compile Tools"
+sudo apt-get install g++ cmake
+
+echo "Install Boost"
+sudo apt-get install libboost-dev libboost-system-dev libboost-filesystem-dev libboost-thread-dev
+
+echo "CMake run"
+cd build
+cmake ..
+
+echo "Done configure"
