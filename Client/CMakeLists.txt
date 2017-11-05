@@ -130,11 +130,7 @@ add_executable(${TARGET_NAME} ${SOURCE_CLIENT_FILES} ${HEADER_CLIENT_FILES_H} ${
 # LIBRARIES
 target_link_libraries(${TARGET_NAME} Qt5::Widgets Qt5::Network)
 target_link_libraries(${TARGET_NAME} ${PORTAUDIO_LIBRARIES})
-if (Opus_LIBRARY)
-	target_link_libraries(${TARGET_NAME} ${Opus_LIBRARY})
-else ()
-	target_link_libraries(${TARGET_NAME} ${PROJECT_SOURCE_DIR}/lib/opus)
-endif()
+target_link_libraries(${TARGET_NAME} ${Opus_LIBRARY})
 
 # Windows specific build steps
 if(WIN32)
