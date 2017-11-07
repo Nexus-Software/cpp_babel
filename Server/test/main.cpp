@@ -15,7 +15,7 @@
 
 static void run_server()
 {
-  //std::cout.rdbuf(NULL);
+  std::cout.rdbuf(NULL);
   babel::Server	server(42420);
   server.run();
 }
