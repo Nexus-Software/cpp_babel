@@ -3,9 +3,7 @@ dist: trusty
 language: cpp
 compiler: g++
 script: cd Server && ./configure && make -C build && make -C build/test && ./bin/tests && cd ../Client && ./configure && make -C build
-install:
-  - export CXX="g++-5"
-  - sudo apt-get install libgtest-dev
+install: export CXX="g++-5"
 addons:
   apt:
     sources:
