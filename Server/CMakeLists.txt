@@ -44,3 +44,6 @@ if(WIN32)
     file(GLOB_RECURSE DLL_LIB_FILES ${PROJECT_SOURCE_DIR}/lib/Win/*.dll)
     add_custom_command(TARGET Server POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${DLL_LIB_FILES} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 endif()
+
+set(BASE_SE ${CMAKE_CURRENT_SOURCE_DIR})
+add_subdirectory(test)
