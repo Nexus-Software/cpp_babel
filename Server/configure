@@ -3,6 +3,10 @@
 echo "Install Compile Tools"
 sudo apt-get install g++ cmake
 sudo apt-get install libgtest-dev
+cd /usr/src/gtest
+sudo cmake CMakeLists.txt
+sudo make
+ sudo cp *.a /usr/lib
 
 echo "Install Boost"
 sudo apt-get install libboost-dev libboost-system-dev libboost-filesystem-dev libboost-thread-dev
