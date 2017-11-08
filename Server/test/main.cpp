@@ -9,6 +9,7 @@
 */
 #include <gtest/gtest.h>
 #include <boost/thread.hpp>
+#include <boost/asio.hpp>
 #include "Server.hpp"
 #include "Network/Boost/NetworkTcpServerBoost.hpp"
 
@@ -23,6 +24,8 @@ static void run_server()
 int main(int argc, char **argv) {
   boost::thread server(run_server);
 
+
+boost::thread::sleep(boost::get_system_time() + boost::posix_time::millisec(5000));
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
 }
