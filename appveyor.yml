@@ -8,5 +8,5 @@ environment:
 build_script:
   - python build_system/appveyor.helper.py 
 
- matrix:
+matrix:
   fast_finish: true
