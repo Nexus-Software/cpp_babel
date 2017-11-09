@@ -1,3 +1,12 @@
-version: 1.0.{build}
-build:
-  verbosity: minimal
+environment:
+  matrix:
+     - GENERATOR: "Visual Studio 14"
+       CONFIG: Debug
+     - GENERATOR: "Visual Studio 14"
+       CONFIG: Release
+
+build_script:
+  - python build_system/appveyor.helper.py 
+
+ matrix:
+  fast_finish: true
